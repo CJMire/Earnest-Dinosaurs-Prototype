@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2757665294623558478}
   bulletSpeed: 15
-  remainingTime: 5
+  bulletDuration: 3
 --- !u!33 &1834042340402855112
 MeshFilter:
   m_ObjectHideFlags: 0

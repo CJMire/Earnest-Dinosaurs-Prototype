@@ -752,10 +752,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef198e0fc9bdc1d469750f83d35d1298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyModel: {fileID: 1506110870}
   navAgent: {fileID: 1506110872}
   targetPosition: {fileID: 797855925}
   shootPosition: {fileID: 686485787}
+  HP: 5
   facingSpeed: 10
+  damageDuration: 0.3
   bulletObject: {fileID: 8285560162817953087, guid: 0ffb987b87fd65745bc16d8d90734a8c, type: 3}
   shootingRate: 0.5
 --- !u!4 &1506110874
@@ -839,7 +842,6 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 2100000, guid: 18364ce89c0565f42abc9e90eb7cc214, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -921,10 +923,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef198e0fc9bdc1d469750f83d35d1298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyModel: {fileID: 1638959116}
   navAgent: {fileID: 1638959119}
   targetPosition: {fileID: 797855925}
   shootPosition: {fileID: 852979569}
+  HP: 5
   facingSpeed: 10
+  damageDuration: 0.3
   bulletObject: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
   shootingRate: 0.3
 --- !u!1 &1731009468

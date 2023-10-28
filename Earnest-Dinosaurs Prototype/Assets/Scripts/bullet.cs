@@ -11,7 +11,7 @@ public class bullet : MonoBehaviour
 
     [Header("----- Bullet's Stats ------")]
     [SerializeField] int bulletSpeed;
-    [SerializeField] int remainingTime;
+    [SerializeField] int bulletDuration;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,7 @@ public class bullet : MonoBehaviour
         rb.velocity = transform.forward * bulletSpeed;
 
         //Destroy the bullet within this remaining time after shoot 
-        Destroy(gameObject, remainingTime);
+        Destroy(gameObject, bulletDuration);
     }
     private void OnTriggerEnter(Collider other)
     {

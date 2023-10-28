@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 3304594411186696903}
   bulletSpeed: 25
-  remainingTime: 5
+  bulletDuration: 3
 --- !u!135 &5190671118295628341
 SphereCollider:
   m_ObjectHideFlags: 0

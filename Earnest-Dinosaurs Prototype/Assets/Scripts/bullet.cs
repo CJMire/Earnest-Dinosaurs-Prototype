@@ -22,4 +22,15 @@ public class bullet : MonoBehaviour
         //Destroy the bullet within this remaining time after shoot 
         Destroy(gameObject, remainingTime);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        //Ignore all trigger 
+        if(other.isTrigger)
+        {
+            return;
+        }
+
+        //Destroy the bullet when hitting the gameObject 
+        Destroy(gameObject);
+    }
 }

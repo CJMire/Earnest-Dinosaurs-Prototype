@@ -8,11 +8,17 @@ public class enemyAI : MonoBehaviour
     [Header("----- Enemy's Components ------")]
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform targetPosition;  //Player is not yet implemented so adding transform position for testing 
+    [SerializeField] Transform shootPosition;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int facingSpeed;
 
-    Vector3 targetDirection;        
+    [Header("----- Enemy gun's Stats ------")]
+    [SerializeField] GameObject bulletObject;
+    [SerializeField] float shootingRate;
+
+    Vector3 targetDirection;
+    bool isShooting;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,12 @@ public class enemyAI : MonoBehaviour
     {
         //Get direction of the target 
         targetDirection = targetPosition.position - transform.position;
+
+        //Keep shooting at the target 
+        if(!isShooting)
+        {
+            StartCoroutine(shootTarget());
+        }
 
         //When target is within the stopping distance, continue facing the target 
         if(navAgent.remainingDistance < navAgent.stoppingDistance)
@@ -43,5 +55,18 @@ public class enemyAI : MonoBehaviour
 
         //Rotate to the target using lerp with set up speed
         transform.rotation = Quaternion.Lerp(transform.rotation, faceRotation, Time.deltaTime * facingSpeed);
+    }
+
+    IEnumerator shootTarget()
+    {
+        isShooting = true;
+
+        //Create a bullet at shooting position and current rotation 
+        Instantiate(bulletObject, shootPosition.position, transform.rotation);
+
+        //Shooting rate 
+        yield return new WaitForSeconds(shootingRate);
+
+        isShooting = false;
     }
 }

@@ -162,6 +162,7 @@ MonoBehaviour:
   HP: 5
   facingSpeed: 10
   damageDuration: 0.3
+  knockBackForce: 0.5
   bulletObject: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
   shootingRate: 0.3
 --- !u!195 &1914999610906542373

@@ -15,6 +15,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] int HP;
     [SerializeField] int facingSpeed;
     [SerializeField] float damageDuration;
+    [SerializeField] float knockbackForce;
 
     [Header("----- Enemy gun's Stats ------")]
     [SerializeField] GameObject bulletObject;
@@ -51,10 +52,10 @@ public class enemyAI : MonoBehaviour, IDamage
         //** Only for testing damage feedback **
         if (Input.GetKeyDown("o"))
         {
-            Debug.Log("Press O");
+            Debug.Log("Toggle Damage");
             takeDamage(1);
+            knockback();
         }
-
 
         //Set the target position as destination 
         navAgent.SetDestination(targetPosition.position);
@@ -85,6 +86,8 @@ public class enemyAI : MonoBehaviour, IDamage
     public void takeDamage(int damageAmount)
     {
         HP -= damageAmount;
+
+        //Model damage red flash 
         StartCoroutine(damageFeedback());
 
         Debug.Log(gameObject.name + " take damage");
@@ -103,5 +106,14 @@ public class enemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(damageDuration);
 
         enemyModel.material.color = modelOriginalColor;
+    }
+
+    public void knockback()
+    {
+        //Set velocity to opposite of facing target direction and multiply by force 
+        navAgent.velocity = (targetDirection * -1.0f) * knockbackForce;
+
+        //Set angular speed to zero (Enemy face not turning when knocked back)
+        navAgent.angularSpeed = 0;
     }
 }

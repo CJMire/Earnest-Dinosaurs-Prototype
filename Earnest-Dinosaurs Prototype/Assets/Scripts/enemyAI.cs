@@ -21,14 +21,19 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bulletObject;
     [SerializeField] float shootingRate;
 
+    [Header("----- Enemy Loot------")]
+    [SerializeField] GameObject medkitObject;
+
     Color modelOriginalColor; 
     Vector3 targetDirection;
     bool isShooting;
+    bool isDead;
 
     // Start is called before the first frame update
     void Start()
     {
         modelOriginalColor = enemyModel.material.color;
+        isDead = false;
     }
 
     // Update is called once per frame
@@ -43,11 +48,8 @@ public class enemyAI : MonoBehaviour, IDamage
             StartCoroutine(shootTarget());
         }
 
-        //When target is within the stopping distance, continue facing the target 
-        if(navAgent.remainingDistance < navAgent.stoppingDistance)
-        {
-            faceTarget();
-        }
+        //Have enemy facing the target all the time because level is open space 
+        faceTarget();
 
         //** Only for testing damage feedback **
         if (Input.GetKeyDown("o"))
@@ -57,8 +59,12 @@ public class enemyAI : MonoBehaviour, IDamage
             knockback();
         }
 
-        //Set the target position as destination 
-        navAgent.SetDestination(targetPosition.position);
+        //Need to stop setting destination when enemy is dead, might find better way to implement this. 
+        if(!isDead)
+        {
+            //Set the target position as destination 
+            navAgent.SetDestination(targetPosition.position);
+        }
     }
 
     void faceTarget()
@@ -95,6 +101,9 @@ public class enemyAI : MonoBehaviour, IDamage
         //HP is zeo then destroy the enemy 
         if(HP <= 0)
         {
+            //Spawn medkit, set isDead and destroy gameObject 
+            Instantiate(medkitObject, transform.position, transform.rotation);
+            isDead = true;
             Destroy(gameObject);
         }
     }

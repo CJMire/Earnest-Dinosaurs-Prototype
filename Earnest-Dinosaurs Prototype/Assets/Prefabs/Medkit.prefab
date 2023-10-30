@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healingAmount: 2
   medkitDuration: 10
+  rotationSpeed: 2
 --- !u!33 &2050914837746043736
 MeshFilter:
   m_ObjectHideFlags: 0

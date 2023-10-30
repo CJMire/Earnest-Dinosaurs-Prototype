@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ButtonFunctions : MonoBehaviour
+public class ButtonHandler : MonoBehaviour
 {
     public void Resume()
     {
-        //GameManager.instance.ResumeGame();
+        gameManager.instance.stateUnpause();
     }
 
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //GameManager.instance.ResumeGame();
+        gameManager.instance.stateUnpause();
     }
 
-    public void Submit()
+    public void EnterName()
     {
 
     }

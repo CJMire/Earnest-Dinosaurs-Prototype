@@ -23,6 +23,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
+    [SerializeField] float dropRate;
 
     Color modelOriginalColor; 
     Vector3 targetDirection;
@@ -101,8 +102,8 @@ public class enemyAI : MonoBehaviour, IDamage
         //HP is zeo then destroy the enemy 
         if(HP <= 0)
         {
-            //Spawn medkit, set isDead and destroy gameObject 
-            Instantiate(medkitObject, transform.position, transform.rotation);
+            //Spawn medkit within drop rate, set isDead and destroy gameObject 
+            medkitDrop();
             isDead = true;
             Destroy(gameObject);
         }
@@ -124,5 +125,15 @@ public class enemyAI : MonoBehaviour, IDamage
 
         //Set angular speed to zero (Enemy face not turning when knocked back)
         navAgent.angularSpeed = 0;
+    }
+
+    public void medkitDrop()
+    {
+        float drop = Random.Range(1, 100);
+
+        if(drop <= dropRate)
+        {
+            Instantiate(medkitObject, transform.position, transform.rotation);
+        }
     }
 }

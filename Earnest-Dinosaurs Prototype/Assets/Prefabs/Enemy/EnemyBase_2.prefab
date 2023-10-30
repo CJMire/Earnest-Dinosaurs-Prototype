@@ -61,6 +61,7 @@ MonoBehaviour:
   bulletObject: {fileID: 8285560162817953087, guid: 0ffb987b87fd65745bc16d8d90734a8c, type: 3}
   shootingRate: 0.5
   medkitObject: {fileID: 8327750254630470381, guid: 065295e66b1efa745a668624f88503df, type: 3}
+  dropRate: 50
 --- !u!195 &4232926661844964421
 NavMeshAgent:
   m_ObjectHideFlags: 0

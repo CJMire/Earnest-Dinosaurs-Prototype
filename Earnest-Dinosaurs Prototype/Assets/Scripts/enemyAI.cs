@@ -41,7 +41,7 @@ public class enemyAI : MonoBehaviour, IDamage
     void Update()
     {
         //Get direction of the target 
-        targetDirection = targetPosition.position - transform.position;
+        targetDirection = targetPosition.transform.position - transform.position;
 
         //Keep shooting at the target 
         if(!isShooting)
@@ -64,7 +64,7 @@ public class enemyAI : MonoBehaviour, IDamage
         if(!isDead)
         {
             //Set the target position as destination 
-            navAgent.SetDestination(targetPosition.position);
+            navAgent.SetDestination(targetPosition.transform.position);
         }
     }
 

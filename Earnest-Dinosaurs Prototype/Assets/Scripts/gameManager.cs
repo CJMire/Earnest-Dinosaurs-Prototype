@@ -13,6 +13,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuEntry;
     [SerializeField] GameObject menuEnd;
+    public GameObject player;
 
     [Header("----- HUD Text Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
@@ -25,6 +26,7 @@ public class gameManager : MonoBehaviour
     float timeScaleOriginal;
     Stopwatch stopwatch;
     int waveCurrent;
+
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()

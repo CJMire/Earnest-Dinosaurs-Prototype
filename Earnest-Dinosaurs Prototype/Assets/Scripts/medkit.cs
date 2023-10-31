@@ -18,7 +18,7 @@ public class medkit : MonoBehaviour
     void Update()
     {
         //Make the medkit rotate around 
-        transform.Rotate(new Vector3(20.0f, 20.0f, 20.0f) * Time.deltaTime * rotationSpeed);
+        transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
 
         //Destroy the medkit within this remaining time 
         Destroy(gameObject, medkitDuration);

@@ -41,7 +41,7 @@ public class enemyAI : MonoBehaviour, IDamage
     void Update()
     {
         //Get direction of the target 
-        targetDirection = targetPosition.transform.position - transform.position;
+        targetDirection = gameManager.instance.player.transform.position - transform.position;
 
         //Keep shooting at the target 
         if(!isShooting)
@@ -52,19 +52,11 @@ public class enemyAI : MonoBehaviour, IDamage
         //Have enemy facing the target all the time because level is open space 
         faceTarget();
 
-        //** Only for testing damage feedback **
-        if (Input.GetKeyDown("o"))
-        {
-            Debug.Log("Toggle Damage");
-            takeDamage(1);
-            knockback();
-        }
-
         //Need to stop setting destination when enemy is dead, might find better way to implement this. 
         if(!isDead)
         {
             //Set the target position as destination 
-            navAgent.SetDestination(targetPosition.transform.position);
+            navAgent.SetDestination(gameManager.instance.player.transform.position);
         }
     }
 
@@ -99,8 +91,10 @@ public class enemyAI : MonoBehaviour, IDamage
 
         Debug.Log(gameObject.name + " take damage");
 
+        knockback();
+
         //HP is zeo then destroy the enemy 
-        if(HP <= 0)
+        if (HP <= 0)
         {
             //Spawn medkit within drop rate, set isDead and destroy gameObject 
             medkitDrop();

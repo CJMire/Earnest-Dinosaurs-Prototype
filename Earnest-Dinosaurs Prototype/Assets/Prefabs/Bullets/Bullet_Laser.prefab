@@ -50,6 +50,7 @@ MonoBehaviour:
   rb: {fileID: 3304594411186696903}
   bulletSpeed: 25
   bulletDuration: 3
+  bulletDamage: 1
 --- !u!135 &5190671118295628341
 SphereCollider:
   m_ObjectHideFlags: 0

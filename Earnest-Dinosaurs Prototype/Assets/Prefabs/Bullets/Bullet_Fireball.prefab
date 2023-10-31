@@ -52,6 +52,7 @@ MonoBehaviour:
   rb: {fileID: 2757665294623558478}
   bulletSpeed: 15
   bulletDuration: 3
+  bulletDamage: 3
 --- !u!33 &1834042340402855112
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.3
     widthCurve:
       serializedVersion: 2
       m_Curve:

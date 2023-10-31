@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class playerController : MonoBehaviour, IDamage
@@ -15,10 +16,17 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int playerJumpMax;
     [SerializeField] float gravityStrength;
 
+    [Header("----- Player Gun Stats -----")]
     [SerializeField] int shootDamage;
     [SerializeField] float shootDistance;
     [SerializeField] float shootRate;
     [SerializeField] GameObject bulletObject;
+
+    [Header("----- HUD Updates -----")]
+    [SerializeField] TextMeshProUGUI textHP;
+    [SerializeField] TextMeshProUGUI textCurrentAmmo;
+    [SerializeField] GameObject hitMarker;
+    [SerializeField] float hitMarkerRate;
 
     private Vector3 move;
     private Vector3 playerVelocity;
@@ -29,7 +37,8 @@ public class playerController : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        
+        //updates HUD to match current HP
+        textHP.text = "HP: " + HP.ToString();
     }
 
     // Update is called once per frame
@@ -73,6 +82,9 @@ public class playerController : MonoBehaviour, IDamage
             if (hit.transform != transform && damageable != null)
             {
                 damageable.takeDamage(shootDamage);
+                hitMarker.gameObject.SetActive(true);
+                yield return new WaitForSeconds(hitMarkerRate);
+                hitMarker.gameObject.SetActive(false);
             }
 
         }
@@ -82,6 +94,8 @@ public class playerController : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
+        //Updates HP and HUD
         HP -= damageAmount;
+        textHP.text = "HP: " + HP.ToString();
     }
 }

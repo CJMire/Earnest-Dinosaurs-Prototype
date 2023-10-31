@@ -18,8 +18,6 @@ public class gameManager : MonoBehaviour
     [Header("----- HUD Text Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
     [SerializeField] TextMeshProUGUI textWaves;
-    [SerializeField] TextMeshProUGUI textHP;
-    [SerializeField] TextMeshProUGUI textAmmo;
 
     [Header("----- Settings -----")]
     public bool isPaused;
@@ -49,10 +47,12 @@ public class gameManager : MonoBehaviour
             menuActive = menuPause;
             menuActive.SetActive(isPaused);
         }
-        //updates the timer everyframe
+        //updates the timer everyframe if game is NOT paused
+        if (!isPaused) {
         double seconds = ((stopwatch.ElapsedMilliseconds / 1000) % 60);
         double minutes = stopwatch.ElapsedMilliseconds / 60000;
         textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
     }
 
     //Sets the game's time rate to zero to freeze it and frees the cursor

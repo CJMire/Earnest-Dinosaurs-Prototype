@@ -104,6 +104,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Heal the player 
         HP += amount;
+        textHP.text = "HP: " + HP.ToString();
     }
 
     public int getPlayerMaxHP()

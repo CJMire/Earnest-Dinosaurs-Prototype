@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a2b7d3e4ba2b8440be5037e07bfa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healingAmount: 2
+  healingAmount: 3
   medkitDuration: 5
   rotationSpeed: 5
 --- !u!33 &2807260510409227654

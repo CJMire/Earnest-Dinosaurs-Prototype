@@ -20,12 +20,15 @@ public class gameManager : MonoBehaviour
     [Header("----- HUD Text Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
     [SerializeField] TextMeshProUGUI textWaves;
+    [SerializeField] TextMeshProUGUI textEnemyCount;
+
 
     [Header("----- Settings -----")]
     public bool isPaused;
     float timeScaleOriginal;
     Stopwatch stopwatch;
     int waveCurrent;
+    int enemyCount;
 
 
     //Awake runs before Start() will, letting us instantiate this object
@@ -93,6 +96,14 @@ public class gameManager : MonoBehaviour
         //increase wave number & update HUD
         waveCurrent++;
         textWaves.text = "Wave:  " + waveCurrent.ToString();
+    }
+
+    public void updateEnemyCount(int amount)
+    {
+        enemyCount += amount;
+        textEnemyCount.text = enemyCount.ToString();
+        if (enemyCount <= 0)
+            UpdateWave();
     }
 
     //On player death, checks to see if wave ammount is higher than the lowest highscore wave amount

@@ -35,6 +35,7 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         modelOriginalColor = enemyModel.material.color;
         isDead = false;
+        gameManager.instance.updateEnemyCount(1);
     }
 
     // Update is called once per frame
@@ -107,6 +108,7 @@ public class enemyAI : MonoBehaviour, IDamage
             medkitDrop();
             isDead = true;
             Destroy(gameObject);
+            gameManager.instance.updateEnemyCount(-1);
         }
     }
 

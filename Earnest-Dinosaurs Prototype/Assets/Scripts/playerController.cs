@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour, IDamage
 {
@@ -24,7 +25,8 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] GameObject bulletObject;
 
     [Header("----- HUD Updates -----")]
-    [SerializeField] TextMeshProUGUI textHP;
+    [SerializeField] Image imageHPBar;
+    [SerializeField] TextMeshProUGUI textHealth;
     [SerializeField] TextMeshProUGUI textCurrentAmmo;
     [SerializeField] GameObject hitMarker;
     [SerializeField] float hitMarkerRate;
@@ -39,7 +41,7 @@ public class playerController : MonoBehaviour, IDamage
     void Start()
     {
         //updates HUD to match current HP
-        textHP.text = "HP: " + HP.ToString();
+        updateHUD();
     }
 
     // Update is called once per frame
@@ -95,9 +97,9 @@ public class playerController : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
-        //Updates HP and HUD
+        //Updates HP value and HUD
         HP -= damageAmount;
-        textHP.text = "HP: " + HP.ToString();
+        updateHUD();
         StartCoroutine(gameManager.instance.playerHurtFlash());
     }
 
@@ -105,7 +107,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Heal the player 
         HP += amount;
-        textHP.text = "HP: " + HP.ToString();
+        updateHUD();
     }
 
     public int getPlayerMaxHP()
@@ -116,5 +118,11 @@ public class playerController : MonoBehaviour, IDamage
     public int getPlayerCurrentHP()
     {
         return HP;
+    }
+
+    public void updateHUD()
+    {
+        imageHPBar.fillAmount = (float)HP / maxHP;
+        textHealth.text = HP + " / " + maxHP;
     }
 }

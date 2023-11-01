@@ -28,6 +28,7 @@ public class enemyAI : MonoBehaviour, IDamage
     Vector3 targetDirection;
     bool isShooting;
     bool isDead;
+    bool playerInRange;
 
     // Start is called before the first frame update
     void Start()
@@ -39,23 +40,27 @@ public class enemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        //Get direction of the target 
-        targetDirection = gameManager.instance.player.transform.position - transform.position;
-
-        //Keep shooting at the target 
-        if(!isShooting)
+        //If player in range then attack the player 
+        if(playerInRange)
         {
-            StartCoroutine(shootTarget());
-        }
+            //Get direction of the target 
+            targetDirection = gameManager.instance.player.transform.position - transform.position;
 
-        //Have enemy facing the target all the time because level is open space 
-        faceTarget();
+            //Keep shooting at the target 
+            if (!isShooting)
+            {
+                StartCoroutine(shootTarget());
+            }
 
-        //Need to stop setting destination when enemy is dead, might find better way to implement this. 
-        if(!isDead)
-        {
-            //Set the target position as destination 
-            navAgent.SetDestination(gameManager.instance.player.transform.position);
+            //Have enemy facing the target all the time because level is open space 
+            faceTarget();
+
+            //Need to stop setting destination when enemy is dead, might find better way to implement this. 
+            if (!isDead)
+            {
+                //Set the target position as destination 
+                navAgent.SetDestination(gameManager.instance.player.transform.position);
+            }
         }
     }
 
@@ -88,6 +93,9 @@ public class enemyAI : MonoBehaviour, IDamage
         //Model damage red flash 
         StartCoroutine(damageFeedback());
 
+        //If take damage, then chase the player 
+        navAgent.SetDestination(gameManager.instance.player.transform.position);
+
         Debug.Log(gameObject.name + " take damage");
 
         knockback();
@@ -111,7 +119,23 @@ public class enemyAI : MonoBehaviour, IDamage
         enemyModel.material.color = modelOriginalColor;
     }
 
-    public void knockback()
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
+    }
+
+    void knockback()
     {
         //Set velocity to opposite of facing target direction and multiply by force 
         navAgent.velocity = (targetDirection * -1.0f) * knockbackForce;
@@ -120,7 +144,7 @@ public class enemyAI : MonoBehaviour, IDamage
         navAgent.angularSpeed = 0;
     }
 
-    public void medkitDrop()
+    void medkitDrop()
     {
         float drop = Random.Range(1, 100);
 

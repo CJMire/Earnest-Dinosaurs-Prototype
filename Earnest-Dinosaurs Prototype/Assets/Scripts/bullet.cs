@@ -25,10 +25,18 @@ public class bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Ignore all trigger 
+        //Ignore all trigger
         if(other.isTrigger)
         {
             return;
+        }
+
+        //Make the bullet damage the IDamage
+        IDamage damageable = other.GetComponent<IDamage>();
+
+        if(damageable != null)
+        {
+            damageable.takeDamage(1);
         }
 
         //Destroy the bullet when hitting the gameObject 

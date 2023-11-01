@@ -399,9 +399,10 @@ GameObject:
   - component: {fileID: 9106858366722742820}
   - component: {fileID: 8093844129487965552}
   - component: {fileID: 2555136212582373416}
+  - component: {fileID: -5669831317903681563}
   m_Layer: 0
   m_Name: Enemy_3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   bulletObject: {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
   shootingRate: 1
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
-  dropRate: 0
+  dropRate: 50
 --- !u!195 &9106858366722742820
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -512,6 +513,27 @@ CapsuleCollider:
   m_Height: 2.25
   m_Direction: 1
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!135 &-5669831317903681563
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817749337313768898}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4871080429716570613
 GameObject:
   m_ObjectHideFlags: 0

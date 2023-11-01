@@ -13,6 +13,7 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
     [SerializeField] int maxHP;
+    [SerializeField] int ammoCount;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
@@ -22,12 +23,14 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int shootDamage;
     [SerializeField] float shootDistance;
     [SerializeField] float shootRate;
+    [SerializeField] int maxAmmo;
+    [SerializeField] float reloadTime;
     [SerializeField] GameObject bulletObject;
 
     [Header("----- HUD Updates -----")]
     [SerializeField] Image imageHPBar;
     [SerializeField] TextMeshProUGUI textHealth;
-    [SerializeField] TextMeshProUGUI textCurrentAmmo;
+    [SerializeField] TextMeshProUGUI textAmmo;
     [SerializeField] GameObject hitMarker;
     [SerializeField] float hitMarkerRate;
 
@@ -36,6 +39,7 @@ public class playerController : MonoBehaviour, IDamage
     private bool playerIsGrounded;
     private int jumpTimes;
     private bool isShooting;
+    private bool isReloading;
 
     // Start is called before the first frame update
     void Start()
@@ -49,9 +53,16 @@ public class playerController : MonoBehaviour, IDamage
     {
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
-        if(Input.GetButton("Shoot") && isShooting == false)
+        //Checks if the player can shoot
+        if(Input.GetButton("Shoot") && isShooting == false && !isReloading && ammoCount > 0)
         {
             StartCoroutine(Shoot());
+        }
+
+        //Checks if the playr can reload
+        if (Input.GetKeyDown("r") && !isShooting && !isReloading && ammoCount < maxAmmo)
+        {
+            StartCoroutine(Reload());
         }
 
         playerIsGrounded = characterController.isGrounded;
@@ -73,9 +84,12 @@ public class playerController : MonoBehaviour, IDamage
         playerVelocity.y += gravityStrength * Time.deltaTime;
         characterController.Move(playerVelocity * Time.deltaTime);
     }
+
     IEnumerator Shoot()
     {
         isShooting = true;
+        ammoCount--;
+        updateHUD();
 
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
@@ -95,6 +109,15 @@ public class playerController : MonoBehaviour, IDamage
         isShooting = false;
     }
 
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        ammoCount = maxAmmo;
+        updateHUD();
+        isReloading = false;
+    }
+
     public void takeDamage(int damageAmount)
     {
         //Updates HP value and HUD
@@ -107,6 +130,8 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Heal the player 
         HP += amount;
+        if (HP < maxHP)
+            HP = maxHP;
         updateHUD();
     }
 
@@ -124,5 +149,6 @@ public class playerController : MonoBehaviour, IDamage
     {
         imageHPBar.fillAmount = (float)HP / maxHP;
         textHealth.text = HP + " / " + maxHP;
+        textAmmo.text = ammoCount + " / " + maxAmmo;
     }
 }

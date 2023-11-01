@@ -13,7 +13,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuEntry;
     [SerializeField] GameObject menuEnd;
-    
+    [SerializeField] GameObject playerHurtScreen;
+
     public GameObject player;
     public playerController playerScript;
 
@@ -126,5 +127,12 @@ public class gameManager : MonoBehaviour
         //no need to set anything to null or false because the scene will either reset or just be quit out from here
             menuActive = menuEnd;
             menuActive.SetActive(true);
+    }
+
+    public IEnumerator playerHurtFlash()
+    {
+        playerHurtScreen.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        playerHurtScreen.SetActive(false);
     }
 }

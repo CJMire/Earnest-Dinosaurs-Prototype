@@ -98,6 +98,7 @@ public class playerController : MonoBehaviour, IDamage
         //Updates HP and HUD
         HP -= damageAmount;
         textHP.text = "HP: " + HP.ToString();
+        StartCoroutine(gameManager.instance.playerHurtFlash());
     }
 
     public void healPlayer(int amount)

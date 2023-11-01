@@ -55,6 +55,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] public int totalEnemies;
 
     public int enemiesAlive;
+    private int enemiesPerWave;
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
@@ -91,13 +92,18 @@ public class gameManager : MonoBehaviour
 
         if (stopSpawning == false)
         {
-            waveCurrent++;
+            UpdateEnemiePerWave();
             InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
             stopSpawning = true; // makes sure there is only one invoke at a time
         }
         if (totalEnemies == 0) // once the amount of enemies in a wave has spawned the invoke is cancelled
         {
             CancelInvoke();
+        }
+        if(enemyCount == 0 && totalEnemies == 0)
+        {
+            totalEnemies = enemiesPerWave + 3; // increases amount of enemies per wave
+            stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
         }
     }
 
@@ -193,4 +199,11 @@ public class gameManager : MonoBehaviour
         }
         totalEnemies--;
     }
+
+    // updates a int to have a placeholder for amount of enemies in a wave to then update it in the next wave
+    public void UpdateEnemiePerWave()
+    {
+        enemiesPerWave = totalEnemies;
+    }
+    
 }

@@ -72,6 +72,9 @@ public class gameManager : MonoBehaviour
         //Sets current wave to " 1 " and updates HUD
         waveCurrent = 1;
         textWaves.text = "Wave:  " + waveCurrent.ToString();
+        //Sets current amount of enemies to one and updates HUD
+        enemyCount = 0;
+        textEnemyCount.text = enemyCount.ToString();
     }
 
     void Update()
@@ -85,9 +88,9 @@ public class gameManager : MonoBehaviour
         }
         //updates the timer everyframe if game is NOT paused
         if (!isPaused) {
-        double seconds = ((stopwatch.ElapsedMilliseconds / 1000) % 60);
-        double minutes = stopwatch.ElapsedMilliseconds / 60000;
-        textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            double seconds = ((stopwatch.ElapsedMilliseconds / 1000) % 60);
+            double minutes = stopwatch.ElapsedMilliseconds / 60000;
+            textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
 
         if (stopSpawning == false)
@@ -181,21 +184,22 @@ public class gameManager : MonoBehaviour
     public void SpawnWave()
     {
         int random = Random.Range(0, 4); // random number is generated as to which spawn will happen
+        GameObject enemy = GiveEnemy();
         if (random == 1)
         {
-            Instantiate(EnemyBase_1, spawnLocation1);
+            Instantiate(enemy, spawnLocation1);
         }
         else if (random == 2)
         {
-            Instantiate(EnemyBase_2, spawnLocation2);
+            Instantiate(enemy, spawnLocation2);
         }
         else if (random == 3)
         {
-            Instantiate(EnemyBase_1, spawnLocation3);
+            Instantiate(enemy, spawnLocation3);
         }
         else
         {
-            Instantiate(EnemyBase_2, spawnLocation4);
+            Instantiate(enemy, spawnLocation4);
         }
         totalEnemies--;
     }
@@ -206,4 +210,23 @@ public class gameManager : MonoBehaviour
         enemiesPerWave = totalEnemies;
     }
     
+    //Gives random enemy to use for spawning
+    GameObject GiveEnemy()
+    {
+        GameObject enemy;
+        int random = Random.Range(0, 3); // random number is generated as to which enemy will spawn
+        if (random == 0)
+        {
+            enemy = EnemyBase_1;
+        }
+        else if (random == 1)
+        {
+            enemy = EnemyBase_2;
+        }
+        else
+        {
+            enemy = EnemyBase_3;
+        }
+        return enemy;
+    }
 }

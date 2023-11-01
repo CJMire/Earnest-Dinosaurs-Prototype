@@ -13,7 +13,9 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuEntry;
     [SerializeField] GameObject menuEnd;
+    
     public GameObject player;
+    public playerController playerScript;
 
     [Header("----- HUD Text Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
@@ -33,6 +35,11 @@ public class gameManager : MonoBehaviour
         //creates new stopwatch and starts it
         stopwatch = Stopwatch.StartNew();
         timeScaleOriginal = Time.timeScale;
+
+        //Find player from the tag 
+        player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<playerController>();
+
         //Sets current wave to " 1 " and updates HUD
         waveCurrent = 1;
         textWaves.text = "Wave:  " + waveCurrent.ToString();

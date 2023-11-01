@@ -11,6 +11,7 @@ public class playerController : MonoBehaviour, IDamage
 
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
+    [SerializeField] int maxHP;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
@@ -97,5 +98,21 @@ public class playerController : MonoBehaviour, IDamage
         //Updates HP and HUD
         HP -= damageAmount;
         textHP.text = "HP: " + HP.ToString();
+    }
+
+    public void healPlayer(int amount)
+    {
+        //Heal the player 
+        HP += amount;
+    }
+
+    public int getPlayerMaxHP()
+    {
+        return maxHP;
+    }
+
+    public int getPlayerCurrentHP()
+    {
+        return HP;
     }
 }

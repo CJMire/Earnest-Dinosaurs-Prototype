@@ -8,7 +8,6 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("----- Enemy's Components ------")]
     [SerializeField] Renderer enemyModel;
     [SerializeField] NavMeshAgent navAgent;
-    [SerializeField] Transform targetPosition;  //Player is not yet implemented so adding transform position for testing 
     [SerializeField] Transform shootPosition;
 
     [Header("----- Enemy's Stats ------")]

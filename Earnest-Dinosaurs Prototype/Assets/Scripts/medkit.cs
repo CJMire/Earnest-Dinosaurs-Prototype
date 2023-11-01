@@ -9,9 +9,14 @@ public class medkit : MonoBehaviour
     [SerializeField] int medkitDuration;
     [SerializeField] int rotationSpeed;
 
+    int maxHP;
+    int currentHP;
+
     // Start is called before the first frame update
     void Start()
     {
+        maxHP = gameManager.instance.playerScript.getPlayerMaxHP();
+        currentHP = gameManager.instance.playerScript.getPlayerCurrentHP();
     }
 
     // Update is called once per frame
@@ -35,10 +40,15 @@ public class medkit : MonoBehaviour
         //If player collide then heal the player and destroy game object 
         if(other.gameObject.CompareTag("Player"))
         {
-            //Heal the player 
+            //If player HP is more than maximum then don't pick
+            if (currentHP < maxHP)
+            {
+                //Heal player 
+                gameManager.instance.playerScript.healPlayer(healingAmount);
 
-            //Destroy the medkit 
-            Destroy(gameObject);
+                //Destroy medkit
+                Destroy(gameObject);
+            }        
         }
     }
 }

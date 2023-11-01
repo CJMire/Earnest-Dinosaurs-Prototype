@@ -31,6 +31,30 @@ public class gameManager : MonoBehaviour
     int waveCurrent;
     int enemyCount;
 
+    public bool stopSpawning = false;
+
+    [Header("----- Spawner Enemies -----")]
+    [SerializeField] private GameObject EnemyBase_1;
+    [SerializeField] private GameObject EnemyBase_2;
+    [SerializeField] private GameObject EnemyBase_3;
+
+    [Header("----- Wave Settings -----")]
+    [SerializeField] int waveCount;
+    [SerializeField] float spawnSpeed;
+    [SerializeField] float gracePeriod;
+
+    [Header("----- Spawner Points -----")]
+    [SerializeField] public Transform spawnLocation1;
+    [SerializeField] public Transform spawnLocation2;
+    [SerializeField] public Transform spawnLocation3;
+    [SerializeField] public Transform spawnLocation4;
+
+    public float timetillSpawn;
+
+    [Header("----- Enemy Settings -----")]
+    [SerializeField] public int totalEnemies;
+
+    public int enemiesAlive;
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
@@ -63,6 +87,17 @@ public class gameManager : MonoBehaviour
         double seconds = ((stopwatch.ElapsedMilliseconds / 1000) % 60);
         double minutes = stopwatch.ElapsedMilliseconds / 60000;
         textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+        if (stopSpawning == false)
+        {
+            waveCurrent++;
+            InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
+            stopSpawning = true; // makes sure there is only one invoke at a time
+        }
+        if (totalEnemies == 0) // once the amount of enemies in a wave has spawned the invoke is cancelled
+        {
+            CancelInvoke();
         }
     }
 
@@ -134,5 +169,28 @@ public class gameManager : MonoBehaviour
         playerHurtScreen.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         playerHurtScreen.SetActive(false);
+    }
+
+    // begins to spawn wave of enemies
+    public void SpawnWave()
+    {
+        int random = Random.Range(0, 4); // random number is generated as to which spawn will happen
+        if (random == 1)
+        {
+            Instantiate(EnemyBase_1, spawnLocation1);
+        }
+        else if (random == 2)
+        {
+            Instantiate(EnemyBase_2, spawnLocation2);
+        }
+        else if (random == 3)
+        {
+            Instantiate(EnemyBase_1, spawnLocation3);
+        }
+        else
+        {
+            Instantiate(EnemyBase_2, spawnLocation4);
+        }
+        totalEnemies--;
     }
 }

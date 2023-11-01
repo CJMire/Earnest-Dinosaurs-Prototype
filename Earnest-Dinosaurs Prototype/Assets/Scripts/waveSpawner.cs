@@ -8,9 +8,10 @@ public class waveSpawner : MonoBehaviour
     public bool stopSpawning = false;
     public static waveSpawner instance;
 
-    [Header("----- Enemies -----")]
+    [Header("----- Spawner Enemies -----")]
     [SerializeField] private GameObject EnemyBase_1;
     [SerializeField] private GameObject EnemyBase_2;
+    [SerializeField] private GameObject EnemyBase_3;
 
     [Header("----- Wave Settings -----")]
     [SerializeField] int waveCount;
@@ -19,7 +20,7 @@ public class waveSpawner : MonoBehaviour
     public float timetillSpawn;
     public int currentWave = 0;
 
-    [Header("----- Spawners -----")]
+    [Header("----- Spawner Points -----")]
     [SerializeField] public Transform spawnLocation1;
     [SerializeField] public Transform spawnLocation2;
     [SerializeField] public Transform spawnLocation3;
@@ -40,16 +41,7 @@ public class waveSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stopSpawning == false)
-        {
-            currentWave++;
-            InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
-            stopSpawning = true; // makes sure there is only one invoke at a time
-        }
-        if(enemyCount == totalEnemies) // once the amount of enemies in a wave has spawned the invoke is cancelled
-        {
-            CancelInvoke();
-        }
+
     }
 
     public void SpawnWave()

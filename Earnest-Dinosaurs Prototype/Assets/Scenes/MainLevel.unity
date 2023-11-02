@@ -366,6 +366,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1014513724 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3603526156329993780, guid: 77c86e3d7d5a44f46b2c17e1f1c131e4, type: 3}
+  m_PrefabInstance: {fileID: 133302180}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1282007073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -456,6 +461,10 @@ PrefabInstance:
       propertyPath: textAmmo
       value: 
       objectReference: {fileID: 25630326}
+    - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
+      propertyPath: hitMarker
+      value: 
+      objectReference: {fileID: 1014513724}
     - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
       propertyPath: imageHPBar
       value: 

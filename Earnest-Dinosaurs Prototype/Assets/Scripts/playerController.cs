@@ -130,7 +130,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Heal the player 
         HP += amount;
-        if (HP < maxHP)
+        if (HP > maxHP)
             HP = maxHP;
         updateHUD();
     }

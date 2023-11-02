@@ -55,7 +55,7 @@ public class playerController : MonoBehaviour, IDamage
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
         //Checks if the player can shoot
-        if(Input.GetButton("Shoot") && isShooting == false && !isReloading && ammoCount > 0)
+        if(Input.GetButton("Shoot") && !isShooting && !isReloading && ammoCount > 0 && !(gameManager.instance.isPaused))
         {
             StartCoroutine(Shoot());
         }
@@ -93,6 +93,8 @@ public class playerController : MonoBehaviour, IDamage
         updateHUD();
 
         RaycastHit hit;
+        //for use when RaycastHit does hit an enemy
+        float offsetTimer = 0;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
             IDamage damageable = hit.collider.GetComponent<IDamage>();
@@ -100,13 +102,20 @@ public class playerController : MonoBehaviour, IDamage
             if (hit.transform != transform && damageable != null)
             {
                 damageable.takeDamage(shootDamage);
+
+                //On hit, shows the hitmarker for a short time
                 hitMarker.gameObject.SetActive(true);
                 yield return new WaitForSeconds(hitMarkerRate);
                 hitMarker.gameObject.SetActive(false);
+
+                //since the hit marker is shown, we store how much time it was onscreen
+                offsetTimer = hitMarkerRate;
             }
 
         }
-        yield return new WaitForSeconds(shootRate);
+        //If the raycastHit doesn't hit, there's no subtraction and shootrate remains constant
+        //if it does, there's a slightly longer wait to shoot again. this ensures there's no loss in time
+        yield return new WaitForSeconds(shootRate - offsetTimer);
         isShooting = false;
     }
 

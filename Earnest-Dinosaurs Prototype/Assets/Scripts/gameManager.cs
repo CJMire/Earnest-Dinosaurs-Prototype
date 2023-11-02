@@ -149,7 +149,7 @@ public class gameManager : MonoBehaviour
         enemyCount += amount;
         textEnemyCount.text = enemyCount.ToString();
         //Calls when 2nd wave is completed
-        if(enemyCount <= 0 && waveCount == 3)
+        if(enemyCount <= 0 && waveCurrent == 3)
         {
             OnWin();
         }

@@ -26,6 +26,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     Color modelOriginalColor; 
     Vector3 targetDirection;
+    Vector3 wanderingDirection;
     bool isShooting;
     bool isDead;
     bool playerInRange;
@@ -36,6 +37,7 @@ public class enemyAI : MonoBehaviour, IDamage
         modelOriginalColor = enemyModel.material.color;
         isDead = false;
         gameManager.instance.updateEnemyCount(1);
+        wanderingDirection = randomLocation();
     }
 
     // Update is called once per frame
@@ -63,6 +65,40 @@ public class enemyAI : MonoBehaviour, IDamage
                 navAgent.SetDestination(gameManager.instance.player.transform.position);
             }
         }
+
+        //Wandering around spawnpoint 
+        else
+        {
+            //Need to stop setting destination when enemy is dead, might find better way to implement this. 
+            if (!isDead)
+            {
+                //Get new location when getting near the wandering position 
+                if(navAgent.remainingDistance < navAgent.stoppingDistance)
+                {
+                    wanderingDirection = randomLocation();
+                }
+
+                //Continue wandering 
+                wandering();
+            }
+        }
+    }
+
+    void wandering()
+    {
+        //Set the target position as destination 
+        navAgent.SetDestination(wanderingDirection);
+    }
+
+    Vector3 randomLocation()
+    {
+        //Make it within -40 and 40 for now 
+        float random_x = Random.Range(-40, 40);
+        float random_z = Random.Range(-40, 40);
+
+        Vector3 random = new Vector3(random_x, transform.position.y, random_z);
+
+        return random;
     }
 
     void faceTarget()

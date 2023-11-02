@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +34,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] TextMeshProUGUI textAmmo;
     [SerializeField] GameObject hitMarker;
     [SerializeField] float hitMarkerRate;
+    [SerializeField] GameObject reloadIcon;
 
     private Vector3 move;
     private Vector3 playerVelocity;
@@ -156,5 +158,27 @@ public class playerController : MonoBehaviour, IDamage
         imageHPBar.fillAmount = (float)HP / maxHP;
         textHealth.text = HP + " / " + maxHP;
         textAmmo.text = ammoCount + " / " + maxAmmo;
+        if(ammoCount == 0)
+        {
+            InvokeRepeating("ReloadIconOn", 1f, 1f);
+            InvokeRepeating("ReloadIconOff", 1.5f, 1.5f);
+        }
+        else if(ammoCount > 0)
+        {
+            reloadIcon.SetActive(false);
+            CancelInvoke();
+        }
+        
+    }
+
+    public void ReloadIconOn()
+    {
+        reloadIcon.SetActive(true);
+        Invoke("ReloadIconOff", 0.5f);
+    }
+
+    public void ReloadIconOff()
+    {
+        reloadIcon.SetActive(false);
     }
 }

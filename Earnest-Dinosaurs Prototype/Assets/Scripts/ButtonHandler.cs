@@ -14,8 +14,8 @@ public class ButtonHandler : MonoBehaviour
     public void Restart()
     {
         //on press, reloads the game and continues the time
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         gameManager.instance.stateUnpause();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void EnterName()

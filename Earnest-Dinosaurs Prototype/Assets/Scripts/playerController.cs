@@ -122,8 +122,14 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Updates HP value and HUD
         HP -= damageAmount;
-        updateHUD();
         StartCoroutine(gameManager.instance.playerHurtFlash());
+        //makes sure no HP is negative & calls lose screen
+        if (HP <= 0)
+        {
+            HP = 0;
+            gameManager.instance.OnDeath();
+        }
+        updateHUD();
     }
 
     public void healPlayer(int amount)

@@ -11,8 +11,8 @@ public class gameManager : MonoBehaviour
     [Header("----- Components -----")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
-    [SerializeField] GameObject menuEntry;
-    [SerializeField] GameObject menuEnd;
+    [SerializeField] GameObject menuWin;
+    [SerializeField] GameObject menuLose;
     [SerializeField] GameObject playerHurtScreen;
 
     public GameObject player;
@@ -95,7 +95,7 @@ public class gameManager : MonoBehaviour
 
         if (stopSpawning == false)
         {
-            UpdateEnemiePerWave();
+            UpdateEnemiesPerWave();
             InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
             stopSpawning = true; // makes sure there is only one invoke at a time
         }
@@ -103,6 +103,7 @@ public class gameManager : MonoBehaviour
         {
             CancelInvoke();
         }
+        //end of wave
         if(enemyCount == 0 && totalEnemies == 0)
         {
             totalEnemies = enemiesPerWave + 3; // increases amount of enemies per wave
@@ -147,6 +148,11 @@ public class gameManager : MonoBehaviour
     {
         enemyCount += amount;
         textEnemyCount.text = enemyCount.ToString();
+        //Calls when 2nd wave is completed
+        if(enemyCount <= 0 && waveCount == 3)
+        {
+            OnWin();
+        }
         if (enemyCount <= 0)
             UpdateWave();
     }
@@ -169,7 +175,8 @@ public class gameManager : MonoBehaviour
 
         //displays Leaderboard (End Menu)
         //no need to set anything to null or false because the scene will either reset or just be quit out from here
-            menuActive = menuEnd;
+            statePause();
+            menuActive = menuLose;
             menuActive.SetActive(true);
     }
 
@@ -205,7 +212,7 @@ public class gameManager : MonoBehaviour
     }
 
     // updates a int to have a placeholder for amount of enemies in a wave to then update it in the next wave
-    public void UpdateEnemiePerWave()
+    public void UpdateEnemiesPerWave()
     {
         enemiesPerWave = totalEnemies;
     }
@@ -228,5 +235,12 @@ public class gameManager : MonoBehaviour
             enemy = EnemyBase_3;
         }
         return enemy;
+    }
+
+    public void OnWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
     }
 }

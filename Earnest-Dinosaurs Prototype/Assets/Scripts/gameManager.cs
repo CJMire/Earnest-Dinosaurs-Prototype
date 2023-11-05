@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class gameManager : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI textTimer;
     [SerializeField] TextMeshProUGUI textWaves;
     [SerializeField] TextMeshProUGUI textEnemyCount;
+    [SerializeField] TextMeshProUGUI isSpawningText;
+    [SerializeField] Image imageHPBar;
+    [SerializeField] TextMeshProUGUI textAmmo;
+    [SerializeField] GameObject hitMarker;
+    [SerializeField] GameObject reloadIcon;
 
 
     [Header("----- Settings -----")]
@@ -75,6 +81,11 @@ public class gameManager : MonoBehaviour
         //Sets current amount of enemies to one and updates HUD
         enemyCount = 0;
         textEnemyCount.text = enemyCount.ToString();
+        //Sets spawn locations
+        spawnLocation1 = GameObject.FindWithTag("SpawnPoint1").transform;
+        spawnLocation2 = GameObject.FindWithTag("SpawnPoint2").transform;
+        spawnLocation3 = GameObject.FindWithTag("SpawnPoint3").transform;
+        spawnLocation4 = GameObject.FindWithTag("SpawnPoint4").transform;
     }
 
     void Update()
@@ -93,22 +104,42 @@ public class gameManager : MonoBehaviour
             textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
 
+        //Checks if the player can reload
+        if (Input.GetKeyDown("r") && !(playerScript.getIsShooting()) && !(playerScript.GetIsReloading()) && playerScript.getPlayerCurrentAmmo() < playerScript.getPlayerMaxAmmo())
+        {
+            StartCoroutine(Reload());
+        }
+
         if (stopSpawning == false)
         {
             UpdateEnemiesPerWave();
-            InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
-            stopSpawning = true; // makes sure there is only one invoke at a time
+
+            //----------------------
+            //InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
+            //-----------------------
+
+            StartCoroutine(SpawnWave());
+            
+            //-------------------
+            //stopSpawning = true; // makes sure there is only one invoke at a time
+            //-------------------
         }
+
         if (totalEnemies == 0) // once the amount of enemies in a wave has spawned the invoke is cancelled
         {
-            CancelInvoke();
+            isSpawningText.text = string.Empty;
+            //---------------------
+            //CancelInvoke();
+            //--------------------
         }
+
         //end of wave
         if(enemyCount == 0 && totalEnemies == 0)
         {
             totalEnemies = enemiesPerWave + 3; // increases amount of enemies per wave
             stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
         }
+        //lets player know if more enemies will be spawning
     }
 
     //Sets the game's time rate to zero to freeze it and frees the cursor
@@ -153,7 +184,7 @@ public class gameManager : MonoBehaviour
         {
             OnWin();
         }
-        if (enemyCount <= 0)
+        if (enemyCount <= 0 && totalEnemies == 0)
             UpdateWave();
     }
 
@@ -188,7 +219,8 @@ public class gameManager : MonoBehaviour
     }
 
     // begins to spawn wave of enemies
-    public void SpawnWave()
+    //Was SpawnWave() but is now SpawnEnemy
+    public void SpawnEnemy()
     {
         int random = Random.Range(0, 4); // random number is generated as to which spawn will happen
         GameObject enemy = GiveEnemy();
@@ -242,5 +274,108 @@ public class gameManager : MonoBehaviour
         statePause();
         menuActive = menuWin;
         menuActive.SetActive(true);
+    }
+
+
+    public void updateHUD()
+    {
+        //Since ammoCount is accessed multiple times, made a local variable
+        int ammoCount = playerScript.getPlayerCurrentAmmo();
+        //updates the fill amount of health bar
+        imageHPBar.fillAmount = (float)playerScript.getPlayerCurrentHP() / playerScript.getPlayerMaxHP();
+        //updates the current ammo in magazine for use
+        textAmmo.text = ammoCount + " / " + playerScript.getPlayerMaxAmmo();
+        //checks if the reload icon needs to be on or not
+        if (ammoCount == 0)
+        {
+            StartCoroutine(ReloadFlash());
+            //-----------------
+            //InvokeRepeating("ReloadIconOn", 1f, 1f);
+            //InvokeRepeating("ReloadIconOff", 1.5f, 1.5f);
+            //-----------------
+        }
+
+        //--------------------
+        //else if (ammoCount > 0)
+        //{
+        //    reloadIcon.SetActive(false);
+        //    CancelInvoke();
+        //}
+        //---------------------
+    }
+
+    public GameObject GetHitMarker()
+    {
+        return hitMarker;
+    }
+
+    //-----------------------------------
+    //public void ReloadIconOn()
+    //{
+    //    reloadIcon.SetActive(true);
+    //    Invoke("ReloadIconOff", 0.5f);
+    //}
+
+    //public void ReloadIconOff()
+    //{
+    //    reloadIcon.SetActive(false);
+    //}
+    //-------------------------------------
+
+    IEnumerator Reload()
+    {
+        playerScript.SetIsReloading(true);
+        yield return new WaitForSeconds(playerScript.GetReloadTime());
+        //made a method in player script to set ammoCount and update HUD
+        playerScript.ReloadSuccess();
+        gameManager.instance.updateHUD();
+        playerScript.SetIsReloading(false);
+    }
+
+    //checks if the SpawnWave is being invoked and updates the HUD as so
+    //void IsSpawning()
+    //{
+    //    if (IsInvoking("SpawnWave"))
+    //    {
+    //        isSpawningText.text = "Enemies Spawning...";
+    //    }
+    //    else
+    //    {
+    //        isSpawningText.text = "";
+    //    }
+    //}
+
+    IEnumerator SpawnWave()
+    {
+        //if its the start of the wave, makes it so that the courutine is started only once
+        //updates HUD to notify player that the wave is spawning
+        //and the IEnumerator waits until the grace period is done
+        if (totalEnemies == enemiesPerWave)
+        {
+            isSpawningText.text = "Enemies Spawning...";
+            stopSpawning = true;
+            yield return new WaitForSeconds(gracePeriod);
+        }
+            
+
+        //spawns an enemy
+        SpawnEnemy();
+
+        //if there are more enemies to spawn, it will go back to the beginning after waiting the spawnSpeed duration
+        if(totalEnemies > 0)
+        {
+            yield return new WaitForSeconds(spawnSpeed);
+            StartCoroutine(SpawnWave());
+        }
+    }
+
+    IEnumerator ReloadFlash()
+    {
+        reloadIcon.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        reloadIcon.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        if (playerScript.getPlayerCurrentAmmo() == 0)
+            StartCoroutine(ReloadFlash());
     }
 }

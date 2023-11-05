@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class playerController : MonoBehaviour, IDamage
 {
@@ -12,7 +11,7 @@ public class playerController : MonoBehaviour, IDamage
 
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
-    [SerializeField] int maxHP;
+    private int maxHP;
     [SerializeField] int ammoCount;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerJumpHeight;
@@ -23,17 +22,10 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int shootDamage;
     [SerializeField] float shootDistance;
     [SerializeField] float shootRate;
-    [SerializeField] int maxAmmo;
+    private int maxAmmo;
     [SerializeField] float reloadTime;
     [SerializeField] GameObject bulletObject;
-
-    [Header("----- HUD Updates -----")]
-    [SerializeField] Image imageHPBar;
-    [SerializeField] TextMeshProUGUI textHealth;
-    [SerializeField] TextMeshProUGUI textAmmo;
-    [SerializeField] GameObject hitMarker;
-    [SerializeField] float hitMarkerRate;
-    [SerializeField] GameObject reloadIcon;
+    private float hitMarkerRate;
 
     private Vector3 move;
     private Vector3 playerVelocity;
@@ -45,8 +37,12 @@ public class playerController : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        //updates HUD to match current HP
-        updateHUD();
+        //Sets maxAmmo
+        maxAmmo = ammoCount;
+        //sets maxHP
+        maxHP = HP;
+        //updates HUD to match current HP && Ammo
+        gameManager.instance.updateHUD();
     }
 
     // Update is called once per frame
@@ -55,19 +51,13 @@ public class playerController : MonoBehaviour, IDamage
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
         //Checks if the player can shoot
-        if(Input.GetButton("Shoot") && !isShooting && !isReloading && ammoCount > 0 && !(gameManager.instance.isPaused))
+        if (Input.GetButton("Shoot") && !isShooting && !isReloading && ammoCount > 0 && !(gameManager.instance.isPaused))
         {
             StartCoroutine(Shoot());
         }
 
-        //Checks if the playr can reload
-        if (Input.GetKeyDown("r") && !isShooting && !isReloading && ammoCount < maxAmmo)
-        {
-            StartCoroutine(Reload());
-        }
-
         playerIsGrounded = characterController.isGrounded;
-        if(playerIsGrounded && playerVelocity.y < 0)
+        if (playerIsGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0;
             jumpTimes = 0;
@@ -77,7 +67,7 @@ public class playerController : MonoBehaviour, IDamage
                Input.GetAxis("Vertical") * transform.forward;
         characterController.Move(move * Time.deltaTime * playerSpeed);
 
-        if(Input.GetButtonDown("Jump") && jumpTimes < playerJumpMax)
+        if (Input.GetButtonDown("Jump") && jumpTimes < playerJumpMax)
         {
             playerVelocity.y = playerJumpHeight;
             jumpTimes++;
@@ -90,11 +80,11 @@ public class playerController : MonoBehaviour, IDamage
     {
         isShooting = true;
         ammoCount--;
-        updateHUD();
+        gameManager.instance.updateHUD();
 
         RaycastHit hit;
         //for use when RaycastHit does hit an enemy
-        float offsetTimer = 0;
+        hitMarkerRate = 0;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
             IDamage damageable = hit.collider.GetComponent<IDamage>();
@@ -103,29 +93,18 @@ public class playerController : MonoBehaviour, IDamage
             {
                 damageable.takeDamage(shootDamage);
 
-                //On hit, shows the hitmarker for a short time
-                hitMarker.gameObject.SetActive(true);
+                //On hit, shows the hitmarker for a short time and sets the amount of time shown
+                hitMarkerRate = 0.1f;
+                gameManager.instance.GetHitMarker().gameObject.SetActive(true);
                 yield return new WaitForSeconds(hitMarkerRate);
-                hitMarker.gameObject.SetActive(false);
-
-                //since the hit marker is shown, we store how much time it was onscreen
-                offsetTimer = hitMarkerRate;
+                gameManager.instance.GetHitMarker().gameObject.SetActive(false);
             }
 
         }
         //If the raycastHit doesn't hit, there's no subtraction and shootrate remains constant
         //if it does, there's a slightly longer wait to shoot again. this ensures there's no loss in time
-        yield return new WaitForSeconds(shootRate - offsetTimer);
+        yield return new WaitForSeconds(shootRate - hitMarkerRate);
         isShooting = false;
-    }
-
-    IEnumerator Reload()
-    {
-        isReloading = true;
-        yield return new WaitForSeconds(reloadTime);
-        ammoCount = maxAmmo;
-        updateHUD();
-        isReloading = false;
     }
 
     public void takeDamage(int damageAmount)
@@ -139,7 +118,8 @@ public class playerController : MonoBehaviour, IDamage
             HP = 0;
             gameManager.instance.OnDeath();
         }
-        updateHUD();
+
+        gameManager.instance.updateHUD();
     }
 
     public void healPlayer(int amount)
@@ -148,9 +128,16 @@ public class playerController : MonoBehaviour, IDamage
         HP += amount;
         if (HP > maxHP)
             HP = maxHP;
-        updateHUD();
+        gameManager.instance.updateHUD();
     }
 
+    public void ReloadSuccess()
+    {
+        ammoCount = maxAmmo;
+        gameManager.instance.updateHUD();
+    }
+
+    #region Getters & Setters
     public int getPlayerMaxHP()
     {
         return maxHP;
@@ -161,32 +148,39 @@ public class playerController : MonoBehaviour, IDamage
         return HP;
     }
 
-    public void updateHUD()
+    public int getPlayerMaxAmmo()
     {
-        imageHPBar.fillAmount = (float)HP / maxHP;
-        textHealth.text = HP + " / " + maxHP;
-        textAmmo.text = ammoCount + " / " + maxAmmo;
-        if(ammoCount == 0)
-        {
-            InvokeRepeating("ReloadIconOn", 1f, 1f);
-            InvokeRepeating("ReloadIconOff", 1.5f, 1.5f);
-        }
-        else if(ammoCount > 0)
-        {
-            reloadIcon.SetActive(false);
-            CancelInvoke();
-        }
-        
+        return maxAmmo;
     }
 
-    public void ReloadIconOn()
+    public int getPlayerCurrentAmmo()
     {
-        reloadIcon.SetActive(true);
-        Invoke("ReloadIconOff", 0.5f);
+        return ammoCount;
     }
 
-    public void ReloadIconOff()
+    public bool getIsShooting()
     {
-        reloadIcon.SetActive(false);
+        return isShooting;
     }
+
+    public void SetIsShooting(bool isShooting)
+    {
+        this.isShooting = isShooting;
+    }
+
+    public bool GetIsReloading()
+    {
+        return isShooting;
+    }
+
+    public void SetIsReloading(bool isReloading)
+    {
+        this.isReloading = isReloading;
+    }
+
+    public float GetReloadTime()
+    {
+        return reloadTime;
+    }
+    #endregion
 }

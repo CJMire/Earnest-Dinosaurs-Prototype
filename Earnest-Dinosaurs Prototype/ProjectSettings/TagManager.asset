@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Medkit
+  - SpawnPoint1
+  - SpawnPoint2
+  - SpawnPoint3
+  - SpawnPoint4
   layers:
   - Default
   - TransparentFX

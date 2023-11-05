@@ -160,24 +160,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 1605976594416889948}
   HP: 10
-  maxHP: 10
   ammoCount: 12
   playerSpeed: 10
   playerJumpHeight: 5
   playerJumpMax: 2
   gravityStrength: -9.81
   shootDamage: 1
-  shootDistance: 10
+  shootDistance: 20
   shootRate: 0.25
-  maxAmmo: 12
   reloadTime: 1
   bulletObject: {fileID: 0}
-  imageHPBar: {fileID: 0}
-  textHealth: {fileID: 0}
-  textAmmo: {fileID: 0}
-  hitMarker: {fileID: 0}
-  hitMarkerRate: 0
-  reloadIcon: {fileID: 0}
 --- !u!143 &1605976594416889948
 CharacterController:
   m_ObjectHideFlags: 0

@@ -34,9 +34,9 @@ public class bullet : MonoBehaviour
         //Make the bullet damage the IDamage
         IDamage damageable = other.GetComponent<IDamage>();
 
-        if(damageable != null)
+        if(damageable != null && !other.CompareTag("Enemy"))
         {
-            damageable.takeDamage(1);
+            damageable.takeDamage(bulletDamage);
         }
 
         //Destroy the bullet when hitting the gameObject 

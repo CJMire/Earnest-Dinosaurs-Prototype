@@ -137,7 +137,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         knockback();
 
-        //HP is zeo then destroy the enemy 
+        //HP is zero then destroy the enemy 
         if (HP <= 0)
         {
             //Spawn medkit within drop rate, set isDead and destroy gameObject 

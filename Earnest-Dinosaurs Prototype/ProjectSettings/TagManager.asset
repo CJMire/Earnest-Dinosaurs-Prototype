@@ -6,10 +6,11 @@ TagManager:
   tags:
   - Enemy
   - Medkit
-  - SpawnPoint1
-  - SpawnPoint2
-  - SpawnPoint3
-  - SpawnPoint4
+  - PlayerSpawn1
+  - SpawnPoint1.1
+  - SpawnPoint2.1
+  - SpawnPoint3.1
+  - SpawnPoint4.1
   layers:
   - Default
   - TransparentFX
@@ -46,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Level1
+    uniqueID: 899491485
     locked: 0

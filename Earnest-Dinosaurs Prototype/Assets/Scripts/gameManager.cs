@@ -4,6 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Threading;
 
 public class gameManager : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class gameManager : MonoBehaviour
 
 
     [Header("----- Settings -----")]
+    [SerializeField] int timePenalty;
     public bool isPaused;
     float timeScaleOriginal;
     Stopwatch stopwatch;
@@ -50,11 +52,12 @@ public class gameManager : MonoBehaviour
     [SerializeField] float spawnSpeed;
     [SerializeField] float gracePeriod;
 
-    [Header("----- Spawner Points -----")]
-    [SerializeField] public Transform spawnLocation1;
-    [SerializeField] public Transform spawnLocation2;
-    [SerializeField] public Transform spawnLocation3;
-    [SerializeField] public Transform spawnLocation4;
+    [Header("----- Spawn Points -----")]
+    [SerializeField] Transform playerSpawnPos;
+    [SerializeField] Transform spawnLocation1;
+    [SerializeField] Transform spawnLocation2;
+    [SerializeField] Transform spawnLocation3;
+    [SerializeField] Transform spawnLocation4;
 
     public float timetillSpawn;
 
@@ -63,6 +66,8 @@ public class gameManager : MonoBehaviour
 
     public int enemiesAlive;
     private int enemiesPerWave;
+    private int currentLevel;
+    private int totalPenaltyTime;
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
@@ -75,18 +80,22 @@ public class gameManager : MonoBehaviour
         //Find player from the tag 
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
+        //Set current level
+        currentLevel = 1;
+
+        //Sets spawn locations
+        SetSpawnPositions();
 
         //Sets current wave to " 1 " and updates HUD
         waveCurrent = 1;
         textWaves.text = "Wave:  " + waveCurrent.ToString();
+
         //Sets current amount of enemies to one and updates HUD
         enemyCount = 0;
         textEnemyCount.text = enemyCount.ToString();
-        //Sets spawn locations
-        spawnLocation1 = GameObject.FindWithTag("SpawnPoint1").transform;
-        spawnLocation2 = GameObject.FindWithTag("SpawnPoint2").transform;
-        spawnLocation3 = GameObject.FindWithTag("SpawnPoint3").transform;
-        spawnLocation4 = GameObject.FindWithTag("SpawnPoint4").transform;
+
+        //Sets time
+        totalPenaltyTime = 0;
     }
 
     void Update()
@@ -99,16 +108,9 @@ public class gameManager : MonoBehaviour
             menuActive.SetActive(isPaused);
         }
         //updates the timer everyframe if game is NOT paused
-        if (!isPaused) {
-            double seconds = ((stopwatch.ElapsedMilliseconds / 1000) % 60);
-            double minutes = stopwatch.ElapsedMilliseconds / 60000;
-            textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        }
-
-        //Checks if the player can reload
-        if (Input.GetKeyDown("r") && !(playerScript.getIsShooting()) && !(playerScript.GetIsReloading()) && playerScript.getPlayerCurrentAmmo() < playerScript.getPlayerMaxAmmo())
+        if (!isPaused)
         {
-            StartCoroutine(Reload());
+            textTimer.text = GiveTime();
         }
 
         if (stopSpawning == false)
@@ -140,16 +142,16 @@ public class gameManager : MonoBehaviour
             totalEnemies = enemiesPerWave + 3; // increases amount of enemies per wave
             stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
         }
-        //lets player know if more enemies will be spawning
     }
 
     //Sets the game's time rate to zero to freeze it and frees the cursor
     public void statePause()
     {
-        isPaused = !isPaused;
+        isPaused = true;
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
         //stops stopwatch
         stopwatch.Stop();
     }
@@ -157,7 +159,7 @@ public class gameManager : MonoBehaviour
     //Returns the game time to it's original, locks the cursor, and removes the active menu
     public void stateUnpause()
     {
-        isPaused = !isPaused;
+        isPaused = false;
         Time.timeScale = timeScaleOriginal;
 
         Cursor.visible = false;
@@ -165,6 +167,7 @@ public class gameManager : MonoBehaviour
 
         menuActive.SetActive(false);
         menuActive = null;
+
         //resumes stopwatch
         stopwatch.Start();
     }
@@ -318,7 +321,7 @@ public class gameManager : MonoBehaviour
     //}
     //-------------------------------------
 
-    IEnumerator Reload()
+    public IEnumerator Reload()
     {
         playerScript.SetIsReloading(true);
         yield return new WaitForSeconds(playerScript.GetReloadTime());
@@ -375,6 +378,23 @@ public class gameManager : MonoBehaviour
             StartCoroutine(ReloadFlash());
     }
 
+    public string GiveTime()
+    {
+        int seconds = (int)(stopwatch.ElapsedMilliseconds / 1000 % 60);
+        int minutes = (int)stopwatch.ElapsedMilliseconds / 60000;
+        seconds += totalPenaltyTime;
+        while (seconds >= 60)
+        {
+            seconds -= 60;
+            minutes++;
+        }
+        return string.Format("{00:00}:{01:00}", minutes, seconds);
+    }
+
+    public void UpdateTotalTime()
+    {
+        totalPenaltyTime += timePenalty;
+    }
     #region Getters and Setters
     public GameObject GetHitMarker()
     {
@@ -384,6 +404,25 @@ public class gameManager : MonoBehaviour
     public float getHitMarkerRate()
     {
         return hitMarkerRate;
+    }
+
+    public void SetSpawnPositions()
+    {
+        playerSpawnPos = GameObject.FindWithTag("PlayerSpawn" + currentLevel.ToString()).transform;
+        spawnLocation1 = GameObject.FindWithTag("SpawnPoint1." + currentLevel.ToString()).transform;
+        spawnLocation2 = GameObject.FindWithTag("SpawnPoint2." + currentLevel.ToString()).transform;
+        spawnLocation3 = GameObject.FindWithTag("SpawnPoint3." + currentLevel.ToString()).transform;
+        spawnLocation4 = GameObject.FindWithTag("SpawnPoint4." + currentLevel.ToString()).transform;
+    }
+
+    public Transform GetSpawnPos()
+    {
+        return playerSpawnPos;
+    }
+
+    public GameObject GetReloadIcon()
+    {
+        return reloadIcon;
     }
     #endregion
 }

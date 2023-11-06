@@ -29,4 +29,13 @@ public class ButtonHandler : MonoBehaviour
         //on press, quits game
         Application.Quit();
     }
+
+    public void Respawn()
+    {
+        //Adds penalty time to timer
+        gameManager.instance.UpdateTotalTime();
+        //respawns player and resumes game
+        gameManager.instance.playerScript.spawnPlayer();
+        gameManager.instance.stateUnpause();
+    }
 }

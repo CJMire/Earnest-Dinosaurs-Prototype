@@ -33,18 +33,16 @@ public class playerController : MonoBehaviour, IDamage
     private bool isShooting;
     private bool isReloading;
 
-    // Start is called before the first frame update
     void Start()
     {
         //Sets maxAmmo
         maxAmmo = ammoCount;
         //sets maxHP
         maxHP = HP;
-        //updates HUD to match current HP && Ammo
-        gameManager.instance.updateHUD();
+        //spawns player in current level
+        spawnPlayer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
@@ -73,6 +71,12 @@ public class playerController : MonoBehaviour, IDamage
         }
         playerVelocity.y += gravityStrength * Time.deltaTime;
         characterController.Move(playerVelocity * Time.deltaTime);
+
+        //Checks if the player can reload
+        if (Input.GetKeyDown("r") && !isShooting && !isReloading && ammoCount < maxAmmo && !(gameManager.instance.isPaused))
+        {
+            StartCoroutine(gameManager.instance.Reload());
+        }
     }
 
     IEnumerator Shoot()
@@ -117,9 +121,10 @@ public class playerController : MonoBehaviour, IDamage
         if (HP <= 0)
         {
             HP = 0;
+            gameManager.instance.updateHUD();
             gameManager.instance.OnDeath();
+            return;
         }
-
         gameManager.instance.updateHUD();
     }
 
@@ -136,6 +141,19 @@ public class playerController : MonoBehaviour, IDamage
     {
         ammoCount = maxAmmo;
         gameManager.instance.updateHUD();
+    }
+
+    public void spawnPlayer()
+    {
+        characterController.enabled = false;
+        transform.position = gameManager.instance.GetSpawnPos().position;
+        transform.rotation = gameManager.instance.GetSpawnPos().rotation;
+        characterController.enabled = true;
+        HP = maxHP;
+        isShooting = false;
+        isReloading = false;
+        gameManager.instance.GetReloadIcon().SetActive(false);
+        ReloadSuccess();
     }
 
     #region Getters & Setters

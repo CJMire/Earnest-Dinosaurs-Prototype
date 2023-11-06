@@ -460,6 +460,37 @@ Transform:
   - {fileID: 7172014726312783038}
   m_Father: {fileID: 496210555882003072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3985025823062247849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3263836383756937309}
+  m_Layer: 0
+  m_Name: PlayerSpawn
+  m_TagString: PlayerSpawn1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &3263836383756937309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3985025823062247849}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4187553758169869084}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4055093278143526132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,9 +1646,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 496210555882003072}
     m_Modifications:
+    - target: {fileID: 2372140117168693522, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227075408776028998, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint3.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5962310129763241888, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
       propertyPath: m_Name
-      value: SpawnPoints
+      value: SpawnPoints1
       objectReference: {fileID: 0}
     - target: {fileID: 7688574870479863456, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1659,9 +1698,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8263826604312405955, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint4.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108100950709769389, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
+      propertyPath: m_TagString
+      value: SpawnPoint1.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7688574870479863456, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3263836383756937309}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3111c87f1f5fb694badb1ffa7bd78278, type: 3}
 --- !u!4 &4187553758169869084 stripped

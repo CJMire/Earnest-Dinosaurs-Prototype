@@ -19,7 +19,7 @@ public class gameManager : MonoBehaviour
     public GameObject player;
     public playerController playerScript;
 
-    [Header("----- HUD Text Components -----")]
+    [Header("----- HUD Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
     [SerializeField] TextMeshProUGUI textWaves;
     [SerializeField] TextMeshProUGUI textEnemyCount;
@@ -28,6 +28,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI textAmmo;
     [SerializeField] GameObject hitMarker;
     [SerializeField] GameObject reloadIcon;
+    [SerializeField] float hitMarkerRate;
 
 
     [Header("----- Settings -----")]
@@ -304,11 +305,6 @@ public class gameManager : MonoBehaviour
         //---------------------
     }
 
-    public GameObject GetHitMarker()
-    {
-        return hitMarker;
-    }
-
     //-----------------------------------
     //public void ReloadIconOn()
     //{
@@ -378,4 +374,16 @@ public class gameManager : MonoBehaviour
         if (playerScript.getPlayerCurrentAmmo() == 0)
             StartCoroutine(ReloadFlash());
     }
+
+    #region Getters and Setters
+    public GameObject GetHitMarker()
+    {
+        return hitMarker;
+    }
+
+    public float getHitMarkerRate()
+    {
+        return hitMarkerRate;
+    }
+    #endregion
 }

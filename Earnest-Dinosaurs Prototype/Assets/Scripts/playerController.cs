@@ -25,7 +25,6 @@ public class playerController : MonoBehaviour, IDamage
     private int maxAmmo;
     [SerializeField] float reloadTime;
     [SerializeField] GameObject bulletObject;
-    private float hitMarkerRate;
 
     private Vector3 move;
     private Vector3 playerVelocity;
@@ -84,7 +83,7 @@ public class playerController : MonoBehaviour, IDamage
 
         RaycastHit hit;
         //for use when RaycastHit does hit an enemy
-        hitMarkerRate = 0;
+        float offset = 0;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
             IDamage damageable = hit.collider.GetComponent<IDamage>();
@@ -93,17 +92,19 @@ public class playerController : MonoBehaviour, IDamage
             {
                 damageable.takeDamage(shootDamage);
 
-                //On hit, shows the hitmarker for a short time and sets the amount of time shown
-                hitMarkerRate = 0.1f;
+                //since the hitmarker will be shown for x amount of time, we must offset the next time the player can shoot
+                offset = gameManager.instance.getHitMarkerRate();
+
+                //On hit, shows the hitmarker for the hitMarkerRate duration in gameManager
                 gameManager.instance.GetHitMarker().gameObject.SetActive(true);
-                yield return new WaitForSeconds(hitMarkerRate);
+                yield return new WaitForSeconds(offset);
                 gameManager.instance.GetHitMarker().gameObject.SetActive(false);
             }
 
         }
         //If the raycastHit doesn't hit, there's no subtraction and shootrate remains constant
         //if it does, there's a slightly longer wait to shoot again. this ensures there's no loss in time
-        yield return new WaitForSeconds(shootRate - hitMarkerRate);
+        yield return new WaitForSeconds(shootRate - offset);
         isShooting = false;
     }
 

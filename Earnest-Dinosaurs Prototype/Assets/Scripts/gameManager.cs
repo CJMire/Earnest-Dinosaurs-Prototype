@@ -29,6 +29,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI textAmmo;
     [SerializeField] GameObject hitMarker;
     [SerializeField] GameObject reloadIcon;
+    [SerializeField] Image imageReloadingIcon;
     [SerializeField] float hitMarkerRate;
 
 
@@ -68,6 +69,7 @@ public class gameManager : MonoBehaviour
     private int enemiesPerWave;
     private int currentLevel;
     private int totalPenaltyTime;
+    private float fillTime;
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
@@ -94,8 +96,9 @@ public class gameManager : MonoBehaviour
         enemyCount = 0;
         textEnemyCount.text = enemyCount.ToString();
 
-        //Sets time
-        totalPenaltyTime = 0;
+        totalPenaltyTime = 0; //Sets total penalty time
+        imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
+        fillTime = 0;
     }
 
     void Update()
@@ -141,6 +144,11 @@ public class gameManager : MonoBehaviour
         {
             totalEnemies = enemiesPerWave + 3; // increases amount of enemies per wave
             stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
+        }
+
+        if (playerScript.GetIsReloading())
+        {
+            FillReloadingIcon();
         }
     }
 
@@ -401,6 +409,8 @@ public class gameManager : MonoBehaviour
         yield return new WaitForSeconds(playerScript.GetReloadTime());
         //made a method in player script to set ammoCount, set isReloading to false, and update HUD
         playerScript.ReloadSuccess();
+        fillTime = 0;
+        imageReloadingIcon.fillAmount = 0;
     }
 
     IEnumerator ReloadFlash()
@@ -411,6 +421,13 @@ public class gameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (playerScript.getPlayerCurrentAmmo() == 0 && !playerScript.GetIsReloading())
             StartCoroutine(ReloadFlash());
+    }
+
+    //Inspired by code snippet found @https://forum.unity.com/threads/help-with-getting-slider-to-fill-over-time.871177/
+    void FillReloadingIcon()
+    {
+        imageReloadingIcon.fillAmount = Mathf.Lerp(0,1f,fillTime);
+        fillTime += playerScript.GetReloadTime() * Time.deltaTime;
     }
     #endregion
     #region Getters and Setters

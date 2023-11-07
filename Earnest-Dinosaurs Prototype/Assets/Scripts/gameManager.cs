@@ -144,6 +144,7 @@ public class gameManager : MonoBehaviour
         }
     }
 
+    #region HUD and Game managing methods
     //Sets the game's time rate to zero to freeze it and frees the cursor
     public void statePause()
     {
@@ -170,26 +171,6 @@ public class gameManager : MonoBehaviour
 
         //resumes stopwatch
         stopwatch.Start();
-    }
-
-    public void UpdateWave()
-    {
-        //increase wave number & update HUD
-        waveCurrent++;
-        textWaves.text = "Wave:  " + waveCurrent.ToString();
-    }
-
-    public void updateEnemyCount(int amount)
-    {
-        enemyCount += amount;
-        textEnemyCount.text = enemyCount.ToString();
-        //Calls when 2nd wave is completed
-        if(enemyCount <= 0 && waveCurrent == 3)
-        {
-            OnWin();
-        }
-        if (enemyCount <= 0 && totalEnemies == 0)
-            UpdateWave();
     }
 
     //On player death, checks to see if wave ammount is higher than the lowest highscore wave amount
@@ -220,6 +201,94 @@ public class gameManager : MonoBehaviour
         playerHurtScreen.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         playerHurtScreen.SetActive(false);
+    }
+
+    //For use in the UpdateEnemyCount for now
+    public void OnWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
+    }
+
+    public void updateHUD()
+    {
+        //Since ammoCount is accessed multiple times, made a local variable
+        int ammoCount = playerScript.getPlayerCurrentAmmo();
+
+        //updates the fill amount of health bar
+        imageHPBar.fillAmount = (float)playerScript.getPlayerCurrentHP() / playerScript.getPlayerMaxHP();
+
+        //updates the current ammo in magazine for use
+        textAmmo.text = ammoCount + " / " + playerScript.getPlayerMaxAmmo();
+
+        //checks if the reload icon needs to be on or not
+        if (ammoCount == 0)
+        {
+            StartCoroutine(ReloadFlash());
+            //-----------------
+            //InvokeRepeating("ReloadIconOn", 1f, 1f);
+            //InvokeRepeating("ReloadIconOff", 1.5f, 1.5f);
+            //-----------------
+        }
+
+        //--------------------
+        //else if (ammoCount > 0)
+        //{
+        //    reloadIcon.SetActive(false);
+        //    CancelInvoke();
+        //}
+        //---------------------
+    }
+
+    //used in Update() to display give total time in a string format 
+    public string GiveTime()
+    {
+        //takes the total milliseconds that have passed and converts them into usable ints for min. & sec.
+        int seconds = (int)(stopwatch.ElapsedMilliseconds / 1000 % 60);
+        int minutes = (int)stopwatch.ElapsedMilliseconds / 60000;
+
+        //if ANY penalty time needs to be added, this if check will do so and convert accordingly
+        if (totalPenaltyTime > 0)
+        {
+            seconds += totalPenaltyTime;
+            while (seconds >= 60)
+            {
+                seconds -= 60;
+                minutes++;
+            }
+        }
+
+        //formats for timer text
+        return string.Format("{00:00}:{01:00}", minutes, seconds);
+    }
+
+    //for use in the buttonHandler script
+    public void UpdateTotalTime()
+    {
+        totalPenaltyTime += timePenalty;
+    }
+    #endregion
+    #region Wave Spawner methods
+
+    public void UpdateWave()
+    {
+        //increase wave number & update HUD
+        waveCurrent++;
+        textWaves.text = "Wave:  " + waveCurrent.ToString();
+    }
+
+    public void updateEnemyCount(int amount)
+    {
+        enemyCount += amount;
+        textEnemyCount.text = enemyCount.ToString();
+        //Calls when 3nd wave is completed for now
+        if(enemyCount <= 0 && waveCurrent == 3)
+        {
+            OnWin();
+        }
+        if (enemyCount <= 0 && totalEnemies == 0)
+            UpdateWave();
     }
 
     // begins to spawn wave of enemies
@@ -273,64 +342,6 @@ public class gameManager : MonoBehaviour
         return enemy;
     }
 
-    public void OnWin()
-    {
-        statePause();
-        menuActive = menuWin;
-        menuActive.SetActive(true);
-    }
-
-
-    public void updateHUD()
-    {
-        //Since ammoCount is accessed multiple times, made a local variable
-        int ammoCount = playerScript.getPlayerCurrentAmmo();
-        //updates the fill amount of health bar
-        imageHPBar.fillAmount = (float)playerScript.getPlayerCurrentHP() / playerScript.getPlayerMaxHP();
-        //updates the current ammo in magazine for use
-        textAmmo.text = ammoCount + " / " + playerScript.getPlayerMaxAmmo();
-        //checks if the reload icon needs to be on or not
-        if (ammoCount == 0)
-        {
-            StartCoroutine(ReloadFlash());
-            //-----------------
-            //InvokeRepeating("ReloadIconOn", 1f, 1f);
-            //InvokeRepeating("ReloadIconOff", 1.5f, 1.5f);
-            //-----------------
-        }
-
-        //--------------------
-        //else if (ammoCount > 0)
-        //{
-        //    reloadIcon.SetActive(false);
-        //    CancelInvoke();
-        //}
-        //---------------------
-    }
-
-    //-----------------------------------
-    //public void ReloadIconOn()
-    //{
-    //    reloadIcon.SetActive(true);
-    //    Invoke("ReloadIconOff", 0.5f);
-    //}
-
-    //public void ReloadIconOff()
-    //{
-    //    reloadIcon.SetActive(false);
-    //}
-    //-------------------------------------
-
-    public IEnumerator Reload()
-    {
-        playerScript.SetIsReloading(true);
-        yield return new WaitForSeconds(playerScript.GetReloadTime());
-        //made a method in player script to set ammoCount and update HUD
-        playerScript.ReloadSuccess();
-        gameManager.instance.updateHUD();
-        playerScript.SetIsReloading(false);
-    }
-
     //checks if the SpawnWave is being invoked and updates the HUD as so
     //void IsSpawning()
     //{
@@ -346,7 +357,8 @@ public class gameManager : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
-        //if its the start of the wave, makes it so that the courutine is started only once
+        //if its the start of the wave, the if-check makes the following happen once
+        //sets stopSpawning to true so Update() calls this once
         //updates HUD to notify player that the wave is spawning
         //and the IEnumerator waits until the grace period is done
         if (totalEnemies == enemiesPerWave)
@@ -367,6 +379,29 @@ public class gameManager : MonoBehaviour
             StartCoroutine(SpawnWave());
         }
     }
+    #endregion
+    #region Reload methods
+    //-----------------------------------
+    //public void ReloadIconOn()
+    //{
+    //    reloadIcon.SetActive(true);
+    //    Invoke("ReloadIconOff", 0.5f);
+    //}
+
+    //public void ReloadIconOff()
+    //{
+    //    reloadIcon.SetActive(false);
+    //}
+    //-------------------------------------
+
+    public IEnumerator Reload()
+    {
+        reloadIcon.SetActive(false);
+        playerScript.SetIsReloading(true);
+        yield return new WaitForSeconds(playerScript.GetReloadTime());
+        //made a method in player script to set ammoCount, set isReloading to false, and update HUD
+        playerScript.ReloadSuccess();
+    }
 
     IEnumerator ReloadFlash()
     {
@@ -374,27 +409,10 @@ public class gameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         reloadIcon.SetActive(false);
         yield return new WaitForSeconds(0.5f);
-        if (playerScript.getPlayerCurrentAmmo() == 0)
+        if (playerScript.getPlayerCurrentAmmo() == 0 && !playerScript.GetIsReloading())
             StartCoroutine(ReloadFlash());
     }
-
-    public string GiveTime()
-    {
-        int seconds = (int)(stopwatch.ElapsedMilliseconds / 1000 % 60);
-        int minutes = (int)stopwatch.ElapsedMilliseconds / 60000;
-        seconds += totalPenaltyTime;
-        while (seconds >= 60)
-        {
-            seconds -= 60;
-            minutes++;
-        }
-        return string.Format("{00:00}:{01:00}", minutes, seconds);
-    }
-
-    public void UpdateTotalTime()
-    {
-        totalPenaltyTime += timePenalty;
-    }
+    #endregion
     #region Getters and Setters
     public GameObject GetHitMarker()
     {

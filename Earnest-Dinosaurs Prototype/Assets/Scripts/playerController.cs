@@ -140,6 +140,7 @@ public class playerController : MonoBehaviour, IDamage
     public void ReloadSuccess()
     {
         ammoCount = maxAmmo;
+        isReloading = false;
         gameManager.instance.updateHUD();
     }
 
@@ -189,7 +190,7 @@ public class playerController : MonoBehaviour, IDamage
 
     public bool GetIsReloading()
     {
-        return isShooting;
+        return isReloading;
     }
 
     public void SetIsReloading(bool isReloading)

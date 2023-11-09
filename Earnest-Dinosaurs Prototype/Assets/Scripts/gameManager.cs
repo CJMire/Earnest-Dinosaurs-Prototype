@@ -12,9 +12,12 @@ public class gameManager : MonoBehaviour
 
     [Header("----- Components -----")]
     [SerializeField] GameObject menuActive;
+    private GameObject menuPrev;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuRespawnWarning;
+    [SerializeField] GameObject menuRestartWarning;
     [SerializeField] GameObject playerHurtScreen;
 
     public GameObject player;
@@ -40,8 +43,14 @@ public class gameManager : MonoBehaviour
     Stopwatch stopwatch;
     int waveCurrent;
     int enemyCount;
-
-    public bool stopSpawning = false;
+    public bool stopSpawning;
+    public int enemiesAlive;
+    private int enemiesPerWave;
+    private int currentLevel;
+    private int totalPenaltyTime;
+    private float fillTime;
+    public float timetillSpawn;
+    public bool showRespawnWarning = true;
 
     [Header("----- Spawner Enemies -----")]
     [SerializeField] private GameObject EnemyBase_1;
@@ -60,21 +69,16 @@ public class gameManager : MonoBehaviour
     [SerializeField] Transform spawnLocation3;
     [SerializeField] Transform spawnLocation4;
 
-    public float timetillSpawn;
 
     [Header("----- Enemy Settings -----")]
     [SerializeField] public int totalEnemies;
 
-    public int enemiesAlive;
-    private int enemiesPerWave;
-    private int currentLevel;
-    private int totalPenaltyTime;
-    private float fillTime;
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
         instance = this;
+
         //creates new stopwatch and starts it
         stopwatch = Stopwatch.StartNew();
         timeScaleOriginal = Time.timeScale;
@@ -82,23 +86,23 @@ public class gameManager : MonoBehaviour
         //Find player from the tag 
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
+
         //Set current level
         currentLevel = 1;
 
-        //Sets spawn locations
+        //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates HUD
         SetSpawnPositions();
-
-        //Sets current wave to " 1 " and updates HUD
         waveCurrent = 1;
         textWaves.text = "Wave:  " + waveCurrent.ToString();
+        stopSpawning = false;
 
-        //Sets current amount of enemies to one and updates HUD
+        //Sets current amount of enemies to zero and updates HUD
         enemyCount = 0;
         textEnemyCount.text = enemyCount.ToString();
 
         totalPenaltyTime = 0; //Sets total penalty time
         imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
-        fillTime = 0;
+        fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
     }
 
     void Update()
@@ -458,6 +462,36 @@ public class gameManager : MonoBehaviour
     public GameObject GetReloadIcon()
     {
         return reloadIcon;
+    }
+
+    public GameObject GetRespawnWarning()
+    {
+        return menuRespawnWarning;
+    }
+
+    public GameObject GetRestartWarning()
+    {
+        return menuRestartWarning;
+    }
+
+    public void SetPrevMenu(GameObject menu)
+    {
+        menuPrev = menu;
+    }
+
+    public GameObject GetPrevMenu()
+    {
+        return menuPrev;
+    }
+
+    public void SetActiveMenu(GameObject menu)
+    {
+        menuActive = menu;
+    }
+
+    public GameObject GetActiveMenu()
+    {
+        return menuActive;
     }
     #endregion
 }

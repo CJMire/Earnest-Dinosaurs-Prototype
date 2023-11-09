@@ -11,9 +11,17 @@ public class ButtonHandler : MonoBehaviour
         gameManager.instance.stateUnpause();
     }
 
+    public void RestartButton()
+    {
+        gameManager.instance.GetActiveMenu().SetActive(false);
+        gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
+        gameManager.instance.SetActiveMenu(gameManager.instance.GetRestartWarning());
+        gameManager.instance.GetActiveMenu().SetActive(true);
+    }
+
     public void Restart()
     {
-        //on press, reloads the game and continues the time
+        //on press, reloads the game, restarts the timer, and then continues the timer
         gameManager.instance.stateUnpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -30,12 +38,43 @@ public class ButtonHandler : MonoBehaviour
         Application.Quit();
     }
 
+    public void RespawnButton()
+    {
+        if (gameManager.instance.showRespawnWarning)
+        {
+            gameManager.instance.GetActiveMenu().SetActive(false);
+            gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
+            gameManager.instance.SetActiveMenu(gameManager.instance.GetRespawnWarning());
+            gameManager.instance.GetActiveMenu().SetActive(true);
+        }
+        else
+        {
+            Respawn();
+        }
+    }
+
     public void Respawn()
     {
         //Adds penalty time to timer
         gameManager.instance.UpdateTotalTime();
+
         //respawns player and resumes game
         gameManager.instance.playerScript.spawnPlayer();
         gameManager.instance.stateUnpause();
+    }
+
+    public void ToggleShowRespawn()
+    {
+        //toggles showRespawnWarning in gameManager
+        gameManager.instance.showRespawnWarning = !gameManager.instance.showRespawnWarning;
+    }
+
+    public void Back()
+    {
+        gameManager.instance.GetActiveMenu().SetActive(false);
+        gameManager.instance.SetActiveMenu(null);
+        gameManager.instance.SetActiveMenu(gameManager.instance.GetPrevMenu());
+        gameManager.instance.SetPrevMenu(null);
+        gameManager.instance.GetActiveMenu().SetActive(true);
     }
 }

@@ -11,6 +11,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform shootPosition;
     [SerializeField] Transform headPos;
     [SerializeField] Animator anim;
+    [SerializeField] Collider damageCol;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int HP;
@@ -84,8 +85,8 @@ public class enemyAI : MonoBehaviour, IDamage
         angleToPlayer = Vector3.Angle(new Vector3(targetDirection.x, 0, targetDirection.z), transform.forward);
 
         //For debuging enemy
-        Debug.DrawRay(headPos.position, targetDirection);
-        Debug.Log(angleToPlayer);
+        //Debug.DrawRay(headPos.position, targetDirection);
+        //Debug.Log(angleToPlayer);
 
         //Raycast checking 
         RaycastHit hit;
@@ -183,6 +184,8 @@ public class enemyAI : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
+        HP -= damageAmount;
+
         //HP is zero then destroy the enemy 
         if (HP <= 0)
         {
@@ -191,13 +194,16 @@ public class enemyAI : MonoBehaviour, IDamage
             isDead = true;
             navAgent.enabled = false;
             anim.SetBool("Dead", true);
+
+            //turns off enemy damage colliders when dead
+            damageCol.enabled = false;
+
             //Destroy(gameObject);
             gameManager.instance.updateEnemyCount(-1);
         }
 
         else
         {
-            HP -= damageAmount;
 
             //Play damage animation
             anim.SetTrigger("Damage");
@@ -211,7 +217,8 @@ public class enemyAI : MonoBehaviour, IDamage
                 navAgent.SetDestination(gameManager.instance.player.transform.position);
             }
 
-            Debug.Log(gameObject.name + " take damage");
+            //debugging purposes
+            //Debug.Log(gameObject.name + " take damage");
 
             knockback();
         }

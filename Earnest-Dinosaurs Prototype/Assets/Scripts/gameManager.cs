@@ -44,7 +44,6 @@ public class gameManager : MonoBehaviour
     int waveCurrent;
     int enemyCount;
     public bool stopSpawning;
-    public int enemiesAlive;
     private int enemiesPerWave;
     private int currentLevel;
     private int totalPenaltyTime;
@@ -53,9 +52,9 @@ public class gameManager : MonoBehaviour
     public bool showRespawnWarning = true;
 
     [Header("----- Spawner Enemies -----")]
-    [SerializeField] private GameObject EnemyBase_1;
-    [SerializeField] private GameObject EnemyBase_2;
-    [SerializeField] private GameObject EnemyBase_3;
+    [SerializeField] GameObject EnemyBase_1;
+    [SerializeField] GameObject EnemyBase_2;
+    [SerializeField] GameObject EnemyBase_3;
 
     [Header("----- Wave Settings -----")]
     [SerializeField] int waveCount;
@@ -63,11 +62,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] float gracePeriod;
 
     [Header("----- Spawn Points -----")]
-    [SerializeField] Transform playerSpawnPos;
-    [SerializeField] Transform spawnLocation1;
-    [SerializeField] Transform spawnLocation2;
-    [SerializeField] Transform spawnLocation3;
-    [SerializeField] Transform spawnLocation4;
+    List<GameObject> playerSpawnLocations = new List<GameObject>();
+    List<Transform> enemySpawnLocations = new List<Transform>();
 
 
     [Header("----- Enemy Settings -----")]
@@ -123,7 +119,6 @@ public class gameManager : MonoBehaviour
         if (stopSpawning == false)
         {
             UpdateEnemiesPerWave();
-
             //----------------------
             //InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
             //-----------------------
@@ -307,24 +302,11 @@ public class gameManager : MonoBehaviour
     //Was SpawnWave() but is now SpawnEnemy
     public void SpawnEnemy()
     {
-        int random = Random.Range(0, 4); // random number is generated as to which spawn will happen
-        GameObject enemy = GiveEnemy();
-        if (random == 1)
-        {
-            Instantiate(enemy, spawnLocation1);
-        }
-        else if (random == 2)
-        {
-            Instantiate(enemy, spawnLocation2);
-        }
-        else if (random == 3)
-        {
-            Instantiate(enemy, spawnLocation3);
-        }
-        else
-        {
-            Instantiate(enemy, spawnLocation4);
-        }
+        GameObject enemy = GiveEnemy(); //gives random enemy to spawn
+        Transform location = enemySpawnLocations[Random.Range(0, enemySpawnLocations.Count - 1)]; //gets random location for spawning (instantiate)
+
+        //instantiates random enemy from the list of enemy spawn locations
+        Instantiate(enemy, location.position, location.rotation);
         totalEnemies--;
     }
 
@@ -368,7 +350,7 @@ public class gameManager : MonoBehaviour
     //}
 
     IEnumerator SpawnWave()
-    {
+     {
         //if its the start of the wave, the if-check makes the following happen once
         //sets stopSpawning to true so Update() calls this once
         //updates HUD to notify player that the wave is spawning
@@ -447,16 +429,44 @@ public class gameManager : MonoBehaviour
 
     public void SetSpawnPositions()
     {
-        playerSpawnPos = GameObject.FindWithTag("PlayerSpawn" + currentLevel.ToString()).transform;
-        spawnLocation1 = GameObject.FindWithTag("SpawnPoint1." + currentLevel.ToString()).transform;
-        spawnLocation2 = GameObject.FindWithTag("SpawnPoint2." + currentLevel.ToString()).transform;
-        spawnLocation3 = GameObject.FindWithTag("SpawnPoint3." + currentLevel.ToString()).transform;
-        spawnLocation4 = GameObject.FindWithTag("SpawnPoint4." + currentLevel.ToString()).transform;
+        int i = 1;
+        while (true)
+        {
+            GameObject spawnPoint;
+            //tries to find EXAMPLE - "PlayerPoint1.1" tag then "PlayerPoint2.1" tag and so on...
+            //accidentally discovered "try" BC of error throws when trying to find tags that do not exist
+            try { spawnPoint = GameObject.FindWithTag("PlayerSpawn" + i + "." + currentLevel.ToString()); }
+            catch { break; }
+
+            //if it finds it, it's added to the list
+            playerSpawnLocations.Add(spawnPoint);
+            i++;
+        }
+        i = 1; //resets searching index
+        while (true)
+        {
+            Transform spawnPoint;
+            //tries to find EXAMPLE - "SpawnPoint1.1" tag then "SpawnPoint2.1" tag and so on...
+            //accidentally discovered "try" BC of error throws when trying to find tags that do not exist
+            try { spawnPoint = GameObject.FindWithTag("SpawnPoint" + i + "." + currentLevel.ToString()).transform; }
+            catch { break; }
+
+            //if it finds it, it's added to the list
+            enemySpawnLocations.Add(spawnPoint);
+            i++;
+        }
     }
 
     public Transform GetSpawnPos()
     {
-        return playerSpawnPos;
+        for (int i = 0; i < playerSpawnLocations.Count; i++)
+        {
+            if (!playerSpawnLocations[i].GetComponent<playerSpawner>().IsEnemyNear())
+            {
+                return playerSpawnLocations[i].transform;
+            }
+        }
+        return playerSpawnLocations[0].transform;
     }
 
     public GameObject GetReloadIcon()

@@ -442,6 +442,7 @@ MonoBehaviour:
   shootPosition: {fileID: 3927471147444954389}
   headPos: {fileID: 7183474299109283778}
   anim: {fileID: 8093844129487965552}
+  damageCol: {fileID: 2555136212582373416}
   HP: 2
   facingSpeed: 10
   damageDuration: 0.5

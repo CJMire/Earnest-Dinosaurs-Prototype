@@ -175,6 +175,9 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         HP -= damageAmount;
 
+        //Play damage animation
+        anim.SetTrigger("Damage");
+
         //Model damage red flash 
         StartCoroutine(damageFeedback());
 

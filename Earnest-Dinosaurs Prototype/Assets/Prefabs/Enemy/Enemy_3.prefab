@@ -448,7 +448,7 @@ MonoBehaviour:
   viewCone: 9
   shootCone: 5
   roamDist: 15
-  roamPauseTime: 1
+  roamPauseTime: 0.2
   bulletObject: {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
   shootingRate: 1
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}

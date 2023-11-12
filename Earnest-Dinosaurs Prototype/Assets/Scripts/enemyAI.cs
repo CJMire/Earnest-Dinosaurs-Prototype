@@ -20,7 +20,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] int viewCone;
     [SerializeField] int shootCone;
     [SerializeField] int roamDist;
-    [SerializeField] int roamPauseTime;
+    [SerializeField] float roamPauseTime;
 
     [Header("----- Enemy gun's Stats ------")]
     [SerializeField] GameObject bulletObject;

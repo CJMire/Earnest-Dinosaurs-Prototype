@@ -160,6 +160,8 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         isShooting = true;
 
+        anim.SetTrigger("Shoot");
+
         //Create a bullet at shooting position and current rotation 
         Instantiate(bulletObject, shootPosition.position, transform.rotation);
 

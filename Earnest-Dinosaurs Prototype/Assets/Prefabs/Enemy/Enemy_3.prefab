@@ -441,6 +441,7 @@ MonoBehaviour:
   navAgent: {fileID: 9106858366722742820}
   shootPosition: {fileID: 3927471147444954389}
   headPos: {fileID: 7183474299109283778}
+  anim: {fileID: 8093844129487965552}
   HP: 2
   facingSpeed: 10
   damageDuration: 0.5

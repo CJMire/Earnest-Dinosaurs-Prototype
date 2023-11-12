@@ -10,7 +10,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
     [SerializeField] Transform headPos;
-    //[SerializeField] Animator anim;
+    [SerializeField] Animator anim;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int HP;
@@ -58,6 +58,9 @@ public class enemyAI : MonoBehaviour, IDamage
         //If agent is not on then don't do anything
         if (navAgent.isActiveAndEnabled)
         {
+            //Set the model animation speed along with its navAgent normalized velocity 
+            anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
+
             //Player inside the sphere but not see the player 
             if (playerInRange && !canSeePlayer())
             {

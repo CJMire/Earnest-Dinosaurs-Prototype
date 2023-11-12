@@ -64,13 +64,13 @@ public class enemyAI : MonoBehaviour, IDamage
             //Player inside the sphere but not see the player 
             if (playerInRange && !canSeePlayer())
             {
-                StartCoroutine(roam());
+                roam();
             }
 
             //Player outside the sphere 
             else if (!playerInRange)
             {
-                StartCoroutine(roam());
+                roam();
             }
         }
     }
@@ -125,8 +125,10 @@ public class enemyAI : MonoBehaviour, IDamage
         return false;
     }
 
-    IEnumerator roam()
+    void roam()
     {
+        //For roaming around the scene 
+        /*
         if(navAgent.remainingDistance < 0.05f && !destinationChosen)
         {
             //Set the destination 
@@ -145,6 +147,14 @@ public class enemyAI : MonoBehaviour, IDamage
 
             destinationChosen = false;
         }
+        */
+
+        if(!isDead)
+        {
+            //Always go To Player
+            navAgent.SetDestination(gameManager.instance.player.transform.position);
+        }
+        
     }
 
     void faceTarget()
@@ -173,29 +183,37 @@ public class enemyAI : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
-        HP -= damageAmount;
-
-        //Play damage animation
-        anim.SetTrigger("Damage");
-
-        //Model damage red flash 
-        StartCoroutine(damageFeedback());
-
-        //If take damage,then chase the player 
-        navAgent.SetDestination(gameManager.instance.player.transform.position);
-
-        Debug.Log(gameObject.name + " take damage");
-
-        knockback();
-
         //HP is zero then destroy the enemy 
         if (HP <= 0)
         {
             //Spawn medkit within drop rate, set isDead and destroy gameObject 
             medkitDrop();
             isDead = true;
-            Destroy(gameObject);
+            navAgent.enabled = false;
+            anim.SetBool("Dead", true);
+            //Destroy(gameObject);
             gameManager.instance.updateEnemyCount(-1);
+        }
+
+        else
+        {
+            HP -= damageAmount;
+
+            //Play damage animation
+            anim.SetTrigger("Damage");
+
+            //Model damage red flash 
+            StartCoroutine(damageFeedback());
+
+            //If take damage,then chase the player 
+            if (!isDead)
+            {
+                navAgent.SetDestination(gameManager.instance.player.transform.position);
+            }
+
+            Debug.Log(gameObject.name + " take damage");
+
+            knockback();
         }
     }
 

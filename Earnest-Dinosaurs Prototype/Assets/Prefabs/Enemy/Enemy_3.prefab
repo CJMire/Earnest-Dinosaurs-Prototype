@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 8093844129487965552}
   - component: {fileID: 2555136212582373416}
   - component: {fileID: -5669831317903681563}
+  - component: {fileID: 7943390758791172547}
   m_Layer: 0
   m_Name: Enemy_3
   m_TagString: Enemy
@@ -439,10 +440,15 @@ MonoBehaviour:
   enemyModel: {fileID: 9187556532761341363}
   navAgent: {fileID: 9106858366722742820}
   shootPosition: {fileID: 3927471147444954389}
+  headPos: {fileID: 7183474299109283778}
   HP: 2
   facingSpeed: 10
   damageDuration: 0.5
   knockbackForce: 1
+  viewCone: 9
+  shootCone: 5
+  roamDist: 15
+  roamPauseTime: 1
   bulletObject: {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
   shootingRate: 1
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
@@ -534,6 +540,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 60
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7943390758791172547
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817749337313768898}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4871080429716570613
 GameObject:
   m_ObjectHideFlags: 0

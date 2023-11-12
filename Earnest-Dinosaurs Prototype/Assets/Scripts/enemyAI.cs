@@ -9,12 +9,18 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Renderer enemyModel;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
+    [SerializeField] Transform headPos;
+    //[SerializeField] Animator anim;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int HP;
     [SerializeField] int facingSpeed;
     [SerializeField] float damageDuration;
     [SerializeField] float knockbackForce;
+    [SerializeField] int viewCone;
+    [SerializeField] int shootCone;
+    [SerializeField] int roamDist;
+    [SerializeField] int roamPauseTime;
 
     [Header("----- Enemy gun's Stats ------")]
     [SerializeField] GameObject bulletObject;
@@ -30,75 +36,112 @@ public class enemyAI : MonoBehaviour, IDamage
     bool isShooting;
     bool isDead;
     bool playerInRange;
+    float angleToPlayer;
+    float stoppingDisOrig;
+    bool destinationChosen;
+    Vector3 startingPos;
+
 
     // Start is called before the first frame update
     void Start()
     {
         modelOriginalColor = enemyModel.material.color;
+        startingPos = transform.position;
+        stoppingDisOrig = navAgent.stoppingDistance;
         isDead = false;
         gameManager.instance.updateEnemyCount(1);
-        wanderingDirection = randomLocation();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //If player in range then attack the player 
-        if(playerInRange)
+        //If agent is not on then don't do anything
+        if (navAgent.isActiveAndEnabled)
         {
-            //Get direction of the target 
-            targetDirection = gameManager.instance.player.transform.position - transform.position;
-
-            //Keep shooting at the target 
-            if (!isShooting)
+            //Player inside the sphere but not see the player 
+            if (playerInRange && !canSeePlayer())
             {
-                StartCoroutine(shootTarget());
+                StartCoroutine(roam());
             }
 
-            //Have enemy facing the target all the time because level is open space 
-            faceTarget();
-
-            //Need to stop setting destination when enemy is dead, might find better way to implement this. 
-            if (!isDead)
+            //Player outside the sphere 
+            else if (!playerInRange)
             {
-                //Set the target position as destination 
-                navAgent.SetDestination(gameManager.instance.player.transform.position);
+                StartCoroutine(roam());
             }
         }
+    }
 
-        //Wandering around spawnpoint 
-        else
+    bool canSeePlayer()
+    {
+        //Get player direction
+        targetDirection = gameManager.instance.player.transform.position - headPos.position;
+
+        //Get angle to the player except y-axis
+        angleToPlayer = Vector3.Angle(new Vector3(targetDirection.x, 0, targetDirection.z), transform.forward);
+
+        //For debuging enemy
+        Debug.DrawRay(headPos.position, targetDirection);
+        Debug.Log(angleToPlayer);
+
+        //Raycast checking 
+        RaycastHit hit;
+
+        if (Physics.Raycast(headPos.position, targetDirection, out hit))
         {
-            //Need to stop setting destination when enemy is dead, might find better way to implement this. 
-            if (!isDead)
+            //If the player is within the view cone 
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewCone)
             {
-                //Get new location when getting near the wandering position 
-                if(navAgent.remainingDistance < navAgent.stoppingDistance)
+                navAgent.stoppingDistance = stoppingDisOrig;
+
+                //Shoot the player within the shoot cone 
+                if (angleToPlayer <= shootCone && !isShooting)
                 {
-                    wanderingDirection = randomLocation();
+                    StartCoroutine(shootTarget());
                 }
 
-                //Continue wandering 
-                wandering();
+                //Do this when player is in stopping distance 
+                if (navAgent.remainingDistance < navAgent.stoppingDistance)
+                {
+                    faceTarget();
+                }
+
+                //Need to stop setting destination when enemy is dead, might find better way to implement this. 
+                if (!isDead)
+                {
+                    //Set the target position as destination 
+                    navAgent.SetDestination(gameManager.instance.player.transform.position);
+                }
+
+                return true;
             }
         }
+
+        navAgent.stoppingDistance = 0.0f;
+
+        return false;
     }
 
-    void wandering()
+    IEnumerator roam()
     {
-        //Set the target position as destination 
-        navAgent.SetDestination(wanderingDirection);
-    }
+        if(navAgent.remainingDistance < 0.05f && !destinationChosen)
+        {
+            //Set the destination 
+            destinationChosen = true;
+            navAgent.stoppingDistance = 0;
+            yield return new WaitForSeconds(roamPauseTime);
 
-    Vector3 randomLocation()
-    {
-        //Make it within -40 and 40 for now 
-        float random_x = Random.Range(-40, 40);
-        float random_z = Random.Range(-40, 40);
+            //Get random position 
+            Vector3 randomPos = Random.insideUnitSphere * roamDist;
+            randomPos += startingPos;
 
-        Vector3 random = new Vector3(random_x, transform.position.y, random_z);
+            //Get position that's only on navmesh 
+            NavMeshHit hit;
+            NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
+            navAgent.SetDestination(hit.position);
 
-        return random;
+            destinationChosen = false;
+        }
     }
 
     void faceTarget()
@@ -130,7 +173,7 @@ public class enemyAI : MonoBehaviour, IDamage
         //Model damage red flash 
         StartCoroutine(damageFeedback());
 
-        //If take damage, then chase the player 
+        //If take damage,then chase the player 
         navAgent.SetDestination(gameManager.instance.player.transform.position);
 
         Debug.Log(gameObject.name + " take damage");
@@ -170,6 +213,7 @@ public class enemyAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            navAgent.stoppingDistance = 0.0f;
         }
     }
 

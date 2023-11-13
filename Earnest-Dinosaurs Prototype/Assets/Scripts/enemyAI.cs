@@ -179,14 +179,17 @@ public class enemyAI : MonoBehaviour, IDamage
         transform.rotation = Quaternion.Lerp(transform.rotation, faceRotation, Time.deltaTime * facingSpeed);
     }
 
+    public void createBullet()
+    {
+        //Create a bullet at shooting position and current rotation 
+        Instantiate(bulletObject, shootPosition.position, transform.rotation);
+    }
+
     IEnumerator shootTarget()
     {
         isShooting = true;
 
         anim.SetTrigger("Shoot");
-
-        //Create a bullet at shooting position and current rotation 
-        Instantiate(bulletObject, shootPosition.position, transform.rotation);
 
         //Shooting rate 
         yield return new WaitForSeconds(shootingRate);

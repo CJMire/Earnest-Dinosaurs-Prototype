@@ -324,19 +324,6 @@ public class gameManager : MonoBehaviour
         return enemy;
     }
 
-    //checks if the SpawnWave is being invoked and updates the HUD as so
-    //void IsSpawning()
-    //{
-    //    if (IsInvoking("SpawnWave"))
-    //    {
-    //        isSpawningText.text = "Enemies Spawning...";
-    //    }
-    //    else
-    //    {
-    //        isSpawningText.text = "";
-    //    }
-    //}
-
     IEnumerator SpawnWave()
      {
         //if its the start of the wave, the if-check makes the following happen once

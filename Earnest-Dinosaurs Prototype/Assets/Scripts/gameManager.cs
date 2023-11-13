@@ -298,18 +298,6 @@ public class gameManager : MonoBehaviour
             UpdateWave();
     }
 
-    // begins to spawn wave of enemies
-    //Was SpawnWave() but is now SpawnEnemy
-    public void SpawnEnemy()
-    {
-        GameObject enemy = GiveEnemy(); //gives random enemy to spawn
-        Transform location = enemySpawnLocations[Random.Range(0, enemySpawnLocations.Count - 1)]; //gets random location for spawning (instantiate)
-
-        //instantiates random enemy from the list of enemy spawn locations
-        Instantiate(enemy, location.position, location.rotation);
-        totalEnemies--;
-    }
-
     // updates a int to have a placeholder for amount of enemies in a wave to then update it in the next wave
     public void UpdateEnemiesPerWave()
     {
@@ -361,13 +349,17 @@ public class gameManager : MonoBehaviour
             stopSpawning = true;
             yield return new WaitForSeconds(gracePeriod);
         }
-            
 
-        //spawns an enemy
-        SpawnEnemy();
+        //Since the transform of the location is accessed twice, made a local variable for easier code readability
+        Transform location = enemySpawnLocations[Random.Range(0, enemySpawnLocations.Count - 1)]; //gets random location for spawning (instantiate)
+
+        //Gets a randomly chosen enemy to spawn
+        //then gets the position and rotation from the randomly selected spawn location assigned above
+        Instantiate(GiveEnemy(), location.position, location.rotation);
+        totalEnemies--;
 
         //if there are more enemies to spawn, it will go back to the beginning after waiting the spawnSpeed duration
-        if(totalEnemies > 0)
+        if (totalEnemies > 0)
         {
             yield return new WaitForSeconds(spawnSpeed);
             StartCoroutine(SpawnWave());

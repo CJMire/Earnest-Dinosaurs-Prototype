@@ -7,6 +7,8 @@ public class enemyAI : MonoBehaviour, IDamage
 {
     [Header("----- Enemy's Components ------")]
     [SerializeField] Renderer enemyModel;
+    [SerializeField] Renderer enemyModel_1;
+    [SerializeField] Renderer enemyModel_2;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
     [SerializeField] Transform headPos;
@@ -31,7 +33,9 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject medkitObject;
     [SerializeField] float dropRate;
 
-    Color modelOriginalColor; 
+    Color modelOriginalColor;
+    Color modelOriginalColor_1;
+    Color modelOriginalColor_2;
     Vector3 targetDirection;
     Vector3 wanderingDirection;
     bool isShooting;
@@ -46,7 +50,20 @@ public class enemyAI : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
+        //Main character 
         modelOriginalColor = enemyModel.material.color;
+
+        //Model with more than one part 
+        if(enemyModel_1 != null)
+        {
+            modelOriginalColor_1 = enemyModel_1.material.color;
+        }
+
+        if (enemyModel_2 != null)
+        {
+            modelOriginalColor_2 = enemyModel_2.material.color;
+        }
+
         startingPos = transform.position;
         stoppingDisOrig = navAgent.stoppingDistance;
         isDead = false;
@@ -63,13 +80,7 @@ public class enemyAI : MonoBehaviour, IDamage
             anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
 
             //Player inside the sphere but not see the player 
-            if (playerInRange && !canSeePlayer())
-            {
-                roam();
-            }
-
-            //Player outside the sphere 
-            else if (!playerInRange)
+            if (!canSeePlayer())
             {
                 roam();
             }
@@ -153,6 +164,7 @@ public class enemyAI : MonoBehaviour, IDamage
         if(!isDead)
         {
             //Always go To Player
+            faceTarget();
             navAgent.SetDestination(gameManager.instance.player.transform.position);
         }
         
@@ -228,9 +240,29 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         enemyModel.material.color = Color.red;
 
+        if (enemyModel_1 != null)
+        {
+            enemyModel_1.material.color = Color.red;
+        }
+
+        if (enemyModel_2 != null)
+        {
+            enemyModel_2.material.color = Color.red;
+        }
+
         yield return new WaitForSeconds(damageDuration);
 
         enemyModel.material.color = modelOriginalColor;
+
+        if (enemyModel_1 != null)
+        {
+            enemyModel_1.material.color = modelOriginalColor_1;
+        }
+
+        if (enemyModel_2 != null)
+        {
+            enemyModel_2.material.color = modelOriginalColor_2;
+        }
     }
 
     void OnTriggerEnter(Collider other)

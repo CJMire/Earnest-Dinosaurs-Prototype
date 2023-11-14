@@ -26,7 +26,7 @@ public class bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Ignore all trigger
-        if(other.isTrigger)
+        if (other.isTrigger)
         {
             return;
         }

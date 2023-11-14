@@ -40,7 +40,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void RespawnButton()
     {
-        if (gameManager.instance.showRespawnWarning)
+        if (gameManager.instance.GetShowRespawnWarning())
         {
             gameManager.instance.GetActiveMenu().SetActive(false);
             gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
@@ -66,7 +66,7 @@ public class ButtonHandler : MonoBehaviour
     public void ToggleShowRespawn()
     {
         //toggles showRespawnWarning in gameManager
-        gameManager.instance.showRespawnWarning = !gameManager.instance.showRespawnWarning;
+        gameManager.instance.SetShowRespawnWarning(!gameManager.instance.GetShowRespawnWarning());
     }
 
     public void Back()

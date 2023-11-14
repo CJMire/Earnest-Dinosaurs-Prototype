@@ -10556,17 +10556,14 @@ MonoBehaviour:
   imageReloadingIcon: {fileID: 8552956939425898464}
   hitMarkerRate: 0.05
   timePenalty: 30
-  isPaused: 0
-  stopSpawning: 0
-  timetillSpawn: 0
-  showRespawnWarning: 1
   EnemyBase_1: {fileID: 948443828552473790, guid: 60693e56b8fe9124783adaae50c261da, type: 3}
   EnemyBase_2: {fileID: 2291291316118895893, guid: 2919e2bc30039de448da1578fd4151de, type: 3}
   EnemyBase_3: {fileID: 4817749337313768898, guid: 4c44834614ca8e242be176a69d2d3416, type: 3}
-  waveCount: 2
+  levelCompletion: 3
   spawnSpeed: 3
   gracePeriod: 5
   totalEnemies: 5
+  newWaveIncrease: 1
 --- !u!114 &4155884143005875958
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -48,10 +48,20 @@ public class playerController : MonoBehaviour, IDamage
 
     void Update()
     {
+        if (!gameManager.instance.GetIsPaused())
+        {
+            Movement();
+        }
+    }
+
+    void Movement()
+    {
+        sprint();
+
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
         //Checks if the player can shoot
-        if (Input.GetButton("Shoot") && !isShooting && !isReloading && ammoCount > 0 && !(gameManager.instance.isPaused))
+        if (Input.GetButton("Shoot") && !isShooting && !isReloading && ammoCount > 0)
         {
             StartCoroutine(Shoot());
         }
@@ -62,8 +72,6 @@ public class playerController : MonoBehaviour, IDamage
             playerVelocity.y = 0;
             jumpTimes = 0;
         }
-
-        sprint();
 
         move = Input.GetAxis("Horizontal") * transform.right +
                Input.GetAxis("Vertical") * transform.forward;
@@ -78,7 +86,7 @@ public class playerController : MonoBehaviour, IDamage
         characterController.Move(playerVelocity * Time.deltaTime);
 
         //Checks if the player can reload
-        if (Input.GetButtonDown("Reload") && !isShooting && !isReloading && ammoCount < maxAmmo && !(gameManager.instance.isPaused))
+        if (Input.GetButtonDown("Reload") && !isShooting && !isReloading && ammoCount < maxAmmo)
         {
             StartCoroutine(gameManager.instance.Reload());
         }

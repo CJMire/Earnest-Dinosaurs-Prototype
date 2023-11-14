@@ -38,18 +38,17 @@ public class gameManager : MonoBehaviour
 
     [Header("----- Settings -----")]
     [SerializeField] int timePenalty;
-    public bool isPaused;
+    private bool isPaused;
     float timeScaleOriginal;
     Stopwatch stopwatch;
     int waveCurrent;
     int enemyCount;
-    public bool stopSpawning;
+    private bool stopSpawning;
     private int enemiesPerWave;
     private int currentLevel;
     private int totalPenaltyTime;
     private float fillTime;
-    public float timetillSpawn;
-    public bool showRespawnWarning = true;
+    private bool showRespawnWarning = true;
 
     [Header("----- Spawner Enemies -----")]
     [SerializeField] GameObject EnemyBase_1;
@@ -57,18 +56,15 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_3;
 
     [Header("----- Wave Settings -----")]
-    [SerializeField] int waveCount;
+    [Range(3,5)][SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
     [SerializeField] float spawnSpeed;
     [SerializeField] float gracePeriod;
+    [SerializeField] int totalEnemies;
+    [Range(1, 10)][SerializeField] int newWaveIncrease; // how many more enemies will there be in new wave
 
     [Header("----- Spawn Points -----")]
     List<GameObject> playerSpawnLocations = new List<GameObject>();
     List<Transform> enemySpawnLocations = new List<Transform>();
-
-
-    [Header("----- Enemy Settings -----")]
-    [SerializeField] public int totalEnemies;
-
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
@@ -86,7 +82,7 @@ public class gameManager : MonoBehaviour
         //Set current level
         currentLevel = 1;
 
-        //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates HUD
+        //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates wave text HUD
         SetSpawnPositions();
         waveCurrent = 1;
         textWaves.text = "Wave:  " + waveCurrent.ToString();
@@ -119,30 +115,8 @@ public class gameManager : MonoBehaviour
         if (stopSpawning == false)
         {
             UpdateEnemiesPerWave();
-            //----------------------
-            //InvokeRepeating("SpawnWave", gracePeriod, spawnSpeed); // begins to spawn enemies
-            //-----------------------
 
             StartCoroutine(SpawnWave());
-            
-            //-------------------
-            //stopSpawning = true; // makes sure there is only one invoke at a time
-            //-------------------
-        }
-
-        if (totalEnemies == 0) // once the amount of enemies in a wave has spawned the invoke is cancelled
-        {
-            isSpawningText.text = string.Empty;
-            //---------------------
-            //CancelInvoke();
-            //--------------------
-        }
-
-        //end of wave
-        if(enemyCount == 0 && totalEnemies == 0)
-        {
-            totalEnemies = enemiesPerWave + 3; // increases amount of enemies per wave
-            stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
         }
 
         if (playerScript.GetIsReloading())
@@ -176,6 +150,12 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(false);
         menuActive = null;
 
+        //makes sure menuPrev is null when used again
+        if(menuPrev != null)
+        {
+            menuPrev = null;
+        }
+
         //resumes stopwatch
         stopwatch.Start();
     }
@@ -183,21 +163,7 @@ public class gameManager : MonoBehaviour
     //On player death, checks to see if wave ammount is higher than the lowest highscore wave amount
     public void OnDeath()
     {
-        //should check if current wave amount is greather than lowest highscore wave amount (blank for now)
-        //something like:
-        //  if (menuActive == null && player.waveAmount >= highscore[4].waveAmount)
-        //  {
-        //      menuActive = menuEntry;
-        //      menuActive.SetActive(true);
-        //    /get input for player name
-        //      string name = menuEntry.input
-        //      /then insert player name, wave amount, and time into player list
-        //      menuActive.SetActive(false);
-        //      menuActive = null;
-        //  }
-
-        //displays Leaderboard (End Menu)
-        //no need to set anything to null or false because the scene will either reset or just be quit out from here
+        //no need to set anything to null or false because it's handled in the buttonHandler script
             statePause();
             menuActive = menuLose;
             menuActive.SetActive(true);
@@ -233,19 +199,7 @@ public class gameManager : MonoBehaviour
         if (ammoCount == 0)
         {
             StartCoroutine(ReloadFlash());
-            //-----------------
-            //InvokeRepeating("ReloadIconOn", 1f, 1f);
-            //InvokeRepeating("ReloadIconOff", 1.5f, 1.5f);
-            //-----------------
         }
-
-        //--------------------
-        //else if (ammoCount > 0)
-        //{
-        //    reloadIcon.SetActive(false);
-        //    CancelInvoke();
-        //}
-        //---------------------
     }
 
     //used in Update() to display give total time in a string format 
@@ -278,24 +232,25 @@ public class gameManager : MonoBehaviour
     #endregion
     #region Wave Spawner methods
 
-    public void UpdateWave()
-    {
-        //increase wave number & update HUD
-        waveCurrent++;
-        textWaves.text = "Wave:  " + waveCurrent.ToString();
-    }
-
     public void updateEnemyCount(int amount)
     {
         enemyCount += amount;
         textEnemyCount.text = enemyCount.ToString();
+
         //Calls when 3nd wave is completed for now
-        if(enemyCount <= 0 && waveCurrent == 3)
+        if (enemyCount <= 0 && levelCompletion == waveCurrent) //
         {
             OnWin();
         }
-        if (enemyCount <= 0 && totalEnemies == 0)
-            UpdateWave();
+        else if (enemyCount <= 0 && totalEnemies == 0) // end of wave but not end of level
+        {
+            totalEnemies = enemiesPerWave + newWaveIncrease; // increases amount of enemies per wave
+            stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
+
+            //increase wave number & update HUD
+            waveCurrent++;
+            textWaves.text = "Wave:  " + waveCurrent.ToString();
+        }
     }
 
     // updates a int to have a placeholder for amount of enemies in a wave to then update it in the next wave
@@ -350,6 +305,10 @@ public class gameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(spawnSpeed);
             StartCoroutine(SpawnWave());
+        }
+        else // once the amount of enemies in a wave has spawned the invoke is cancelled
+        {
+            isSpawningText.text = string.Empty;
         }
     }
     #endregion
@@ -481,6 +440,21 @@ public class gameManager : MonoBehaviour
     public GameObject GetActiveMenu()
     {
         return menuActive;
+    }
+
+    public bool GetShowRespawnWarning()
+    {
+        return showRespawnWarning;
+    }
+
+    public void SetShowRespawnWarning(bool show)
+    {
+        showRespawnWarning = show;
+    }
+
+    public bool GetIsPaused()
+    {
+        return isPaused;
     }
     #endregion
 }

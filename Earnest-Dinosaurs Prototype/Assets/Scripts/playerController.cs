@@ -17,6 +17,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
     [SerializeField] float gravityStrength;
+    [Range(1,10)] [SerializeField] float sprintMod;
 
     [Header("----- Player Gun Stats -----")]
     [SerializeField] int shootDamage;
@@ -32,6 +33,8 @@ public class playerController : MonoBehaviour, IDamage
     private int jumpTimes;
     private bool isShooting;
     private bool isReloading;
+    private bool isSprinting;
+
 
     void Start()
     {
@@ -60,6 +63,8 @@ public class playerController : MonoBehaviour, IDamage
             jumpTimes = 0;
         }
 
+        sprint();
+
         move = Input.GetAxis("Horizontal") * transform.right +
                Input.GetAxis("Vertical") * transform.forward;
         characterController.Move(move * Time.deltaTime * playerSpeed);
@@ -73,9 +78,23 @@ public class playerController : MonoBehaviour, IDamage
         characterController.Move(playerVelocity * Time.deltaTime);
 
         //Checks if the player can reload
-        if (Input.GetKeyDown("r") && !isShooting && !isReloading && ammoCount < maxAmmo && !(gameManager.instance.isPaused))
+        if (Input.GetButtonDown("Reload") && !isShooting && !isReloading && ammoCount < maxAmmo && !(gameManager.instance.isPaused))
         {
             StartCoroutine(gameManager.instance.Reload());
+        }
+    }
+
+    void sprint()
+    {
+        if (Input.GetButtonDown("Sprint"))
+        {
+            isSprinting = true;
+            playerSpeed *= sprintMod;
+        }
+        else if (Input.GetButtonUp("Sprint"))
+        {
+            isSprinting = false;
+            playerSpeed /= sprintMod;
         }
     }
 

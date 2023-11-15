@@ -93,10 +93,10 @@ public class enemyAI : MonoBehaviour, IDamage
             //Player inside the sphere but not see the player 
             if (!canSeePlayer())
             {
-                roam();
+                seek();
             }
 
-            roam();
+            seek();
         }
     }
 
@@ -107,10 +107,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
         //Get angle to the player except y-axis
         angleToPlayer = Vector3.Angle(new Vector3(targetDirection.x, 0, targetDirection.z), transform.forward);
-
-        //For debuging enemy
-        //Debug.DrawRay(headPos.position, targetDirection);
-        //Debug.Log(angleToPlayer);
 
         //Raycast checking 
         RaycastHit hit;
@@ -150,30 +146,8 @@ public class enemyAI : MonoBehaviour, IDamage
         return false;
     }
 
-    void roam()
+    void seek()
     {
-        //For roaming around the scene 
-        /*
-        if(navAgent.remainingDistance < 0.05f && !destinationChosen)
-        {
-            //Set the destination 
-            destinationChosen = true;
-            navAgent.stoppingDistance = 0;
-            yield return new WaitForSeconds(roamPauseTime);
-
-            //Get random position 
-            Vector3 randomPos = Random.insideUnitSphere * roamDist;
-            randomPos += startingPos;
-
-            //Get position that's only on navmesh 
-            NavMeshHit hit;
-            NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
-            navAgent.SetDestination(hit.position);
-
-            destinationChosen = false;
-        }
-        */
-
         if(!isDead)
         {
             //Always go To Player
@@ -248,9 +222,6 @@ public class enemyAI : MonoBehaviour, IDamage
             {
                 navAgent.SetDestination(gameManager.instance.player.transform.position);
             }
-
-            //debugging purposes
-            //Debug.Log(gameObject.name + " take damage");
 
             knockback();
         }

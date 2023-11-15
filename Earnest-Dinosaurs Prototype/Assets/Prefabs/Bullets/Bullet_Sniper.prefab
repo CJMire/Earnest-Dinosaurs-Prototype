@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7046856127836997726}
+  hitEffect: {fileID: 2361380641184070541, guid: f2eb82f6a82798e45a2feec0cb11ba41, type: 3}
   bulletSpeed: 25
   bulletDuration: 3
   bulletDamage: 1

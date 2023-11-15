@@ -8,6 +8,7 @@ public class bullet : MonoBehaviour
 {
     [Header("----- Bullet's Components ------")]
     [SerializeField] Rigidbody rb;
+    [SerializeField] ParticleSystem hitEffect;
 
     [Header("----- Bullet's Stats ------")]
     [SerializeField] int bulletSpeed;
@@ -39,6 +40,13 @@ public class bullet : MonoBehaviour
             damageable.takeDamage(bulletDamage);
         }
 
+
+        if(hitEffect != null)
+        {
+            //Bullet hit effect 
+            Instantiate(hitEffect, transform.position, hitEffect.transform.rotation);
+        }
+        
         //Destroy the bullet when hitting the gameObject 
         Destroy(gameObject);
     }

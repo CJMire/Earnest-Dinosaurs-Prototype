@@ -176,6 +176,16 @@ public class playerController : MonoBehaviour, IDamage
         gameManager.instance.updateHUD();
     }
 
+    public void speedUpPlayer(float amount)
+    {
+        playerSpeed *= amount;
+    }
+
+    public void speedDownPlayer(float amount)
+    {
+        playerSpeed /= amount;
+    }
+
     public void ReloadSuccess()
     {
         gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;

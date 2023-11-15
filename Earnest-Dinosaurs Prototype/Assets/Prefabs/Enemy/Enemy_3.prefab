@@ -446,7 +446,6 @@ MonoBehaviour:
   headPos: {fileID: 7183474299109283778}
   anim: {fileID: 8093844129487965552}
   damageCol: {fileID: 2555136212582373416}
-  damageEffect: {fileID: 0}
   aud: {fileID: -8413519986539386416}
   HP: 2
   facingSpeed: 10
@@ -460,6 +459,8 @@ MonoBehaviour:
   shootingRate: 1
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   dropRate: 50
+  speedPickupObject: {fileID: 6713869046612451875, guid: bfe9d46e7d433f341a24d020d908ba50, type: 3}
+  speedDropRate: 20
   hurtSound: {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
   deadSound: {fileID: 8300000, guid: 279364a71e4a93a4d9d1143598d6f2dd, type: 3}
   enemyVol: 0.5

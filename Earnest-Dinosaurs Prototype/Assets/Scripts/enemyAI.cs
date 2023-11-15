@@ -33,6 +33,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
     [SerializeField] float dropRate;
+    [SerializeField] GameObject speedPickupObject;
+    [SerializeField] float speedDropRate;
 
     [Header("----- Enemy Sound------")]
     [SerializeField] AudioClip hurtSound;
@@ -218,6 +220,7 @@ public class enemyAI : MonoBehaviour, IDamage
             aud.PlayOneShot(deadSound, enemyVol);
 
             medkitDrop();
+            speedPickupDrop();
             isDead = true;
             navAgent.enabled = false;
             anim.SetBool("Dead", true);
@@ -314,4 +317,14 @@ public class enemyAI : MonoBehaviour, IDamage
             Instantiate(medkitObject, transform.position, transform.rotation);
         }
     }
+
+    void speedPickupDrop()
+    {
+        float drop = Random.Range(1, 100);
+        if(drop <= dropRate)
+        {
+            Instantiate(speedPickupObject, transform.position, transform.rotation);
+        }
+    }
+
 }

@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class pickups : MonoBehaviour
+public class speedPickup : MonoBehaviour
 {
     [Header("---- Speed PowerUp ----")]
     [SerializeField] float speedIncrease;
-    bool hasSpeed;
-
-    [Header("---- Instant Kill ----")]
-    [SerializeField] int damageIncrease;
-    bool hasInstantKill;
-
-    [Header("---- Invincibility ----")]
-    bool isInvincible;
+    [SerializeField] bool hasSpeed;
 
     [Header("---- Pickup Stats ----")]
     [SerializeField] int rotationSpeed;
@@ -22,11 +15,12 @@ public class pickups : MonoBehaviour
 
     public float currentSpeed;
     public float newSpeed;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         currentSpeed = gameManager.instance.playerScript.getPlayerCurrentSpeed();
+        hasSpeed = false;
     }
 
     // Update is called once per frame
@@ -34,7 +28,8 @@ public class pickups : MonoBehaviour
     {
         transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
 
-        Destroy(gameObject, pickupDuration);
+        Destroy(gameObject, pickupGroundDuration);
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,17 +41,22 @@ public class pickups : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            speedUp();
-            Destroy(gameObject);
+            if(hasSpeed == false)
+            {
+                StartCoroutine(speedUp());
+            }
+
         }
     }
 
     IEnumerator speedUp()
     {
         hasSpeed = true;
-        newSpeed = currentSpeed * speedIncrease;
+        gameManager.instance.playerScript.speedUpPlayer(speedIncrease);
+        transform.position = new Vector3(0, -10, 0);
         yield return new WaitForSeconds(pickupDuration);
-        newSpeed = currentSpeed / speedIncrease;
+        gameManager.instance.playerScript.speedDownPlayer(speedIncrease);
         hasSpeed = false;
+        Destroy(gameObject);
     }
 }

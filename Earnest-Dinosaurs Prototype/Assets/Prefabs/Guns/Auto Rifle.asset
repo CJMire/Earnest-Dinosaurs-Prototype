@@ -17,7 +17,7 @@ MonoBehaviour:
   shootRate: 0.2
   ammoCur: 20
   ammoMax: 20
-  reloadTime: 3
+  reloadTime: 2
   model: {fileID: 5571641588984482722, guid: c303a18f1cbdd4156b139b9e5b35d6a9, type: 3}
   hitEffect: {fileID: 0}
   shootSound: {fileID: 0}

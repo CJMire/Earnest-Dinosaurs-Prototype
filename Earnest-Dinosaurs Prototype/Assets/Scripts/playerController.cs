@@ -57,6 +57,16 @@ public class playerController : MonoBehaviour, IDamage
         {
             Movement();
         }
+        if (gunList.Count > 0)
+        {
+            selectGun();
+
+            //Checks if the player can shoot
+            if (Input.GetButton("Shoot") && !isShooting && !isReloading && gunList[selectedGun].ammoCur > 0)
+            {
+                StartCoroutine(Shoot());
+            }
+        }
     }
 
     void Movement()
@@ -64,12 +74,6 @@ public class playerController : MonoBehaviour, IDamage
         sprint();
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
-
-        //Checks if the player can shoot
-        if (Input.GetButton("Shoot") && !isShooting && !isReloading && gunList[selectedGun].ammoCur > 0)
-        {
-            StartCoroutine(Shoot());
-        }
 
         playerIsGrounded = characterController.isGrounded;
         if (playerIsGrounded && playerVelocity.y < 0)
@@ -190,6 +194,28 @@ public class playerController : MonoBehaviour, IDamage
         isReloading = false;
         gameManager.instance.GetReloadIcon().SetActive(false);
         ReloadSuccess();
+    }
+
+    void selectGun()
+    {
+        if (!isReloading)
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                selectedGun++;
+                if (selectedGun >= gunList.Count)
+                    selectedGun = 0;
+                changeGun();
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                selectedGun--;
+                if (selectedGun <= 0)
+                    selectedGun = gunList.Count - 1;
+                changeGun();
+            }
+            gameManager.instance.updateHUD();
+        }
     }
 
     void changeGun()

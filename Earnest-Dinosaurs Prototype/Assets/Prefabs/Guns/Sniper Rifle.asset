@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootDamage: 10
   shootDist: 200
-  shootRate: 1
+  shootRate: 0.5
   ammoCur: 1
   ammoMax: 1
   reloadTime: 2

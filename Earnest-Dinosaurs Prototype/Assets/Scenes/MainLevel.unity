@@ -396,6 +396,18 @@ PrefabInstance:
       propertyPath: starterGun
       value: 
       objectReference: {fileID: 11400000, guid: b7d8fdc642021e74db8785aed416a038, type: 2}
+    - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
+      propertyPath: gunList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
+      propertyPath: gunList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8585b4bc5b2af24a9f8243c49cfaa75, type: 2}
+    - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
+      propertyPath: gunList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8585b4bc5b2af24a9f8243c49cfaa75, type: 2}
     - target: {fileID: 6465415819898719964, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
       propertyPath: m_Name
       value: Player

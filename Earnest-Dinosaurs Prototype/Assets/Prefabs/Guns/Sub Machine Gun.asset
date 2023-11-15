@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96a164b61b67e1540b450582bf39b1c7, type: 3}
-  m_Name: Auto Rifle
+  m_Name: Sub Machine Gun
   m_EditorClassIdentifier: 
-  shootDamage: 2
-  shootDist: 50
-  shootRate: 0.2
-  ammoCur: 20
-  ammoMax: 20
+  shootDamage: 1
+  shootDist: 40
+  shootRate: 0.15
+  ammoCur: 35
+  ammoMax: 35
   reloadTime: 3
-  model: {fileID: 5571641588984482722, guid: c303a18f1cbdd4156b139b9e5b35d6a9, type: 3}
+  model: {fileID: 5494625650325380441, guid: 944f765b84e4c4012876d61f4dfc7b5a, type: 3}
   hitEffect: {fileID: 0}
   shootSound: {fileID: 0}
-  shootSoundVol: 0.5
+  shootSoundVol: 0

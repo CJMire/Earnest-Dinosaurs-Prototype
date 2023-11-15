@@ -35,6 +35,9 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] float dropRate;
     [SerializeField] GameObject speedPickupObject;
     [SerializeField] float speedDropRate;
+    [SerializeField] GameObject invincibilityPickupObject;
+    [SerializeField] float invincibilityDropRate;
+
 
     [Header("----- Enemy Sound------")]
     [SerializeField] AudioClip hurtSound;
@@ -321,9 +324,18 @@ public class enemyAI : MonoBehaviour, IDamage
     void speedPickupDrop()
     {
         float drop = Random.Range(1, 100);
-        if(drop <= dropRate)
+        if(drop <= speedDropRate)
         {
             Instantiate(speedPickupObject, transform.position, transform.rotation);
+        }
+    }
+
+    void invincibilityPickupDrop()
+    {
+        float drop = Random.Range(1, 100);
+        if(drop <= invincibilityDropRate)
+        {
+            Instantiate(invincibilityPickupObject, transform.position, transform.rotation);
         }
     }
 

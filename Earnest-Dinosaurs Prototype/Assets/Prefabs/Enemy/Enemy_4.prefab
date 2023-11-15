@@ -279,6 +279,8 @@ MonoBehaviour:
   dropRate: 100
   speedPickupObject: {fileID: 6713869046612451875, guid: bfe9d46e7d433f341a24d020d908ba50, type: 3}
   speedDropRate: 20
+  invincibilityPickupObject: {fileID: 732083475820814014, guid: 4126241921a7dd942a8841e398dbfc82, type: 3}
+  invincibilityDropRate: 20
   hurtSound: {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
   deadSound: {fileID: 8300000, guid: 279364a71e4a93a4d9d1143598d6f2dd, type: 3}
   enemyVol: 0.5

@@ -17,6 +17,10 @@ TagManager:
   - SpawnPoint3
   - SpawnPoint4
   - SpawnPoint1
+  - Invincibility
+  - Bullet1
+  - Bullet2
+  - Bullet3
   layers:
   - Default
   - TransparentFX

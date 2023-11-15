@@ -313,18 +313,6 @@ public class gameManager : MonoBehaviour
     }
     #endregion
     #region Reload methods
-    //-----------------------------------
-    //public void ReloadIconOn()
-    //{
-    //    reloadIcon.SetActive(true);
-    //    Invoke("ReloadIconOff", 0.5f);
-    //}
-
-    //public void ReloadIconOff()
-    //{
-    //    reloadIcon.SetActive(false);
-    //}
-    //-------------------------------------
 
     public IEnumerator Reload()
     {
@@ -351,7 +339,7 @@ public class gameManager : MonoBehaviour
     void FillReloadingIcon()
     {
         imageReloadingIcon.fillAmount = Mathf.Lerp(0,1f,fillTime);
-        fillTime += playerScript.GetReloadTime() * Time.deltaTime;
+        fillTime += 1 / playerScript.GetReloadTime() * Time.deltaTime;
     }
     #endregion
     #region Getters and Setters

@@ -19,13 +19,13 @@ public class speedPickup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentSpeed = gameManager.instance.playerScript.getPlayerCurrentSpeed();
         hasSpeed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        currentSpeed = gameManager.instance.playerScript.getPlayerCurrentSpeed();
         transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
 
         Destroy(gameObject, pickupGroundDuration);
@@ -41,22 +41,26 @@ public class speedPickup : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            if(hasSpeed == false)
-            {
                 StartCoroutine(speedUp());
-            }
 
         }
     }
 
     IEnumerator speedUp()
     {
-        hasSpeed = true;
-        gameManager.instance.playerScript.speedUpPlayer(speedIncrease);
-        transform.position = new Vector3(0, -10, 0);
-        yield return new WaitForSeconds(pickupDuration);
-        gameManager.instance.playerScript.speedDownPlayer(speedIncrease);
-        hasSpeed = false;
-        Destroy(gameObject);
+        if(hasSpeed == true && currentSpeed > 15)
+        {
+            Destroy(gameObject);
+        }
+        else if(hasSpeed == false && currentSpeed < 16)
+        {
+            hasSpeed = true;
+            gameManager.instance.playerScript.speedUpPlayer(speedIncrease);
+            transform.position = new Vector3(0, -10, 0);
+            yield return new WaitForSeconds(pickupDuration);
+            gameManager.instance.playerScript.speedDownPlayer(speedIncrease);
+            hasSpeed = false;
+            Destroy(gameObject);
+        }
     }
 }

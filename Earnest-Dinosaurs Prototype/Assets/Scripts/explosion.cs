@@ -6,6 +6,9 @@ public class explosion : MonoBehaviour
 {
     [SerializeField] int damage;
     [SerializeField] ParticleSystem explosionEffect;
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip explosionSound;
+    [Range(0, 1)][SerializeField] float explosionVol;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +18,9 @@ public class explosion : MonoBehaviour
             Instantiate(explosionEffect, transform.position, explosionEffect.transform.rotation);
         }
 
-        Destroy(gameObject, 0.1f);
+        aud.PlayOneShot(explosionSound, explosionVol);
+
+        Destroy(gameObject, 0.5f);
     }
 
     private void OnTriggerEnter(Collider other)

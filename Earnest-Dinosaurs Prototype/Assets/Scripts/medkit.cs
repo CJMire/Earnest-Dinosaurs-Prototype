@@ -9,6 +9,11 @@ public class medkit : MonoBehaviour
     [SerializeField] int medkitDuration;
     [SerializeField] int rotationSpeed;
 
+    [Header("----- Medkit's Feedback")]
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip healSound;
+    [Range(0, 1)][SerializeField] float healVol;
+
     int maxHP;
     int currentHP;
 
@@ -43,12 +48,23 @@ public class medkit : MonoBehaviour
             //If player HP is more than maximum then don't pick
             if (currentHP < maxHP)
             {
-                //Heal player 
-                gameManager.instance.playerScript.healPlayer(healingAmount);
-
-                //Destroy medkit
-                Destroy(gameObject);
+                StartCoroutine(heal());
             }        
         }
+    }
+
+    IEnumerator heal()
+    {
+        //Heal sound 
+        aud.PlayOneShot(healSound, healVol);
+
+        //Heal player 
+        gameManager.instance.playerScript.healPlayer(healingAmount);
+
+        //Wait 
+        yield return new WaitForSeconds(0.2f);
+
+        //Destroy gameObject
+        Destroy(gameObject);
     }
 }

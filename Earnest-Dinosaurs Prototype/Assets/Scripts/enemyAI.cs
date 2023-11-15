@@ -15,6 +15,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
     [SerializeField] ParticleSystem damageEffect;
+    [SerializeField] AudioSource aud;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int HP;
@@ -33,6 +34,11 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
     [SerializeField] float dropRate;
+
+    [Header("----- Enemy Sound------")]
+    [SerializeField] AudioClip hurtSound;
+    [SerializeField] AudioClip deadSound;
+    [Range(0, 1)][SerializeField] float enemyVol;
 
     Color modelOriginalColor;
     Color modelOriginalColor_1;
@@ -85,6 +91,8 @@ public class enemyAI : MonoBehaviour, IDamage
             {
                 roam();
             }
+
+            roam();
         }
     }
 
@@ -168,7 +176,6 @@ public class enemyAI : MonoBehaviour, IDamage
             faceTarget();
             navAgent.SetDestination(gameManager.instance.player.transform.position);
         }
-        
     }
 
     void faceTarget()
@@ -215,6 +222,8 @@ public class enemyAI : MonoBehaviour, IDamage
         if (HP <= 0)
         {
             //Spawn medkit within drop rate, set isDead and destroy gameObject 
+            aud.PlayOneShot(deadSound, enemyVol);
+
             medkitDrop();
             isDead = true;
             navAgent.enabled = false;
@@ -232,6 +241,8 @@ public class enemyAI : MonoBehaviour, IDamage
 
             //Play damage animation
             anim.SetTrigger("Damage");
+
+            aud.PlayOneShot(hurtSound, enemyVol);
 
             //If take damage,then chase the player 
             if (!isDead)

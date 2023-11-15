@@ -390,7 +390,7 @@ PrefabInstance:
       objectReference: {fileID: 8977762712751421020}
     - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
       propertyPath: sprintMod
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5668253011512684274, guid: da36fd85fe2fe9e4b858da3e40cf42ca, type: 3}
       propertyPath: starterGun

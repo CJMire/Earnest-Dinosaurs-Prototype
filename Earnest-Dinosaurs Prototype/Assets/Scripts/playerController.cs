@@ -212,6 +212,11 @@ public class playerController : MonoBehaviour, IDamage
         return HP;
     }
 
+    public float getPlayerCurrentSpeed()
+    {
+        return playerSpeed;
+    }
+
     public int getPlayerMaxAmmo()
     {
         return gunList[selectedGun].ammoMax;

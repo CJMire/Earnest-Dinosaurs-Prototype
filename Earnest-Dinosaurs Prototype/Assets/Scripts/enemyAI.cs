@@ -14,7 +14,6 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform headPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
-    [SerializeField] ParticleSystem damageEffect;
     [SerializeField] AudioSource aud;
 
     [Header("----- Enemy's Stats ------")]
@@ -208,12 +207,6 @@ public class enemyAI : MonoBehaviour, IDamage
     public void takeDamage(int damageAmount)
     {
         HP -= damageAmount;
-
-        //Damage effect 
-        if (damageEffect != null)
-        {
-            Instantiate(damageEffect, transform.position, damageEffect.transform.rotation);
-        }
 
         //Model damage red flash 
         StartCoroutine(damageFeedback());

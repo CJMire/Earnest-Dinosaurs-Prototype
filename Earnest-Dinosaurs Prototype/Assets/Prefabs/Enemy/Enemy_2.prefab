@@ -349,7 +349,7 @@ MonoBehaviour:
   headPos: {fileID: 7950540454653781211}
   anim: {fileID: 3799195406824287}
   damageCol: {fileID: 2481069873106560510}
-  damageEffect: {fileID: 3548588485384254794, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
+  damageEffect: {fileID: 0}
   aud: {fileID: 2066662116766503780}
   HP: 4
   facingSpeed: 10

@@ -8,6 +8,7 @@ public class playerController : MonoBehaviour, IDamage
 {
     [Header("----- Components -----")]
     [SerializeField] CharacterController characterController;
+    [SerializeField] ParticleSystem damageEnemyEffect;
 
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
@@ -126,6 +127,9 @@ public class playerController : MonoBehaviour, IDamage
             if (hit.transform != transform && damageable != null)
             {
                 damageable.takeDamage(shootDamage);
+
+                if(damageEnemyEffect != null)
+                    Instantiate(damageEnemyEffect, hit.point, damageEnemyEffect.transform.rotation);
 
                 //since the hitmarker will be shown for x amount of time, we must offset the next time the player can shoot
                 offset = gameManager.instance.getHitMarkerRate();

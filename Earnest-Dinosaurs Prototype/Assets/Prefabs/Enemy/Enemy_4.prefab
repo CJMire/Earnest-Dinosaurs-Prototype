@@ -264,7 +264,7 @@ MonoBehaviour:
   headPos: {fileID: 2360697391946279983}
   anim: {fileID: 518654349300882654}
   damageCol: {fileID: 5121003103625591369}
-  damageEffect: {fileID: 3548588485384254794, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
+  damageEffect: {fileID: 0}
   aud: {fileID: -463261720616113696}
   HP: 3
   facingSpeed: 10

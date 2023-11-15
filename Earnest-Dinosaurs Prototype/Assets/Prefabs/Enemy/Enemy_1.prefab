@@ -116,11 +116,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyModel: {fileID: 6853140841504498432}
+  enemyModel_1: {fileID: 0}
+  enemyModel_2: {fileID: 0}
   navAgent: {fileID: 747877087953483928}
   shootPosition: {fileID: 104729447188253367}
   headPos: {fileID: 7702374120057831833}
   anim: {fileID: 2684552134598376263}
   damageCol: {fileID: 7411835399925063549}
+  damageEffect: {fileID: 3548588485384254794, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   HP: 3
   facingSpeed: 10
   damageDuration: 0.3

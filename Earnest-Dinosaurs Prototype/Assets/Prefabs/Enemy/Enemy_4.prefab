@@ -263,6 +263,7 @@ MonoBehaviour:
   headPos: {fileID: 2360697391946279983}
   anim: {fileID: 518654349300882654}
   damageCol: {fileID: 5121003103625591369}
+  damageEffect: {fileID: 3548588485384254794, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   HP: 3
   facingSpeed: 10
   damageDuration: 0.3
@@ -271,7 +272,7 @@ MonoBehaviour:
   shootCone: 5
   roamDist: 15
   roamPauseTime: 0.2
-  bulletObject: {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
+  bulletObject: {fileID: 8204607442125509526, guid: 4a3ab95c513629b4c977ff437d6e9e8d, type: 3}
   shootingRate: 0.3
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   dropRate: 100

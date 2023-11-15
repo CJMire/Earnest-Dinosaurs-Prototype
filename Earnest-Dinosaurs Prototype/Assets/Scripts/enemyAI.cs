@@ -14,6 +14,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform headPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
+    [SerializeField] ParticleSystem damageEffect;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int HP;
@@ -201,6 +202,15 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         HP -= damageAmount;
 
+        //Damage effect 
+        if (damageEffect != null)
+        {
+            Instantiate(damageEffect, transform.position, damageEffect.transform.rotation);
+        }
+
+        //Model damage red flash 
+        StartCoroutine(damageFeedback());
+
         //HP is zero then destroy the enemy 
         if (HP <= 0)
         {
@@ -222,9 +232,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
             //Play damage animation
             anim.SetTrigger("Damage");
-
-            //Model damage red flash 
-            StartCoroutine(damageFeedback());
 
             //If take damage,then chase the player 
             if (!isDead)

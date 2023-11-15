@@ -12,19 +12,22 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
     private int maxHP;
-    [SerializeField] int ammoCount;
     [SerializeField] float playerSpeed;
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
     [SerializeField] float gravityStrength;
-    [Range(1,10)] [SerializeField] float sprintMod;
+    [Range(1, 10)][SerializeField] float sprintMod;
 
     [Header("----- Player Gun Stats -----")]
+    [SerializeField] gunStats starterGun;
+    [SerializeField] List<gunStats> gunList = new List<gunStats>();
+    [SerializeField] GameObject gunModel;
+
     [SerializeField] int shootDamage;
     [SerializeField] float shootDistance;
     [SerializeField] float shootRate;
-    private int maxAmmo;
     [SerializeField] float reloadTime;
+    
     [SerializeField] GameObject bulletObject;
 
     private Vector3 move;
@@ -34,12 +37,13 @@ public class playerController : MonoBehaviour, IDamage
     private bool isShooting;
     private bool isReloading;
     private bool isSprinting;
+    int selectedGun;
 
 
     void Start()
     {
-        //Sets maxAmmo
-        maxAmmo = ammoCount;
+        //Sets the starter gun
+        getGunStats(starterGun);
         //sets maxHP
         maxHP = HP;
         //spawns player in current level
@@ -61,7 +65,7 @@ public class playerController : MonoBehaviour, IDamage
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
         //Checks if the player can shoot
-        if (Input.GetButton("Shoot") && !isShooting && !isReloading && ammoCount > 0)
+        if (Input.GetButton("Shoot") && !isShooting && !isReloading && gunList[selectedGun].ammoCur > 0)
         {
             StartCoroutine(Shoot());
         }
@@ -86,7 +90,7 @@ public class playerController : MonoBehaviour, IDamage
         characterController.Move(playerVelocity * Time.deltaTime);
 
         //Checks if the player can reload
-        if (Input.GetButtonDown("Reload") && !isShooting && !isReloading && ammoCount < maxAmmo)
+        if (Input.GetButtonDown("Reload") && !isShooting && !isReloading && gunList[selectedGun].ammoCur < gunList[selectedGun].ammoMax)
         {
             StartCoroutine(gameManager.instance.Reload());
         }
@@ -109,7 +113,7 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator Shoot()
     {
         isShooting = true;
-        ammoCount--;
+        gunList[selectedGun].ammoCur--;
         gameManager.instance.updateHUD();
 
         RaycastHit hit;
@@ -166,7 +170,7 @@ public class playerController : MonoBehaviour, IDamage
 
     public void ReloadSuccess()
     {
-        ammoCount = maxAmmo;
+        gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
         isReloading = false;
         gameManager.instance.updateHUD();
     }
@@ -184,6 +188,19 @@ public class playerController : MonoBehaviour, IDamage
         ReloadSuccess();
     }
 
+    void changeGun()
+    {
+        shootDamage = gunList[selectedGun].shootDamage;
+        shootDistance = gunList[selectedGun].shootDist;
+        shootRate = gunList[selectedGun].shootRate;
+        reloadTime = gunList[selectedGun].reloadTime;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[selectedGun].model.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[selectedGun].model.GetComponent<MeshRenderer>().sharedMaterial;
+
+        isShooting = false;
+    }
+
     #region Getters & Setters
     public int getPlayerMaxHP()
     {
@@ -197,12 +214,12 @@ public class playerController : MonoBehaviour, IDamage
 
     public int getPlayerMaxAmmo()
     {
-        return maxAmmo;
+        return gunList[selectedGun].ammoMax;
     }
 
     public int getPlayerCurrentAmmo()
     {
-        return ammoCount;
+        return gunList[selectedGun].ammoCur;
     }
 
     public bool getIsShooting()
@@ -228,6 +245,21 @@ public class playerController : MonoBehaviour, IDamage
     public float GetReloadTime()
     {
         return reloadTime;
+    }
+
+    public void getGunStats(gunStats gun)
+    {
+        gunList.Add(gun);
+
+        shootDamage = gun.shootDamage;
+        shootDistance = gun.shootDist;
+        shootRate = gun.shootRate;
+        reloadTime = gun.reloadTime;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gun.model.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.model.GetComponent<MeshRenderer>().sharedMaterial;
+
+        selectedGun = gunList.Count - 1;
     }
     #endregion
 }

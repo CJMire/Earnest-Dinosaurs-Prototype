@@ -186,6 +186,15 @@ public class playerController : MonoBehaviour, IDamage
         playerSpeed /= amount;
     }
 
+    public void damageIncrease(int amount)
+    {
+        shootDamage += amount;
+    }
+    public void damageDecrease(int amount)
+    {
+        shootDamage -= amount;
+    }
+
     public void ReloadSuccess()
     {
         gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;

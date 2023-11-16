@@ -55,6 +55,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_1;
     [SerializeField] GameObject EnemyBase_2;
     [SerializeField] GameObject EnemyBase_3;
+    [SerializeField] GameObject EnemyBase_4;
 
     [Header("----- Wave Settings -----")]
     [Range(1,5)] [SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
@@ -275,7 +276,7 @@ public class gameManager : MonoBehaviour
     GameObject GiveEnemy()
     {
         GameObject enemy;
-        int random = Random.Range(0, 3); // random number is generated as to which enemy will spawn
+        int random = Random.Range(0, 4); // random number is generated as to which enemy will spawn
         if (random == 0)
         {
             enemy = EnemyBase_1;
@@ -284,9 +285,13 @@ public class gameManager : MonoBehaviour
         {
             enemy = EnemyBase_2;
         }
-        else
+        else if(random == 2)
         {
             enemy = EnemyBase_3;
+        }
+        else
+        {
+            enemy = EnemyBase_4;
         }
         return enemy;
     }

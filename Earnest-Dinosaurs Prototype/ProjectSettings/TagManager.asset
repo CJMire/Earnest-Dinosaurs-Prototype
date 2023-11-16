@@ -13,10 +13,13 @@ TagManager:
   - PlayerSpawn1.1
   - PlayerSpawn2.1
   - PlayerSpawn3.1
-  - SpawnPoint2
-  - SpawnPoint3
-  - SpawnPoint4
-  - SpawnPoint1
+  - SpawnPoint1.2
+  - SpawnPoint2.2
+  - SpawnPoint3.2
+  - SpawnPoint4.2
+  - PlayerSpawn1.2
+  - PlayerSpawn2.2
+  - PlayerSpawn3.2
   layers:
   - Default
   - TransparentFX

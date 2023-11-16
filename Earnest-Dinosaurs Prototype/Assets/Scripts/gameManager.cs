@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Threading;
+using UnityEditor.SearchService;
 
 public class gameManager : MonoBehaviour
 {
@@ -56,11 +57,13 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_3;
 
     [Header("----- Wave Settings -----")]
-    [Range(3,5)][SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
+    [Range(1,5)] [SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
+    [Range(1, 2)][SerializeField] int totalLevels;
     [SerializeField] float spawnSpeed;
     [SerializeField] float gracePeriod;
     [SerializeField] int totalEnemies;
     [Range(1, 10)][SerializeField] int newWaveIncrease; // how many more enemies will there be in new wave
+    [SerializeField] List<gunStats> levelCompleteRewards = new List<gunStats>();
 
     [Header("----- Spawn Points -----")]
     List<GameObject> playerSpawnLocations = new List<GameObject>();
@@ -237,13 +240,21 @@ public class gameManager : MonoBehaviour
         enemyCount += amount;
         textEnemyCount.text = enemyCount.ToString();
 
-        //Calls when 3nd wave is completed for now
-        if (enemyCount <= 0 && levelCompletion == waveCurrent) //
+        //End of wave
+        if(enemyCount <= 0 && totalEnemies == 0)
         {
-            OnWin();
-        }
-        else if (enemyCount <= 0 && totalEnemies == 0) // end of wave but not end of level
-        {
+            //Game complete (completed waves == total waves)
+            if (enemyCount <= 0 && waveCurrent == totalLevels * levelCompletion) //
+            {
+                OnWin();
+                return;
+            }
+            //Level Complete (completed waves == waves up to this level)
+            else if (enemyCount <= 0 && waveCurrent == levelCompletion * currentLevel)
+            {
+                StartCoroutine("OnLevelSwitch");
+            }
+
             totalEnemies = enemiesPerWave + newWaveIncrease; // increases amount of enemies per wave
             stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
 
@@ -311,6 +322,19 @@ public class gameManager : MonoBehaviour
             isSpawningText.text = string.Empty;
         }
     }
+
+    private void OnLevelSwitch()
+    {
+        if (levelCompleteRewards.Count > 0)
+        {
+            playerScript.getGunStats(levelCompleteRewards[0]);
+            levelCompleteRewards.RemoveAt(0);
+        }
+        
+        currentLevel++;
+        SetSpawnPositions();
+        playerScript.spawnPlayer();
+    }
     #endregion
     #region Reload methods
 
@@ -355,6 +379,8 @@ public class gameManager : MonoBehaviour
 
     public void SetSpawnPositions()
     {
+        playerSpawnLocations.Clear();
+        enemySpawnLocations.Clear();
         int i = 1;
         while (true)
         {

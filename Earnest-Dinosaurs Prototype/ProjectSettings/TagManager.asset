@@ -20,6 +20,10 @@ TagManager:
   - PlayerSpawn1.2
   - PlayerSpawn2.2
   - PlayerSpawn3.2
+  - Invincibility
+  - Bullet1
+  - Bullet2
+  - Bullet3
   layers:
   - Default
   - TransparentFX

@@ -271,14 +271,15 @@ MonoBehaviour:
   knockbackForce: 1
   viewCone: 90
   shootCone: 5
-  roamDist: 15
-  roamPauseTime: 0.2
   bulletObject: {fileID: 8204607442125509526, guid: 4a3ab95c513629b4c977ff437d6e9e8d, type: 3}
   shootingRate: 0.3
+  deathFadeTime: 1.47
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
-  dropRate: 100
+  medkitDropRate: 2
   speedPickupObject: {fileID: 6713869046612451875, guid: bfe9d46e7d433f341a24d020d908ba50, type: 3}
   speedDropRate: 20
+  invincibilityPickupObject: {fileID: 732083475820814014, guid: 4126241921a7dd942a8841e398dbfc82, type: 3}
+  invincibilityDropRate: 20
   hurtSound: {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
   deadSound: {fileID: 8300000, guid: 279364a71e4a93a4d9d1143598d6f2dd, type: 3}
   enemyVol: 0.5

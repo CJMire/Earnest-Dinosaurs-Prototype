@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,8 +24,6 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] float knockbackForce;
     [SerializeField] int viewCone;
     [SerializeField] int shootCone;
-    [SerializeField] int roamDist;
-    [SerializeField] float roamPauseTime;
 
     [Header("----- Enemy gun's Stats ------")]
     [SerializeField] GameObject bulletObject;
@@ -32,12 +31,11 @@ public class enemyAI : MonoBehaviour, IDamage
 
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
-    [SerializeField] float dropRate;
+    [Range(1,100)][SerializeField] float medkitDropRate;
     [SerializeField] GameObject speedPickupObject;
-    [SerializeField] float speedDropRate;
+    [Range(1, 100)][SerializeField] float speedDropRate;
     [SerializeField] GameObject invincibilityPickupObject;
-    [SerializeField] float invincibilityDropRate;
-
+    [Range(1, 100)][SerializeField] float invincibilityDropRate;
 
     [Header("----- Enemy Sound------")]
     [SerializeField] AudioClip hurtSound;
@@ -48,17 +46,14 @@ public class enemyAI : MonoBehaviour, IDamage
     Color modelOriginalColor_1;
     Color modelOriginalColor_2;
     Vector3 targetDirection;
-    Vector3 wanderingDirection;
     bool isShooting;
     bool isDead;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDisOrig;
-    bool destinationChosen;
     Vector3 startingPos;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         //Main character 
@@ -85,7 +80,7 @@ public class enemyAI : MonoBehaviour, IDamage
     void Update()
     {
         //If agent is not on then don't do anything
-        if (navAgent.isActiveAndEnabled)
+        if (navAgent.isActiveAndEnabled && !isDead)
         {
             //Set the model animation speed along with its navAgent normalized velocity 
             anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
@@ -196,14 +191,16 @@ public class enemyAI : MonoBehaviour, IDamage
             //Spawn medkit within drop rate, set isDead and destroy gameObject 
             aud.PlayOneShot(deadSound, enemyVol);
 
-            medkitDrop();
-            speedPickupDrop();
+            DropSomething(); //Drops one puick-up for player use
+
             isDead = true;
             navAgent.enabled = false;
             anim.SetBool("Dead", true);
 
             //turns off enemy damage colliders when dead
             damageCol.enabled = false;
+
+            StartCoroutine(OnDeath());
 
             //Destroy(gameObject);
             gameManager.instance.updateEnemyCount(-1);
@@ -282,32 +279,32 @@ public class enemyAI : MonoBehaviour, IDamage
         navAgent.angularSpeed = 0;
     }
 
-    void medkitDrop()
+    //Made from Chayathorn's Medkitdrop() method & Cameron's SpeedPickupDrop() and InvincibilityPickupDrop() methods
+    //invincibility should be the hardest to get & damage should be 2nd hardest
+    //speed should be the 3rd hardest & the medkit should be the easiest
+    //However, enemies should only drop 1 thing at time
+    //I have set the drop-rates with changable ranges for testing
+    void DropSomething()
     {
-        float drop = Random.Range(1, 100);
-
-        if(drop <= dropRate)
+        float drop = UnityEngine.Random.Range(1, 100);
+        if(drop <= invincibilityDropRate)
+        {
+            Instantiate(invincibilityPickupObject, transform.position, transform.rotation);
+        }
+        else if(drop <= speedDropRate)
+        {
+            Instantiate(speedPickupObject, transform.position, transform.rotation);
+        }
+        else if(drop <= medkitDropRate)
         {
             Instantiate(medkitObject, transform.position, transform.rotation);
         }
     }
 
-    void speedPickupDrop()
+    //Destroys gameObject after set amount of time
+    IEnumerator OnDeath()
     {
-        float drop = Random.Range(1, 100);
-        if(drop <= speedDropRate)
-        {
-            Instantiate(speedPickupObject, transform.position, transform.rotation);
-        }
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
     }
-
-    void invincibilityPickupDrop()
-    {
-        float drop = Random.Range(1, 100);
-        if(drop <= invincibilityDropRate)
-        {
-            Instantiate(invincibilityPickupObject, transform.position, transform.rotation);
-        }
-    }
-
 }

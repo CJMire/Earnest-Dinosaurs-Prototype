@@ -453,12 +453,11 @@ MonoBehaviour:
   knockbackForce: 1
   viewCone: 9
   shootCone: 5
-  roamDist: 15
-  roamPauseTime: 0.2
   bulletObject: {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
   shootingRate: 1
+  deathFadeTime: 4.29
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
-  dropRate: 50
+  medkitDropRate: 1
   speedPickupObject: {fileID: 6713869046612451875, guid: bfe9d46e7d433f341a24d020d908ba50, type: 3}
   speedDropRate: 20
   invincibilityPickupObject: {fileID: 732083475820814014, guid: 4126241921a7dd942a8841e398dbfc82, type: 3}

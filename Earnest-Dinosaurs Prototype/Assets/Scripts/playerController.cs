@@ -148,6 +148,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         isShooting = true;
         gunList[selectedGun].ammoCur--;
+        audio.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootSoundVol);
         gameManager.instance.updateHUD();
 
         RaycastHit hit;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -404,9 +404,37 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: spawnSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: gracePeriod
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: totalLevels
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: totalEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
       propertyPath: levelCompletion
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: levelCompleteRewards.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: levelCompleteRewards.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8def1c2fb5f3352449482a67fe4e882e, type: 2}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: levelCompleteRewards.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8585b4bc5b2af24a9f8243c49cfaa75, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

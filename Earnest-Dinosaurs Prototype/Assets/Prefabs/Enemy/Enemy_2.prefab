@@ -350,7 +350,7 @@ MonoBehaviour:
   anim: {fileID: 3799195406824287}
   damageCol: {fileID: 2481069873106560510}
   aud: {fileID: 2066662116766503780}
-  HP: 4
+  HP: 5
   facingSpeed: 10
   damageDuration: 0.5
   knockbackForce: 1
@@ -358,13 +358,12 @@ MonoBehaviour:
   shootCone: 5
   bulletObject: {fileID: 8285560162817953087, guid: 0ffb987b87fd65745bc16d8d90734a8c, type: 3}
   shootingRate: 0.7
-  deathFadeTime: 4.66
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
-  medkitDropRate: 1
+  medkitDropRate: 45
   speedPickupObject: {fileID: 6713869046612451875, guid: bfe9d46e7d433f341a24d020d908ba50, type: 3}
-  speedDropRate: 20
+  speedDropRate: 30
   invincibilityPickupObject: {fileID: 732083475820814014, guid: 4126241921a7dd942a8841e398dbfc82, type: 3}
-  invincibilityDropRate: 20
+  invincibilityDropRate: 15
   hurtSound: {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
   deadSound: {fileID: 8300000, guid: 279364a71e4a93a4d9d1143598d6f2dd, type: 3}
   enemyVol: 0.5
@@ -403,7 +402,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 700
-  m_StoppingDistance: 10
+  m_StoppingDistance: 15
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1

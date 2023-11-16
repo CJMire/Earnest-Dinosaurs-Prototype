@@ -244,17 +244,18 @@ public class gameManager : MonoBehaviour
         if(enemyCount <= 0 && totalEnemies == 0)
         {
             //Game complete (completed waves == total waves)
-            if (enemyCount <= 0 && waveCurrent == totalLevels * levelCompletion) //
+            if (waveCurrent >= levelCompletion * totalLevels)
             {
                 OnWin();
                 return;
             }
             //Level Complete (completed waves == waves up to this level)
-            else if (enemyCount <= 0 && waveCurrent == levelCompletion * currentLevel)
+            else if (waveCurrent >= levelCompletion * currentLevel)
             {
                 StartCoroutine("OnLevelSwitch");
             }
 
+            //Continue to next wave
             totalEnemies = enemiesPerWave + newWaveIncrease; // increases amount of enemies per wave
             stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
 

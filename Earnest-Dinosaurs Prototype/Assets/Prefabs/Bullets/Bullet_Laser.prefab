@@ -54,7 +54,7 @@ MonoBehaviour:
   shootEffect: {fileID: 8300000, guid: c67e052a792186b4f8b7deca76347da5, type: 3}
   ricochetEffect: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
   bulletVol: 0.5
-  bulletSpeed: 25
+  bulletSpeed: 30
   bulletDuration: 3
   bulletDamage: 1
 --- !u!135 &5190671118295628341
@@ -74,7 +74,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.05
   m_Center: {x: 0, y: 0, z: 0}

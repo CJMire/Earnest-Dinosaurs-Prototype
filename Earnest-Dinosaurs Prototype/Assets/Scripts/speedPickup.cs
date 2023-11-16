@@ -27,8 +27,6 @@ public class speedPickup : MonoBehaviour
     {
         currentSpeed = gameManager.instance.playerScript.getPlayerCurrentSpeed();
         transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
-
-        Destroy(gameObject, pickupGroundDuration);
         
     }
 
@@ -48,11 +46,7 @@ public class speedPickup : MonoBehaviour
 
     IEnumerator speedUp()
     {
-        if(hasSpeed == true && currentSpeed > 15)
-        {
-            Destroy(gameObject);
-        }
-        else if(hasSpeed == false && currentSpeed < 16)
+        if(hasSpeed == false && currentSpeed < 16)
         {
             hasSpeed = true;
             gameManager.instance.playerScript.speedUpPlayer(speedIncrease);

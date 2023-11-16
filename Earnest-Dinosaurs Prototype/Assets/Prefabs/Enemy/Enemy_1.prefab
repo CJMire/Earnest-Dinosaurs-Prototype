@@ -136,7 +136,7 @@ MonoBehaviour:
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 10
   speedPickupObject: {fileID: 6713869046612451875, guid: bfe9d46e7d433f341a24d020d908ba50, type: 3}
-  speedDropRate: 45
+  speedDropRate: 71
   invincibilityPickupObject: {fileID: 732083475820814014, guid: 4126241921a7dd942a8841e398dbfc82, type: 3}
   invincibilityDropRate: 1
   damagePickupObject: {fileID: 5277988972269267879, guid: 478f619140586b34bb44d84f9514ad4f, type: 3}

@@ -18,13 +18,12 @@ public class invincibility : MonoBehaviour
     void Start()
     {
         isInvincible = false;
-        transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
     }
 
     private void OnTriggerEnter(Collider other)

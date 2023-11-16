@@ -9,6 +9,7 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Components -----")]
     [SerializeField] CharacterController characterController;
     [SerializeField] ParticleSystem damageEnemyEffect;
+    [SerializeField] AudioSource audio;
 
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
@@ -24,6 +25,14 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
     [SerializeField] GameObject gunModel;
 
+    [Header("---- Audio ----")]
+    [SerializeField] AudioClip[] audioSteps;
+    [Range(0, 1)][SerializeField] float audioStepsVolume;
+    [SerializeField] AudioClip[] audioDamage;
+    [Range(0, 1)][SerializeField] float audioDamageVolume;
+    [SerializeField] AudioClip[] audioJump;
+    [Range(0, 1)][SerializeField] float audioJumpVolume;
+
     [SerializeField] int shootDamage;
     [SerializeField] float shootDistance;
     [SerializeField] float shootRate;
@@ -38,6 +47,7 @@ public class playerController : MonoBehaviour, IDamage
     private bool isShooting;
     private bool isReloading;
     private bool isSprinting;
+    private bool isPlayingSteps;
     int selectedGun;
 
 
@@ -76,6 +86,10 @@ public class playerController : MonoBehaviour, IDamage
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
         playerIsGrounded = characterController.isGrounded;
+        if (playerIsGrounded && move.normalized.magnitude > 0.3f && !isPlayingSteps)
+        {
+            StartCoroutine(playSteps());
+        }
         if (playerIsGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0;
@@ -89,6 +103,7 @@ public class playerController : MonoBehaviour, IDamage
         if (Input.GetButtonDown("Jump") && jumpTimes < playerJumpMax)
         {
             playerVelocity.y = playerJumpHeight;
+            audio.PlayOneShot(audioJump[Random.Range(0, audioJump.Length)], audioJumpVolume);
             jumpTimes++;
         }
         playerVelocity.y += gravityStrength * Time.deltaTime;
@@ -113,6 +128,20 @@ public class playerController : MonoBehaviour, IDamage
             isSprinting = false;
             playerSpeed /= sprintMod;
         }
+    }
+    IEnumerator playSteps()
+    {
+        isPlayingSteps = true;
+        audio.PlayOneShot(audioSteps[Random.Range(0, audioSteps.Length)], audioStepsVolume);
+        if (!isSprinting)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
+        isPlayingSteps = false;
     }
 
     IEnumerator Shoot()
@@ -155,6 +184,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Updates HP value and HUD
         HP -= damageAmount;
+        audio.PlayOneShot(audioDamage[Random.Range(0, audioDamage.Length)], audioDamageVolume);
         StartCoroutine(gameManager.instance.playerHurtFlash());
         //makes sure no HP is negative & calls lose screen
         if (HP <= 0)

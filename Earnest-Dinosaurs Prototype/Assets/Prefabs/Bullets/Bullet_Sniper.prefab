@@ -53,7 +53,7 @@ MonoBehaviour:
   aud: {fileID: 6018265158719495174}
   shootEffect: {fileID: 8300000, guid: da73ae9c2d5e6cd42acdbff53acdadd5, type: 3}
   ricochetEffect: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
-  bulletVol: 0.5
+  bulletVol: 0.2
   bulletSpeed: 60
   bulletDuration: 3
   bulletDamage: 3

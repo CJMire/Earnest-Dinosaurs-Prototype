@@ -28,6 +28,8 @@ TagManager:
   - SpawnPoint3
   - SpawnPoint4
   - SpawnPoint1
+  - Undefined
+  - DamageUp
   layers:
   - Default
   - TransparentFX

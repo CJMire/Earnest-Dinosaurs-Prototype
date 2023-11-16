@@ -23,6 +23,8 @@ public class gameManager : MonoBehaviour
 
     public GameObject player;
     public playerController playerScript;
+    public GameObject dmgPickup;
+    public damagePickup damagePickupScript;
 
     [Header("----- HUD Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
@@ -33,6 +35,10 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI textAmmo;
     [SerializeField] GameObject hitMarker;
     [SerializeField] GameObject reloadIcon;
+    [SerializeField] GameObject dmgUpIcon;
+    [SerializeField] GameObject invincibilityIcon;
+    [SerializeField] GameObject speedUpIcon;
+    [SerializeField] GameObject bullet1;
     [SerializeField] Image imageReloadingIcon;
     [SerializeField] float hitMarkerRate;
 
@@ -127,6 +133,35 @@ public class gameManager : MonoBehaviour
         {
             FillReloadingIcon();
         }
+
+        if(playerScript.shootDamage >= 20)
+        {
+            dmgIconOn();
+        }
+        else if(playerScript.shootDamage < 20)
+        {
+            dmgIconOff();
+        }
+
+        if (playerScript.playerSpeed >= 16)
+        {
+            speedIconOn();
+        }
+        else if (playerScript.shootDamage < 16)
+        {
+            speedIconOff();
+        }
+
+        if (bullet1.GetComponent<SphereCollider>().enabled == false)
+        {
+            invincibilityIconOn();
+        }
+        else if (bullet1.GetComponent<SphereCollider>().enabled == true)
+        {
+            invincibilityIconOff();
+        }
+
+
     }
 
     #region HUD and Game managing methods
@@ -233,6 +268,34 @@ public class gameManager : MonoBehaviour
     {
         totalPenaltyTime += timePenalty;
     }
+
+    public void dmgIconOn()
+    {
+        dmgUpIcon.SetActive(true);
+    }
+    public void dmgIconOff()
+    {
+        dmgUpIcon.SetActive(false);
+    }
+
+    public void speedIconOn()
+    {
+        speedUpIcon.SetActive(true);
+    }
+    public void speedIconOff()
+    {
+        speedUpIcon.SetActive(false);
+    }
+
+    public void invincibilityIconOn()
+    {
+        invincibilityIcon.SetActive(true);
+    }
+    public void invincibilityIconOff()
+    {
+        invincibilityIcon.SetActive(false);
+    }
+
     #endregion
     #region Wave Spawner methods
 

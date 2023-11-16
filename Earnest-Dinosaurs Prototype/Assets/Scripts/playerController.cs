@@ -14,7 +14,7 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
     private int maxHP;
-    [SerializeField] float playerSpeed;
+    [SerializeField] public float playerSpeed;
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
     [SerializeField] float gravityStrength;
@@ -33,7 +33,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audioJump;
     [Range(0, 1)][SerializeField] float audioJumpVolume;
 
-    [SerializeField] int shootDamage;
+    public int shootDamage;
     [SerializeField] float shootDistance;
     [SerializeField] float shootRate;
     [SerializeField] float reloadTime;

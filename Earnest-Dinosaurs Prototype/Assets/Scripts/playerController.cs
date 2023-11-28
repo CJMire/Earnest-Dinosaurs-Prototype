@@ -66,15 +66,16 @@ public class playerController : MonoBehaviour, IDamage
         if (!gameManager.instance.GetIsPaused())
         {
             Movement();
-        }
-        if (gunList.Count > 0)
-        {
-            selectGun();
 
-            //Checks if the player can shoot
-            if (Input.GetButton("Shoot") && !isShooting && !isReloading && gunList[selectedGun].ammoCur > 0)
+            if (gunList.Count > 0)
             {
-                StartCoroutine(Shoot());
+                selectGun();
+
+                //Checks if the player can shoot
+                if (Input.GetButton("Shoot") && !isShooting && !isReloading && gunList[selectedGun].ammoCur > 0)
+                {
+                    StartCoroutine(Shoot());
+                }
             }
         }
     }

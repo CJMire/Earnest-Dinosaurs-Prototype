@@ -27,6 +27,12 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bulletObject;
     [SerializeField] float shootingRate;
 
+    [Header("----- Enemy barrier's Stats ------")]
+    [SerializeField] GameObject barrierObject;
+    [SerializeField] ParticleSystem barrierParticle;
+    [SerializeField] Renderer barrierRenderer;
+    [SerializeField] int barrierHP;
+
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
     [Range(1,100)][SerializeField] float medkitDropRate;
@@ -44,6 +50,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [Range(0, 1)][SerializeField] float enemyVol;
 
     Color[] modelOrigColor;
+    Color barrierOrigColor;
 
     Vector3 targetDirection;
     bool isShooting;
@@ -64,6 +71,8 @@ public class enemyAI : MonoBehaviour, IDamage
             modelOrigColor[i] = enemyModelArray[i].material.color;
         }
 
+        barrierOrigColor = barrierRenderer.material.color;
+
         startingPos = transform.position;
         stoppingDisOrig = navAgent.stoppingDistance;
         isDead = false;
@@ -76,6 +85,11 @@ public class enemyAI : MonoBehaviour, IDamage
         //If agent is not on then don't do anything
         if (navAgent.isActiveAndEnabled && !isDead)
         {
+            if(barrierHP <= 0)
+            {
+                barrierObject.SetActive(false);
+            }
+
             //Set the model animation speed along with its navAgent normalized velocity 
             anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
 
@@ -183,47 +197,56 @@ public class enemyAI : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
-        HP -= damageAmount;
-
-        //Model damage red flash 
-        StartCoroutine(damageFeedback());
-
-        //HP is zero then destroy the enemy 
-        if (HP <= 0)
+        if(barrierHP <= 0)
         {
-            //Spawn medkit within drop rate, set isDead and destroy gameObject 
-            aud.PlayOneShot(deadSound, enemyVol);
+            HP -= damageAmount;
 
-            DropSomething(); //Drops one puick-up for player use
+            //Model damage red flash 
+            StartCoroutine(damageFeedback());
 
-            isDead = true;
-            navAgent.enabled = false;
-            anim.SetBool("Dead", true);
+            //HP is zero then destroy the enemy 
+            if (HP <= 0)
+            {
+                //Spawn medkit within drop rate, set isDead and destroy gameObject 
+                aud.PlayOneShot(deadSound, enemyVol);
 
-            //turns off enemy damage colliders when dead
-            damageCol.enabled = false;
+                DropSomething(); //Drops one puick-up for player use
 
-            StartCoroutine(OnDeath());
+                isDead = true;
+                navAgent.enabled = false;
+                anim.SetBool("Dead", true);
 
-            //Destroy(gameObject);
-            gameManager.instance.updateEnemyCount(-1);
+                //turns off enemy damage colliders when dead
+                damageCol.enabled = false;
+
+                StartCoroutine(OnDeath());
+
+                //Destroy(gameObject);
+                gameManager.instance.updateEnemyCount(-1);
+            }
+
+            else
+            {
+
+                //Play damage animation
+                anim.SetTrigger("Damage");
+
+                aud.PlayOneShot(hurtSound, enemyVol);
+
+                //If take damage,then chase the player 
+                if (!isDead)
+                {
+                    navAgent.SetDestination(gameManager.instance.player.transform.position);
+                }
+
+                knockback();
+            }
         }
 
         else
         {
-
-            //Play damage animation
-            anim.SetTrigger("Damage");
-
-            aud.PlayOneShot(hurtSound, enemyVol);
-
-            //If take damage,then chase the player 
-            if (!isDead)
-            {
-                navAgent.SetDestination(gameManager.instance.player.transform.position);
-            }
-
-            knockback();
+            barrierHP--;
+            StartCoroutine(barrierFeedback());
         }
     }
 
@@ -240,6 +263,23 @@ public class enemyAI : MonoBehaviour, IDamage
         {
             enemyModelArray[i].material.color = modelOrigColor[i];
         }
+    }
+
+    IEnumerator barrierFeedback()
+    {
+        float alpha = barrierOrigColor.a;
+
+        barrierRenderer.material.color = new Color(1.0f, 0.0f, 0.0f, alpha);
+
+        if (barrierParticle != null)
+        {
+            Debug.Log("Barrier particle");
+            Instantiate(barrierParticle, transform.position, barrierParticle.transform.rotation);
+        }
+
+        yield return new WaitForSeconds(damageDuration);
+
+        barrierRenderer.material.color = barrierOrigColor;
     }
 
     void OnTriggerEnter(Collider other)

@@ -33,7 +33,7 @@ public class explosion : MonoBehaviour
 
         IDamage damageable = other.GetComponent<IDamage>();
 
-        if (damageable != null) 
+        if (damageable != null && !other.CompareTag("Enemy")) 
         {
             damageable.takeDamage(damage);
         }

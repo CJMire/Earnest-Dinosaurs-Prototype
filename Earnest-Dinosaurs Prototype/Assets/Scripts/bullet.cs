@@ -9,6 +9,7 @@ public class bullet : MonoBehaviour
     [Header("----- Bullet's Components ------")]
     [SerializeField] Rigidbody rb;
     [SerializeField] ParticleSystem hitEffect;
+    [SerializeField] ParticleSystem flashEffect;
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip shootEffect;
     [SerializeField] AudioClip ricochetEffect;
@@ -16,14 +17,37 @@ public class bullet : MonoBehaviour
 
     [Header("----- Bullet's Stats ------")]
     [SerializeField] int bulletSpeed;
-    [SerializeField] int bulletDuration;
+    [SerializeField] float bulletDuration;
     [SerializeField] int bulletDamage;
+    [SerializeField] bool isShotgun;
+    [SerializeField] float shotgunRandomValue;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Bullet travel to the player's position. Added verticality to the enemy shooting. 
-        rb.velocity = (gameManager.instance.player.transform.position - transform.position).normalized * bulletSpeed;
+        if (!isShotgun)
+        {
+            //Bullet travel to the player's position. Added verticality to the enemy shooting. 
+            rb.velocity = (gameManager.instance.player.transform.position - transform.position).normalized * bulletSpeed;
+        }
+
+        else
+        {
+            //Spread the bullet in random direction for shotgun spreading 
+            float targetPositionX = gameManager.instance.player.transform.position.x + Random.Range(-shotgunRandomValue, shotgunRandomValue);
+            float targetPositionY = gameManager.instance.player.transform.position.y + Random.Range(-shotgunRandomValue, shotgunRandomValue);
+            float targetPositionZ = gameManager.instance.player.transform.position.z + Random.Range(-shotgunRandomValue, shotgunRandomValue);
+
+            //The position after spread 
+            Vector3 targetPositonSpread = new Vector3(targetPositionX, targetPositionY, targetPositionZ);
+
+            rb.velocity = (targetPositonSpread - transform.position).normalized * bulletSpeed;
+
+            if(flashEffect != null)
+            {
+                Instantiate(flashEffect, transform.position, transform.rotation);
+            }
+        }
 
         //Sound from player 
         aud.PlayOneShot(shootEffect, bulletVol);

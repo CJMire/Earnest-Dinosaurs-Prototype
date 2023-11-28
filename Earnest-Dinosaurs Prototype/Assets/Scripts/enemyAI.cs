@@ -48,7 +48,7 @@ public class enemyAI : MonoBehaviour, IDamage
     Vector3 targetDirection;
     bool isShooting;
     bool isDead;
-    bool playerInRange;
+    bool playerInShootingRange;
     float angleToPlayer;
     float stoppingDisOrig;
     Vector3 startingPos;
@@ -108,7 +108,7 @@ public class enemyAI : MonoBehaviour, IDamage
                 navAgent.stoppingDistance = stoppingDisOrig;
 
                 //Shoot the player within the shoot cone 
-                if (angleToPlayer <= shootCone && !isShooting)
+                if (angleToPlayer <= shootCone && !isShooting && playerInShootingRange)
                 {
                     StartCoroutine(shootTarget());
                 }
@@ -152,6 +152,15 @@ public class enemyAI : MonoBehaviour, IDamage
 
         //Rotate to the target using lerp with set up speed
         transform.rotation = Quaternion.Lerp(transform.rotation, faceRotation, Time.deltaTime * facingSpeed);
+    }
+
+    public void createShotgunBullet()
+    {
+        //Create a 6 bullets for shotgun bullet 
+        for(int i = 0; i < 6; i++)
+        {
+            Instantiate(bulletObject, shootPosition.position, transform.rotation);
+        }
     }
 
     public void createBullet()
@@ -237,7 +246,7 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         if(other.CompareTag("Player"))
         {
-            playerInRange = true;
+            playerInShootingRange = true;
         }
     }
 
@@ -245,7 +254,7 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = false;
+            playerInShootingRange = false;
             navAgent.stoppingDistance = 0.0f;
         }
     }

@@ -341,9 +341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef198e0fc9bdc1d469750f83d35d1298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyModel: {fileID: 6942594339852310308}
-  enemyModel_1: {fileID: 0}
-  enemyModel_2: {fileID: 0}
   enemyModelArray:
   - {fileID: 6942594339852310308}
   navAgent: {fileID: 2436018132699242039}
@@ -357,8 +354,8 @@ MonoBehaviour:
   damageDuration: 0.5
   knockbackForce: 15
   viewCone: 90
-  shootCone: 5
-  bulletObject: {fileID: 8285560162817953087, guid: 0ffb987b87fd65745bc16d8d90734a8c, type: 3}
+  shootCone: 10
+  bulletObject: {fileID: 8285560162817953087, guid: 8dc28ef73b922c441877d27b1bd2bcf8, type: 3}
   shootingRate: 0.7
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 32
@@ -406,7 +403,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 700
-  m_StoppingDistance: 15
+  m_StoppingDistance: 7
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -456,7 +453,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 45
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-5274424756447063006
 Rigidbody:

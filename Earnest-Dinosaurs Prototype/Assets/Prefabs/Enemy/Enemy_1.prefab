@@ -116,9 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef198e0fc9bdc1d469750f83d35d1298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyModel: {fileID: 6853140841504498432}
-  enemyModel_1: {fileID: 0}
-  enemyModel_2: {fileID: 0}
   enemyModelArray:
   - {fileID: 6853140841504498432}
   navAgent: {fileID: 747877087953483928}
@@ -160,7 +157,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 700
-  m_StoppingDistance: 10
+  m_StoppingDistance: 15
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1

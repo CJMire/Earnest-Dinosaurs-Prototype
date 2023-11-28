@@ -22,8 +22,8 @@ public class bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Bullet travel at the gun's direction with given speed 
-        rb.velocity = transform.forward * bulletSpeed;
+        //Bullet travel to the player's position. Added verticality to the enemy shooting. 
+        rb.velocity = (gameManager.instance.player.transform.position - transform.position).normalized * bulletSpeed;
 
         //Sound from player 
         aud.PlayOneShot(shootEffect, bulletVol);

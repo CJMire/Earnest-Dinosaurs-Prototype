@@ -259,6 +259,10 @@ MonoBehaviour:
   enemyModel: {fileID: 5688813474661846104}
   enemyModel_1: {fileID: 7037592181206656756}
   enemyModel_2: {fileID: 3142300313239240627}
+  enemyModelArray:
+  - {fileID: 5688813474661846104}
+  - {fileID: 7037592181206656756}
+  - {fileID: 3142300313239240627}
   navAgent: {fileID: 8819668072597375513}
   shootPosition: {fileID: 8333514642319641575}
   headPos: {fileID: 2360697391946279983}
@@ -268,7 +272,7 @@ MonoBehaviour:
   HP: 3
   facingSpeed: 10
   damageDuration: 0.3
-  knockbackForce: 1
+  knockbackForce: 15
   viewCone: 90
   shootCone: 5
   bulletObject: {fileID: 8204607442125509526, guid: 4a3ab95c513629b4c977ff437d6e9e8d, type: 3}

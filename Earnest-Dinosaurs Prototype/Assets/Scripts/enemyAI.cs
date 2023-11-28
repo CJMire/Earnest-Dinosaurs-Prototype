@@ -7,9 +7,7 @@ using UnityEngine.AI;
 public class enemyAI : MonoBehaviour, IDamage
 {
     [Header("----- Enemy's Components ------")]
-    [SerializeField] Renderer enemyModel;
-    [SerializeField] Renderer enemyModel_1;
-    [SerializeField] Renderer enemyModel_2;
+    [SerializeField] Renderer[] enemyModelArray;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
     [SerializeField] Transform headPos;
@@ -45,9 +43,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip deadSound;
     [Range(0, 1)][SerializeField] float enemyVol;
 
-    Color modelOriginalColor;
-    Color modelOriginalColor_1;
-    Color modelOriginalColor_2;
+    Color[] modelOrigColor;
+
     Vector3 targetDirection;
     bool isShooting;
     bool isDead;
@@ -59,18 +56,12 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void Start()
     {
-        //Main character 
-        modelOriginalColor = enemyModel.material.color;
+        //Store different model parts information 
+        modelOrigColor = new Color[enemyModelArray.Length];
 
-        //Model with more than one part 
-        if(enemyModel_1 != null)
+        for (int i = 0; i < enemyModelArray.Length; i++)
         {
-            modelOriginalColor_1 = enemyModel_1.material.color;
-        }
-
-        if (enemyModel_2 != null)
-        {
-            modelOriginalColor_2 = enemyModel_2.material.color;
+            modelOrigColor[i] = enemyModelArray[i].material.color;
         }
 
         startingPos = transform.position;
@@ -229,30 +220,16 @@ public class enemyAI : MonoBehaviour, IDamage
 
     IEnumerator damageFeedback()
     {
-        enemyModel.material.color = Color.red;
-
-        if (enemyModel_1 != null)
+        for (int i = 0; i < enemyModelArray.Length; i++)
         {
-            enemyModel_1.material.color = Color.red;
-        }
-
-        if (enemyModel_2 != null)
-        {
-            enemyModel_2.material.color = Color.red;
+            enemyModelArray[i].material.color = Color.red;
         }
 
         yield return new WaitForSeconds(damageDuration);
 
-        enemyModel.material.color = modelOriginalColor;
-
-        if (enemyModel_1 != null)
+        for (int i = 0; i < enemyModelArray.Length; i++)
         {
-            enemyModel_1.material.color = modelOriginalColor_1;
-        }
-
-        if (enemyModel_2 != null)
-        {
-            enemyModel_2.material.color = modelOriginalColor_2;
+            enemyModelArray[i].material.color = modelOrigColor[i];
         }
     }
 
@@ -276,7 +253,7 @@ public class enemyAI : MonoBehaviour, IDamage
     void knockback()
     {
         //Set velocity to opposite of facing target direction and multiply by force 
-        navAgent.velocity = (targetDirection * -1.0f) * knockbackForce;
+        navAgent.velocity = (targetDirection * -1.0f).normalized * knockbackForce;
 
         //Set angular speed to zero (Enemy face not turning when knocked back)
         navAgent.angularSpeed = 0;

@@ -35,7 +35,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
-    [Range(1,100)][SerializeField] float medkitDropRate;
+    [Range(1,100)][SerializeField] float medkitDropRate;    
 
     [Header("----- Enemy Sound------")]
     [SerializeField] AudioClip hurtSound;

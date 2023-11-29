@@ -35,11 +35,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
-<<<<<<< HEAD
     [Range(1,100)][SerializeField] float medkitDropRate;
-=======
-    [Range(1,100)][SerializeField] float medkitDropRate;    
->>>>>>> BugFix_FurtherEnemyImplementation
 
     [Header("----- Enemy Sound------")]
     [SerializeField] AudioClip hurtSound;
@@ -313,19 +309,11 @@ public class enemyAI : MonoBehaviour, IDamage
     void DropSomething()
     {
         float drop = UnityEngine.Random.Range(1, 100);
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> BugFix_FurtherEnemyImplementation
         if(drop <= medkitDropRate)
         {
             Instantiate(medkitObject, transform.position, transform.rotation);
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> BugFix_FurtherEnemyImplementation
     }
 
     //Destroys gameObject after set amount of time

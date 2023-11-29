@@ -121,7 +121,9 @@ MonoBehaviour:
   rotationSpeed: 5
   pickupGroundDuration: 20
   pickupDuration: 10
-  bullet1: {fileID: 8285560162817953087, guid: 0ffb987b87fd65745bc16d8d90734a8c, type: 3}
-  bullet2: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
-  bullet3: {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
+  bulletArray:
+  - {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
+  - {fileID: 8285560162817953087, guid: 8dc28ef73b922c441877d27b1bd2bcf8, type: 3}
+  - {fileID: 3094365330113069233, guid: 0e795e7b6ea83764d83c1ae320301acf, type: 3}
+  - {fileID: 7549068130658129789, guid: b0e5e7f4579ed9b4a90661d1404c3bf1, type: 3}
   isInvincible: 0

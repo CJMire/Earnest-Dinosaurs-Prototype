@@ -63,8 +63,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void Start()
     {
-        //Branch out test
-
         //Store different model parts information 
         modelOrigColor = new Color[enemyModelArray.Length];
 

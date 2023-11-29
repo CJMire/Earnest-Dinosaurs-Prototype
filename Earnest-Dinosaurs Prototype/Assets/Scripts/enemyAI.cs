@@ -36,13 +36,6 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
     [Range(1,100)][SerializeField] float medkitDropRate;
-    [SerializeField] GameObject speedPickupObject;
-    [Range(1, 100)][SerializeField] float speedDropRate;
-    [SerializeField] GameObject invincibilityPickupObject;
-    [Range(1, 100)][SerializeField] float invincibilityDropRate;
-    [SerializeField] GameObject damagePickupObject;
-    [Range(1, 100)][SerializeField] float damageDropRate;
-
 
     [Header("----- Enemy Sound------")]
     [SerializeField] AudioClip hurtSound;
@@ -316,21 +309,10 @@ public class enemyAI : MonoBehaviour, IDamage
     void DropSomething()
     {
         float drop = UnityEngine.Random.Range(1, 100);
-        if(drop <= invincibilityDropRate)
-        {
-            Instantiate(invincibilityPickupObject, transform.position + new Vector3(0, 1.5f), transform.rotation);
-        }
-        else if(drop <= speedDropRate)
-        {
-            Instantiate(speedPickupObject, transform.position + new Vector3(0, 1.5f), transform.rotation);
-        }
-        else if(drop <= medkitDropRate)
+        
+        if(drop <= medkitDropRate)
         {
             Instantiate(medkitObject, transform.position, transform.rotation);
-        }
-        else if(drop <= damageDropRate)
-        {
-            Instantiate(damagePickupObject, transform.position + new Vector3(0, 1.5f), transform.rotation);
         }
     }
 

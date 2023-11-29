@@ -171,14 +171,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4507939603195770375, guid: 0aaa901a44889da41937e2b8bb778b65, type: 3}
-      propertyPath: sprintMod
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4604209027111261785, guid: 0aaa901a44889da41937e2b8bb778b65, type: 3}
-      propertyPath: sensitivity
-      value: 150
-      objectReference: {fileID: 0}
     - target: {fileID: 6525786452104493606, guid: 0aaa901a44889da41937e2b8bb778b65, type: 3}
       propertyPath: m_Name
       value: Player

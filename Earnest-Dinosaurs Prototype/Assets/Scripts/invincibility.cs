@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,7 @@ public class invincibility : MonoBehaviour
     [SerializeField] int pickupGroundDuration;
     [SerializeField] int pickupDuration;
 
-    public GameObject bullet1;
-    public GameObject bullet2;
-    public GameObject bullet3;
+    public GameObject[] bulletArray;
 
     public bool isInvincible;
     // Start is called before the first frame update
@@ -43,15 +42,23 @@ public class invincibility : MonoBehaviour
     IEnumerator invincible()
     {
         isInvincible = true;
-        bullet1.GetComponent<SphereCollider>().enabled = false;
-        bullet2.GetComponent<SphereCollider>().enabled = false;
-        bullet3.GetComponent<SphereCollider>().enabled = false;
+
+        for(int i = 0; i < bulletArray.Length; i++)
+        {
+            bulletArray[i].GetComponent<SphereCollider>().enabled = false;
+        }
+
         transform.position = new Vector3(0, -10, 0);
+
         yield return new WaitForSeconds(pickupDuration);
-        bullet1.GetComponent<SphereCollider>().enabled = true;
-        bullet2.GetComponent<SphereCollider>().enabled = true;
-        bullet3.GetComponent<SphereCollider>().enabled = true;
+
+        for(int i = 0; i < bulletArray.Length; i++)
+        {
+            bulletArray[i].GetComponent<SphereCollider>().enabled = true;
+        }
+
         isInvincible = false;
+
         Destroy(gameObject);
     }
 }

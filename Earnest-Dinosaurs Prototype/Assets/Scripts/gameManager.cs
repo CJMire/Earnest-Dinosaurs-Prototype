@@ -159,8 +159,6 @@ public class gameManager : MonoBehaviour
         {
             invincibilityIconOff();
         }
-
-
     }
 
     #region HUD and Game managing methods

@@ -8,13 +8,13 @@ public class grenade : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] float explosionTime;
     [SerializeField] GameObject explosion;
+    [SerializeField] Renderer grenadeModel;
 
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip countdownSound;
     [Range(0, 1)][SerializeField] float countdownVol;
 
     float countdownTick;
-    bool countinDown;
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +59,10 @@ public class grenade : MonoBehaviour
             aud.PlayOneShot(countdownSound, countdownVol);
 
             yield return new WaitForSeconds(duration);
+
+            Debug.Log("Grenade Test");
+
+            grenadeModel.material.color = Color.red;
         }
     }
 }

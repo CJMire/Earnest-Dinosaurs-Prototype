@@ -31,6 +31,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject barrierObject;
     [SerializeField] ParticleSystem barrierParticle;
     [SerializeField] Renderer barrierRenderer;
+    [SerializeField] AudioClip barrierDamage;
+    [SerializeField] AudioClip barrierDestroy;
     [SerializeField] int barrierHP;
 
     [Header("----- Enemy Loot------")]
@@ -78,11 +80,6 @@ public class enemyAI : MonoBehaviour, IDamage
         //If agent is not on then don't do anything
         if (navAgent.isActiveAndEnabled && !isDead)
         {
-            if(barrierHP <= 0)
-            {
-                barrierObject.SetActive(false);
-            }
-
             //Set the model animation speed along with its navAgent normalized velocity 
             anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
 
@@ -239,7 +236,15 @@ public class enemyAI : MonoBehaviour, IDamage
         else
         {
             barrierHP--;
+            aud.PlayOneShot(barrierDamage, enemyVol);
             StartCoroutine(barrierFeedback());
+
+            if (barrierHP <= 0)
+            {
+                Debug.Log("Barrier down");
+                aud.PlayOneShot(barrierDestroy, enemyVol);
+                barrierObject.SetActive(false);
+            }
         }
     }
 

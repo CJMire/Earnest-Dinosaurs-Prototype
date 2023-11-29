@@ -52,7 +52,8 @@ MonoBehaviour:
   medkitDuration: 5
   rotationSpeed: 5
   aud: {fileID: -5966236541560459266}
-  healSound: {fileID: 8300000, guid: 4b25ff5b9c72d5644a2dc86153e09a1f, type: 3}
+  healSound: {fileID: 8300000, guid: da73ae9c2d5e6cd42acdbff53acdadd5, type: 3}
+  healingSplash: {fileID: 8233599873522047795, guid: 737e19fab24081b428ec1218043bfffd, type: 3}
   healVol: 0.5
 --- !u!33 &2807260510409227654
 MeshFilter:

@@ -12,6 +12,7 @@ public class medkit : MonoBehaviour
     [Header("----- Medkit's Feedback")]
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip healSound;
+    [SerializeField] ParticleSystem healingSplash;
     [Range(0, 1)][SerializeField] float healVol;
 
     int maxHP;
@@ -20,8 +21,10 @@ public class medkit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxHP = gameManager.instance.playerScript.getPlayerMaxHP();
-        currentHP = gameManager.instance.playerScript.getPlayerCurrentHP();
+        //maxHP = gameManager.instance.playerScript.getPlayerMaxHP();
+
+        //Temporary implementation, the getPlayerMaxHP keeps returning 0. 
+        maxHP = 10;
     }
 
     // Update is called once per frame
@@ -29,6 +32,9 @@ public class medkit : MonoBehaviour
     {
         //Make the medkit rotate around 
         transform.Rotate(new Vector3(0.0f, 20.0f, 0.0f) * Time.deltaTime * rotationSpeed);
+
+        //Update the current HP 
+        currentHP = gameManager.instance.playerScript.getPlayerCurrentHP();
 
         //Destroy the medkit within this remaining time 
         Destroy(gameObject, medkitDuration);
@@ -43,7 +49,7 @@ public class medkit : MonoBehaviour
         }
 
         //If player collide then heal the player and destroy game object 
-        if(other.gameObject.CompareTag("Player"))
+        if(other.CompareTag("Player"))
         {
             //If player HP is more than maximum then don't pick
             if (currentHP < maxHP)
@@ -60,6 +66,12 @@ public class medkit : MonoBehaviour
 
         //Heal player 
         gameManager.instance.playerScript.healPlayer(healingAmount);
+
+        //Heal particle 
+        if (healingSplash != null)
+        {
+            Instantiate(healingSplash, transform.position, transform.rotation);
+        }
 
         //Wait 
         yield return new WaitForSeconds(0.2f);

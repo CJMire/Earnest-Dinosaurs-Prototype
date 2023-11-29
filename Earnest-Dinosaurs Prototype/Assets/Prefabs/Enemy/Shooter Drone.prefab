@@ -68,9 +68,11 @@ MonoBehaviour:
   shootCone: 30
   bulletObject: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
   shootingRate: 0.5
-  barrierObject: {fileID: 7919186397881714951, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}
+  barrierObject: {fileID: 603384611691919402}
   barrierParticle: {fileID: 1586974591214697254, guid: 5975f641c8c7cae48a720adbc29539f6, type: 3}
   barrierRenderer: {fileID: 9067890530372186450}
+  barrierDamage: {fileID: 8300000, guid: 4b25ff5b9c72d5644a2dc86153e09a1f, type: 3}
+  barrierDestroy: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
   barrierHP: 2
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 0
@@ -586,7 +588,7 @@ Transform:
   m_GameObject: {fileID: 6689706461355733856}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.06, y: 1.08, z: 0.03}
+  m_LocalPosition: {x: -0.08, y: 1.373, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -756,11 +758,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 7919186397881714951, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}
+--- !u!1 &603384611691919402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7919186397881714951, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}
+  m_PrefabInstance: {fileID: 7329956980490842413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8900571769580636594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2178638122180704415, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}

@@ -12,8 +12,8 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] AudioSource audio;
 
     [Header("----- Player Stats -----")]
-    [SerializeField] int HP;
-    private int maxHP;
+    [SerializeField] float HP;
+    private float maxHP;
     [SerializeField] public float playerSpeed;
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
@@ -196,7 +196,12 @@ public class playerController : MonoBehaviour, IDamage
             gameManager.instance.OnDeath();
             return;
         }
+        else if((HP / maxHP) <= .30f)
+        {
+            gameManager.instance.OnLowHealth(true);
+        }
         gameManager.instance.updateHUD();
+        UnityEngine.Debug.Log(HP / maxHP);
     }
 
     public void healPlayer(int amount)
@@ -205,6 +210,10 @@ public class playerController : MonoBehaviour, IDamage
         HP += amount;
         if (HP > maxHP)
             HP = maxHP;
+        if((HP / maxHP) > .30f)
+        {
+            gameManager.instance.OnLowHealth(false);
+        }
         gameManager.instance.updateHUD();
     }
 
@@ -234,13 +243,16 @@ public class playerController : MonoBehaviour, IDamage
         gameManager.instance.updateHUD();
     }
 
-    public void spawnPlayer()
+    public void spawnPlayer(bool dead = false)
     {
         characterController.enabled = false;
         transform.position = gameManager.instance.GetSpawnPos().position;
         transform.rotation = gameManager.instance.GetSpawnPos().rotation;
         characterController.enabled = true;
-        HP = maxHP;
+        if (dead)
+        {
+            healPlayer((int)maxHP);
+        }
         isShooting = false;
         isReloading = false;
         gameManager.instance.GetReloadIcon().SetActive(false);
@@ -283,12 +295,12 @@ public class playerController : MonoBehaviour, IDamage
     }
 
     #region Getters & Setters
-    public int getPlayerMaxHP()
+    public float getPlayerMaxHP()
     {
         return maxHP;
     }
 
-    public int getPlayerCurrentHP()
+    public float getPlayerCurrentHP()
     {
         return HP;
     }

@@ -59,7 +59,7 @@ public class ButtonHandler : MonoBehaviour
         gameManager.instance.UpdateTotalTime();
 
         //respawns player and resumes game
-        gameManager.instance.playerScript.spawnPlayer();
+        gameManager.instance.playerScript.spawnPlayer(true);
         gameManager.instance.stateUnpause();
     }
 

@@ -282,10 +282,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1280807808148964391, guid: 2b75fa4beaed85b4493443e52437160d, type: 3}
-      propertyPath: bullet1
-      value: 
-      objectReference: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
     - target: {fileID: 1824215282528496987, guid: 2b75fa4beaed85b4493443e52437160d, type: 3}
       propertyPath: m_Name
       value: UI

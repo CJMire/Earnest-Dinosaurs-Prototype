@@ -36,6 +36,9 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip barrierDestroy;
     [SerializeField] int barrierHP;
 
+    [Header("----- Drone's Exlusive Component ------")]
+    [SerializeField] ParticleSystem droneDeathParticle; 
+
     [Header("----- Enemy Loot------")]
     [SerializeField] GameObject medkitObject;
     [Range(1,100)][SerializeField] float medkitDropRate;
@@ -210,8 +213,6 @@ public class enemyAI : MonoBehaviour, IDamage
                 //turns off enemy damage colliders when dead
                 damageCol.enabled = false;
 
-                StartCoroutine(OnDeath());
-
                 //Destroy(gameObject);
                 gameManager.instance.updateEnemyCount(-1);
             }
@@ -242,7 +243,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
             if (barrierHP <= 0)
             {
-                Debug.Log("Barrier down");
                 aud.PlayOneShot(barrierDestroy, enemyVol);
                 barrierObject.SetActive(false);
             }
@@ -279,7 +279,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if (barrierParticle != null)
         {
-            Debug.Log("Barrier particle");
             Instantiate(barrierParticle, transform.position, barrierParticle.transform.rotation);
         }
 
@@ -332,7 +331,36 @@ public class enemyAI : MonoBehaviour, IDamage
     //Destroys gameObject after set amount of time
     IEnumerator OnDeath()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.0f);
+
+        //How far the enemy will sink 
+        float distance = transform.position.y - 2.0f;
+
+        //Sinking down until the enemy it reaches distance in y-position
+        while (transform.position.y >= distance)
+        {
+            transform.position = transform.position + (Vector3.up * -1.0f) * Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        Destroy(gameObject);
+    }
+
+    //Dead behavior for drone 
+    IEnumerator OnDroneDeath()
+    {
+        //The delay splash in the game is because the animation is playing, not the code here. 
+
+        yield return new WaitForSeconds(0.3f);
+
+        if(droneDeathParticle != null)
+        {
+            Instantiate(droneDeathParticle, transform.position, transform.rotation);
+        }
+
         Destroy(gameObject);
     }
 
@@ -341,6 +369,11 @@ public class enemyAI : MonoBehaviour, IDamage
     public bool GetIsDead()
     {
         return isDead;
+    }
+
+    public void SetBarrierHP(int barrierHPAmount)
+    {
+        barrierHP = barrierHPAmount;
     }
 
     #endregion

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bb97d748305d1df47b5d9b1d6e98a719
+guid: 4b51a49760a28c441acdc64bd827d341
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
@@ -365,7 +365,7 @@ ModelImporter:
     second: Weapon_Rifle_1
   - first:
       74: 7400000
-    second: Death_A
+    second: Death_B
   - first:
       95: 9500000
     second: //RootNode
@@ -420,7 +420,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Death_A
+      name: Death_B
       takeName: Take 001
       internalID: 0
       firstFrame: 0
@@ -445,7 +445,7 @@ ModelImporter:
       curves: []
       events:
       - time: 1
-        functionName: OnDeath
+        functionName: OnDroneDeath
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

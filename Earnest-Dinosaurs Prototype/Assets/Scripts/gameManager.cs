@@ -18,7 +18,6 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuRespawnWarning;
     [SerializeField] GameObject menuRestartWarning;
-    [SerializeField] GameObject playerHurtScreen;
 
     public GameObject player;
     public playerController playerScript;
@@ -32,6 +31,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI isSpawningText;
     [SerializeField] Image imageHPBar;
     [SerializeField] TextMeshProUGUI textAmmo;
+    [SerializeField] GameObject playerHurtScreen;
+    [SerializeField] GameObject playerLowHealthScreen;
     [SerializeField] GameObject hitMarker;
     [SerializeField] GameObject reloadIcon;
     [SerializeField] GameObject dmgUpIcon;
@@ -55,6 +56,8 @@ public class gameManager : MonoBehaviour
     private int totalPenaltyTime;
     private float fillTime;
     private bool showRespawnWarning = true;
+    private bool isLowHealth = false;
+    private bool playingHealthFlash = false;
 
     [Header("----- Spawner Enemies -----")]
     [SerializeField] GameObject EnemyBase_1;
@@ -104,6 +107,7 @@ public class gameManager : MonoBehaviour
         totalPenaltyTime = 0; //Sets total penalty time
         imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
         fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
+        playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
     }
 
     void Update()
@@ -133,6 +137,8 @@ public class gameManager : MonoBehaviour
             FillReloadingIcon();
         }
 
+
+
         if(playerScript.shootDamage >= 20)
         {
             dmgIconOn();
@@ -146,7 +152,7 @@ public class gameManager : MonoBehaviour
         {
             speedIconOn();
         }
-        else if (playerScript.shootDamage < 16)
+        else if (playerScript.playerSpeed < 16)
         {
             speedIconOff();
         }
@@ -293,6 +299,64 @@ public class gameManager : MonoBehaviour
         invincibilityIcon.SetActive(false);
     }
 
+    //will turn on the low health screen
+    public void OnLowHealth(bool lowHP)
+    {
+        if (lowHP && !playingHealthFlash)
+        {
+            isLowHealth = lowHP;
+            playerLowHealthScreen.SetActive(lowHP); // turns it on
+
+            //checks if the last time it was used, it was set back to prefered alpha level, if not this will
+            if (playerLowHealthScreen.GetComponent<Image>().color.a != .39f)
+            {
+                //Code snippet found @https://stackoverflow.com/questions/48259663/unity-set-alpha-via-code
+                Color newC = playerLowHealthScreen.GetComponent <Image>().color;
+                newC.a = .39f;
+                playerLowHealthScreen.GetComponent<Image>().color = newC;
+            }
+
+            StartCoroutine(HeartBeat());
+            playingHealthFlash = true;
+            
+        }
+        else
+        {
+            isLowHealth = lowHP;
+            playerLowHealthScreen.SetActive(lowHP);
+        }
+        
+    }
+
+    IEnumerator HeartBeat()
+    {
+        yield return new WaitForSeconds(1.2f);
+        if (isLowHealth)
+        {
+            Color newC = playerLowHealthScreen.GetComponent<Image>().color;
+            newC.a = .58f;
+            playerLowHealthScreen.GetComponent<Image>().color = newC;
+            yield return new WaitForSeconds(.1f);
+            newC.a = .39f;
+            playerLowHealthScreen.GetComponent<Image>().color = newC;
+            yield return new WaitForSeconds(.1f);
+            newC.a = .58f;
+            playerLowHealthScreen.GetComponent<Image>().color = newC;
+            yield return new WaitForSeconds(.1f);
+            newC.a = .39f;
+            playerLowHealthScreen.GetComponent<Image>().color = newC;
+            if (isLowHealth)
+            {
+                StartCoroutine(HeartBeat());
+            }
+        }
+        else
+        {
+            playingHealthFlash = false;
+            playerLowHealthScreen.SetActive(false);
+            yield break;
+        }
+    }
     #endregion
     #region Wave Spawner methods
 
@@ -336,7 +400,7 @@ public class gameManager : MonoBehaviour
     GameObject GiveEnemy()
     {
         GameObject enemy;
-        int random = Random.Range(0, 4); // random number is generated as to which enemy will spawn
+        int random = 0; // random number is generated as to which enemy will spawn
         if (random == 0)
         {
             enemy = EnemyBase_1;

@@ -16,7 +16,7 @@ public class medkit : MonoBehaviour
     [Range(0, 1)][SerializeField] float healVol;
 
     int maxHP;
-    int currentHP;
+    float currentHP;
 
     // Start is called before the first frame update
     void Start()

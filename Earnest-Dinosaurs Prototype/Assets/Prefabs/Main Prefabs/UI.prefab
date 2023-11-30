@@ -3612,7 +3612,7 @@ MonoBehaviour:
   dmgUpIcon: {fileID: 2463838284728722109}
   invincibilityIcon: {fileID: 4708794207885659555}
   speedUpIcon: {fileID: 4381734222513838261}
-  bullet1: {fileID: 8285560162817953087, guid: 0ffb987b87fd65745bc16d8d90734a8c, type: 3}
+  bullet1: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
   imageReloadingIcon: {fileID: 6533047348188853785}
   hitMarkerRate: 0.05
   timePenalty: 30

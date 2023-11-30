@@ -49,6 +49,11 @@ public class summonerboss : MonoBehaviour
         
     }
 
+    void walk()
+    {
+
+    }
+
     void summonMinion()
     {
 

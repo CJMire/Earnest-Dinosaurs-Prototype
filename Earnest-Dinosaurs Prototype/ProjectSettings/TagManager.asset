@@ -31,6 +31,7 @@ TagManager:
   - Undefined
   - DamageUp
   - Enemy Healer
+  - Boss
   layers:
   - Default
   - TransparentFX

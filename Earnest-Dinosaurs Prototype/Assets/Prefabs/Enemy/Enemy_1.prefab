@@ -139,7 +139,8 @@ MonoBehaviour:
   barrierRenderer: {fileID: 4523491420443249786}
   barrierDamage: {fileID: 8300000, guid: 4b25ff5b9c72d5644a2dc86153e09a1f, type: 3}
   barrierDestroy: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
-  barrierHP: 3
+  barrierHP: 0
+  droneDeathParticle: {fileID: 0}
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 10
   hurtSound: {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
@@ -1282,6 +1283,10 @@ PrefabInstance:
     - target: {fileID: 7919186397881714951, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}
       propertyPath: m_Name
       value: Barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919186397881714951, guid: cda7cfbd811bf204fb300d08e90e9177, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

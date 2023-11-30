@@ -374,6 +374,17 @@ public class enemyAI : MonoBehaviour, IDamage
     public void SetBarrierHP(int barrierHPAmount)
     {
         barrierHP = barrierHPAmount;
+
+        //Activate barrier if it's more than zero 
+        if (barrierHP <= 0)
+        {
+            barrierObject.SetActive(false);
+        }
+
+        else
+        {
+            barrierObject.SetActive(true);
+        }
     }
 
     #endregion

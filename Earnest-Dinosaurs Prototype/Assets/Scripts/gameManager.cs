@@ -64,6 +64,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_2;
     [SerializeField] GameObject EnemyBase_3;
     [SerializeField] GameObject EnemyBase_4;
+    private int barrierChancePercentage; 
 
     [Header("----- Wave Settings -----")]
     [Range(1,5)] [SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
@@ -102,6 +103,7 @@ public class gameManager : MonoBehaviour
 
         //Sets current amount of enemies to zero and updates HUD
         enemyCount = 0;
+        barrierChancePercentage = 50;
         textEnemyCount.text = enemyCount.ToString();
 
         totalPenaltyTime = 0; //Sets total penalty time
@@ -400,7 +402,7 @@ public class gameManager : MonoBehaviour
     GameObject GiveEnemy()
     {
         GameObject enemy;
-        int random = 0; // random number is generated as to which enemy will spawn
+        int random = Random.Range(0, 4); // random number is generated as to which enemy will spawn
         if (random == 0)
         {
             enemy = EnemyBase_1;
@@ -438,7 +440,27 @@ public class gameManager : MonoBehaviour
 
         //Gets a randomly chosen enemy to spawn
         //then gets the position and rotation from the randomly selected spawn location assigned above
-        Instantiate(GiveEnemy(), location.position, location.rotation);
+
+        //Add variable name to access the SetBarrierHP function 
+        GameObject enemyClone;
+        enemyClone = Instantiate(GiveEnemy(), location.position, location.rotation);
+
+        //Setting enemy barrier 
+        int barrierChance = Random.Range(0, 100);
+
+        //We can change the chance of enemy spawning with barrier rate by adjusting barrierChancePercentage
+        //currently set it to 50% chance of spawning with barrier.  
+        if(barrierChance < barrierChancePercentage)
+        {
+            enemyClone.GetComponent<enemyAI>().SetBarrierHP(3);
+        }
+
+        else
+        {
+            enemyClone.GetComponent<enemyAI>().SetBarrierHP(0);
+        }
+        
+
         totalEnemies--;
 
         //if there are more enemies to spawn, it will go back to the beginning after waiting the spawnSpeed duration

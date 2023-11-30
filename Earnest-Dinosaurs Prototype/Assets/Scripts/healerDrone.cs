@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class enemyAI : MonoBehaviour, IDamage
+public class healerDrone : MonoBehaviour, IDamage
 {
-    [Header("----- Enemy's Components ------")]
+    [Header("----- Healer's Components ------")]
     [SerializeField] Renderer[] enemyModelArray;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
@@ -15,20 +16,18 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Collider damageCol;
     [SerializeField] AudioSource aud;
 
-    [Header("----- Enemy's Stats ------")]
+    [Header("----- Healer's Stats ------")]
     [SerializeField] int HP;
-    [SerializeField] int maxHP;
     [SerializeField] int facingSpeed;
     [SerializeField] float damageDuration;
     [SerializeField] float knockbackForce;
-    [SerializeField] int viewCone;
-    [SerializeField] int shootCone;
 
-    [Header("----- Enemy gun's Stats ------")]
-    [SerializeField] GameObject bulletObject;
-    [SerializeField] float shootingRate;
+    [Header("----- Healer's Beam Stats ------")]
+    [SerializeField] LineRenderer beamObject;
+    [SerializeField] int healAmount;
+    [SerializeField] float healRate;
 
-    [Header("----- Enemy barrier's Stats ------")]
+    [Header("----- Barrier's Stats ------")]
     [SerializeField] GameObject barrierObject;
     [SerializeField] ParticleSystem barrierParticle;
     [SerializeField] Renderer barrierRenderer;
@@ -36,11 +35,11 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip barrierDestroy;
     [SerializeField] int barrierHP;
 
-    [Header("----- Enemy Loot------")]
+    [Header("----- Loot ------")]
     [SerializeField] GameObject medkitObject;
-    [Range(1,100)][SerializeField] float medkitDropRate;
+    [Range(1, 100)][SerializeField] float medkitDropRate;
 
-    [Header("----- Enemy Sound------")]
+    [Header("----- Sound ------")]
     [SerializeField] AudioClip hurtSound;
     [SerializeField] AudioClip deadSound;
     [Range(0, 1)][SerializeField] float enemyVol;
@@ -48,12 +47,13 @@ public class enemyAI : MonoBehaviour, IDamage
     Color[] modelOrigColor;
     Color barrierOrigColor;
 
+    GameObject target;
+    enemyAI targetScript;
+
     Vector3 targetDirection;
-    bool isShooting;
+    bool isHealing;
     bool isDead;
-    bool playerInShootingRange;
-    float angleToPlayer;
-    float stoppingDisOrig;
+    bool targetInHealRange;
     Vector3 startingPos;
 
 
@@ -70,7 +70,7 @@ public class enemyAI : MonoBehaviour, IDamage
         barrierOrigColor = barrierRenderer.material.color;
 
         startingPos = transform.position;
-        stoppingDisOrig = navAgent.stoppingDistance;
+        isHealing = false;
         isDead = false;
         gameManager.instance.updateEnemyCount(1);
     }
@@ -78,57 +78,91 @@ public class enemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        //If agent is not on then don't do anything
-        if (navAgent.isActiveAndEnabled && !isDead)
+        //If target is dead, reset
+        if (target != null && targetScript.GetIsDead())
+        {
+            target = null;
+            targetScript = null;
+            targetInHealRange = false;
+        }
+
+        //If no target had, find one
+        if (target == null)
+        {
+            findTarget();
+        }
+
+        //If healing, update beam
+        if (isHealing)
+        {
+            updateBeam();
+        }
+
+        //If agent is not on then don't do anything. Otherwise, go to target
+        if (navAgent.isActiveAndEnabled && !isDead && target != null)
         {
             //Set the model animation speed along with its navAgent normalized velocity 
             anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
 
-            //Player inside the sphere but not see the player 
-            if (!canSeePlayer())
+            //Target inside the sphere but not see the target 
+            if (!canSeeTarget())
             {
                 seek();
             }
-
-            seek();
         }
     }
 
-    bool canSeePlayer()
+    //Finds the closest gameObject of tag "Enemy" and sets it to target
+    void findTarget()
     {
-        //Get player direction
-        targetDirection = gameManager.instance.player.transform.position - headPos.position;
+        float closest = 50;
+        GameObject closestObj = null;
 
-        //Get angle to the player except y-axis
-        angleToPlayer = Vector3.Angle(new Vector3(targetDirection.x, 0, targetDirection.z), transform.forward);
+        //Finds all colliders in a radius and puts them in an array
+        Collider[] hits = Physics.OverlapSphere(transform.position, 100);
 
-        //Raycast checking 
+        //Iteration to find closest collider of tag "Enemy"
+            foreach (var enemy in hits)
+            {
+                if (enemy.gameObject.CompareTag("Enemy"))
+                {
+                    float distance = Vector3.Distance(transform.position, enemy.gameObject.transform.position);
+                    if (distance < closest)
+                    {
+                        closest = distance;
+                        closestObj = enemy.gameObject;
+                    }
+                }
+            }
+
+            target = closestObj;
+            if (target != null)
+                targetScript = target.GetComponent<enemyAI>();
+    }
+
+    bool canSeeTarget()
+    {
+        //Get target direction
+        targetDirection = target.transform.position - headPos.position;
+
+        //Raycast checking
         RaycastHit hit;
 
         if (Physics.Raycast(headPos.position, targetDirection, out hit))
         {
-            //If the player is within the view cone 
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewCone)
+            //If the target can be seen
+            if (hit.collider.gameObject.GetInstanceID() == target.GetInstanceID())
             {
-                navAgent.stoppingDistance = stoppingDisOrig;
-
-                //Shoot the player within the shoot cone 
-                if (angleToPlayer <= shootCone && !isShooting && playerInShootingRange)
+                //Heal target when in range
+                if (!isHealing && targetInHealRange)
                 {
-                    StartCoroutine(shootTarget());
+                    StartCoroutine(healTarget());
                 }
 
                 //Do this when player is in stopping distance 
                 if (navAgent.remainingDistance < navAgent.stoppingDistance)
                 {
                     faceTarget();
-                }
-
-                //Need to stop setting destination when enemy is dead, might find better way to implement this. 
-                if (!isDead)
-                {
-                    //Set the target position as destination 
-                    navAgent.SetDestination(gameManager.instance.player.transform.position);
                 }
 
                 return true;
@@ -142,12 +176,9 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void seek()
     {
-        if(!isDead)
-        {
-            //Always go To Player
-            faceTarget();
-            navAgent.SetDestination(gameManager.instance.player.transform.position);
-        }
+        //Go towards the target
+        faceTarget();
+        navAgent.SetDestination(target.gameObject.transform.position);
     }
 
     void faceTarget()
@@ -159,36 +190,32 @@ public class enemyAI : MonoBehaviour, IDamage
         transform.rotation = Quaternion.Lerp(transform.rotation, faceRotation, Time.deltaTime * facingSpeed);
     }
 
-    public void createShotgunBullet()
+    IEnumerator healTarget()
     {
-        //Create a 6 bullets for shotgun bullet 
-        for(int i = 0; i < 6; i++)
+        isHealing = true;
+        beamObject.enabled = true;
+        updateBeam();
+
+        var targetScript = target.GetComponent<enemyAI>();
+        while (targetInHealRange && !isDead && !targetScript.GetIsDead())
         {
-            Instantiate(bulletObject, shootPosition.position, transform.rotation);
+            targetScript.heal(healAmount);
+            yield return new WaitForSeconds(healRate);
         }
+
+        isHealing = false;
+        beamObject.enabled = false;
     }
 
-    public void createBullet()
+    public void updateBeam()
     {
-        //Create a bullet at shooting position and current rotation 
-        Instantiate(bulletObject, shootPosition.position, transform.rotation);
-    }
-
-    IEnumerator shootTarget()
-    {
-        isShooting = true;
-
-        anim.SetTrigger("Shoot");
-
-        //Shooting rate 
-        yield return new WaitForSeconds(shootingRate);
-
-        isShooting = false;
+        beamObject.SetPosition(0, shootPosition.transform.position);
+        beamObject.SetPosition(1, target.gameObject.transform.position);
     }
 
     public void takeDamage(int damageAmount)
     {
-        if(barrierHP <= 0)
+        if (barrierHP <= 0)
         {
             HP -= damageAmount;
 
@@ -224,12 +251,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
                 aud.PlayOneShot(hurtSound, enemyVol);
 
-                //If take damage,then chase the player 
-                if (!isDead)
-                {
-                    navAgent.SetDestination(gameManager.instance.player.transform.position);
-                }
-
                 knockback();
             }
         }
@@ -247,13 +268,6 @@ public class enemyAI : MonoBehaviour, IDamage
                 barrierObject.SetActive(false);
             }
         }
-    }
-
-    // Allow for taking in health up to a maximum
-    public void heal(int amount)
-    {
-        HP += amount;
-        if (HP > maxHP) HP = maxHP;
     }
 
     IEnumerator damageFeedback()
@@ -290,18 +304,17 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (target != null && other.gameObject.GetInstanceID() == target.GetInstanceID())
         {
-            playerInShootingRange = true;
+            targetInHealRange = true;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (target != null && other.gameObject.GetInstanceID() == target.GetInstanceID())
         {
-            playerInShootingRange = false;
-            navAgent.stoppingDistance = 0.0f;
+            targetInHealRange = false;
         }
     }
 
@@ -323,7 +336,7 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         float drop = UnityEngine.Random.Range(1, 100);
 
-        if(drop <= medkitDropRate)
+        if (drop <= medkitDropRate)
         {
             Instantiate(medkitObject, transform.position, transform.rotation);
         }
@@ -335,13 +348,4 @@ public class enemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
-
-    #region Getters and Setters
-
-    public bool GetIsDead()
-    {
-        return isDead;
-    }
-
-    #endregion
 }

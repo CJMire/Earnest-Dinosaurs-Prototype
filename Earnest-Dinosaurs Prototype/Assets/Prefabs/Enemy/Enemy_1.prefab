@@ -126,6 +126,7 @@ MonoBehaviour:
   damageCol: {fileID: 7411835399925063549}
   aud: {fileID: -9054709183419314793}
   HP: 3
+  maxHP: 3
   facingSpeed: 10
   damageDuration: 0.3
   knockbackForce: 5

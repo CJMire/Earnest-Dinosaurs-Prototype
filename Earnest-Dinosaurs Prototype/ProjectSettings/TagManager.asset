@@ -30,6 +30,7 @@ TagManager:
   - SpawnPoint1
   - Undefined
   - DamageUp
+  - Enemy Healer
   layers:
   - Default
   - TransparentFX

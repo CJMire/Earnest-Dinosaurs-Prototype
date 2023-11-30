@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 1605976594416889948}
   damageEnemyEffect: {fileID: 0}
+  audio: {fileID: 0}
   HP: 10
   playerSpeed: 10
   playerJumpHeight: 5
@@ -169,6 +170,12 @@ MonoBehaviour:
   starterGun: {fileID: 11400000, guid: b7d8fdc642021e74db8785aed416a038, type: 2}
   gunList: []
   gunModel: {fileID: 3102905420824362011, guid: b4c7ffae1202b864c9a36fcfdca4c2ec, type: 3}
+  audioSteps: []
+  audioStepsVolume: 0
+  audioDamage: []
+  audioDamageVolume: 0
+  audioJump: []
+  audioJumpVolume: 0
   shootDamage: 1
   shootDistance: 20
   shootRate: 0.25
@@ -269,7 +276,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

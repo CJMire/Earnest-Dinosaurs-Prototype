@@ -191,6 +191,26 @@ public class enemyAI : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
+        if(damageAmount > 100)
+        {
+            barrierObject.SetActive(false);
+            
+            //Spawn medkit within drop rate, set isDead and destroy gameObject 
+            aud.PlayOneShot(deadSound, enemyVol);
+
+            DropSomething(); //Drops one puick-up for player use
+
+            isDead = true;
+            navAgent.enabled = false;
+            anim.SetBool("Dead", true);
+
+            //turns off enemy damage colliders when dead
+            damageCol.enabled = false;
+
+            //Destroy(gameObject);
+            gameManager.instance.updateEnemyCount(-1);
+        }
+
         if(barrierHP <= 0)
         {
             HP -= damageAmount;
@@ -237,7 +257,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         else
         {
-            barrierHP--;
+            barrierHP -= damageAmount;
             aud.PlayOneShot(barrierDamage, enemyVol);
             StartCoroutine(barrierFeedback());
 

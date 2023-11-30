@@ -622,5 +622,10 @@ public class gameManager : MonoBehaviour
     {
         return isPaused;
     }
+
+    public int GetEnemyCount()
+    {
+        return enemyCount;
+    }
     #endregion
 }

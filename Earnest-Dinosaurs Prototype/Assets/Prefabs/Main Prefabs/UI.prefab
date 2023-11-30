@@ -3621,6 +3621,7 @@ MonoBehaviour:
   EnemyBase_2: {fileID: 2291291316118895893, guid: 2919e2bc30039de448da1578fd4151de, type: 3}
   EnemyBase_3: {fileID: 4817749337313768898, guid: 4c44834614ca8e242be176a69d2d3416, type: 3}
   EnemyBase_4: {fileID: 3470342452325303564, guid: bc4e650ec89502b4d828260fe5af8699, type: 3}
+  EnemyBase_5: {fileID: 7775215010929995151, guid: db49dae2171bd344eaa790b324223044, type: 3}
   levelCompletion: 3
   totalLevels: 2
   spawnSpeed: 2

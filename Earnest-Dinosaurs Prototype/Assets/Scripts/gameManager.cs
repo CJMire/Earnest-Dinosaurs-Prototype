@@ -64,6 +64,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_2;
     [SerializeField] GameObject EnemyBase_3;
     [SerializeField] GameObject EnemyBase_4;
+    [SerializeField] GameObject EnemyBase_5;
     private int barrierChancePercentage; 
 
     [Header("----- Wave Settings -----")]
@@ -402,7 +403,7 @@ public class gameManager : MonoBehaviour
     GameObject GiveEnemy()
     {
         GameObject enemy;
-        int random = Random.Range(0, 4); // random number is generated as to which enemy will spawn
+        int random = Random.Range(0, 5); // random number is generated as to which enemy will spawn
         if (random == 0)
         {
             enemy = EnemyBase_1;
@@ -415,10 +416,15 @@ public class gameManager : MonoBehaviour
         {
             enemy = EnemyBase_3;
         }
-        else
+        else if(random == 3)
         {
             enemy = EnemyBase_4;
         }
+        else
+        {
+            enemy = EnemyBase_5;
+        }
+
         return enemy;
     }
 

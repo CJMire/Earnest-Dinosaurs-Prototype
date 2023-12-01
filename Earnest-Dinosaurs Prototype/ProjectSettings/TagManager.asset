@@ -32,6 +32,7 @@ TagManager:
   - DamageUp
   - Enemy Healer
   - Boss
+  - EliteDrone
   layers:
   - Default
   - TransparentFX

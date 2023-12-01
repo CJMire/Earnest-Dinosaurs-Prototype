@@ -515,9 +515,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: SummonerBoss
       objectReference: {fileID: 0}
-    - target: {fileID: 7194921633087880128, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: maxSpawn
-      value: 5
+    - target: {fileID: 3545932919612008135, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

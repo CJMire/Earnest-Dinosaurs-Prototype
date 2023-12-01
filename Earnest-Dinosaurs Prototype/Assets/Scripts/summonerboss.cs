@@ -26,6 +26,10 @@ public class summonerboss : MonoBehaviour, IDamage
     [SerializeField] float spawnRate;
     [SerializeField] int maxSpawn;
 
+    [Header("----- Boss's Stats ------")]
+    [SerializeField] ParticleSystem spawnParticle;
+    [SerializeField] ParticleSystem deathParticle;
+
     [Header("----- Boss barrier's Stats ------")]
     [SerializeField] GameObject barrierObject;
     [SerializeField] ParticleSystem barrierParticle;
@@ -214,6 +218,8 @@ public class summonerboss : MonoBehaviour, IDamage
         GameObject droneClone;
         droneClone = Instantiate(summonedEnemy[randomDrone], spawnPosition, transform.rotation);
 
+        Instantiate(spawnParticle, spawnPosition, transform.rotation);
+
         //Setting enemy barrier 
         int barrierChance = Random.Range(0, 100);
  
@@ -310,5 +316,14 @@ public class summonerboss : MonoBehaviour, IDamage
         {
             bossModelArray[i].material.color = modelOrigColor[i];
         }
+    }
+
+    IEnumerator OnDeath()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        Instantiate(deathParticle, transform.position, transform.rotation);
+
+        Destroy(gameObject);
     }
 }

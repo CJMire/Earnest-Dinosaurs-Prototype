@@ -728,14 +728,16 @@ MonoBehaviour:
   anim: {fileID: 8050543315259290899}
   damageCol: {fileID: 2694569867861016979}
   aud: {fileID: 499095691832337140}
-  HP: 100
+  HP: 3
   facingSpeed: 10
   damageDuration: 0.3
   knockbackForce: 3
   viewCone: 90
   shootCone: 10
   spawnRate: 1
-  maxSpawn: 0
+  maxSpawn: 5
+  spawnParticle: {fileID: 7663006645152379582, guid: 073b9d9d0e0d7ce4189664cb00ddf050, type: 3}
+  deathParticle: {fileID: 417761080263594739, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4, type: 3}
   barrierObject: {fileID: 7142044364498443169}
   barrierParticle: {fileID: 0}
   barrierRenderer: {fileID: 2265234769806982970}

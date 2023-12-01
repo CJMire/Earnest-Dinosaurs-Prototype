@@ -68,7 +68,7 @@ public class bullet : MonoBehaviour
         //Make the bullet damage the IDamage
         IDamage damageable = other.GetComponent<IDamage>();
 
-        if(damageable != null && !other.CompareTag("Enemy") && !other.CompareTag("Boss"))
+        if(damageable != null && !other.CompareTag("Enemy") && !other.CompareTag("Boss") && !other.CompareTag("EliteDrone"))
         {
             damageable.takeDamage(bulletDamage);
         }

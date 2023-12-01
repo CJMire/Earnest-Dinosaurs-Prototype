@@ -9,7 +9,7 @@ public class empExplosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scaleUp = new Vector3(0.25f, 0.25f, 0.25f);
+        scaleUp = new Vector3(0.5f, 0.5f, 0.5f);
 
         Destroy(gameObject, 3.0f);
     }

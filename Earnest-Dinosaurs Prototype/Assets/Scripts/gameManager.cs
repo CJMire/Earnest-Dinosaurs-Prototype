@@ -30,6 +30,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI textEnemyCount;
     [SerializeField] TextMeshProUGUI isSpawningText;
     [SerializeField] Image imageHPBar;
+    [SerializeField] Image imageBossHPBar;
     [SerializeField] TextMeshProUGUI textAmmo;
     [SerializeField] GameObject playerHurtScreen;
     [SerializeField] GameObject playerLowHealthScreen;
@@ -622,6 +623,11 @@ public class gameManager : MonoBehaviour
     public void SetShowRespawnWarning(bool show)
     {
         showRespawnWarning = show;
+    }
+
+    public void SetBossHealth(int currentHP, int maxHP)
+    {
+        imageBossHPBar.fillAmount = (float)currentHP / maxHP;
     }
 
     public bool GetIsPaused()

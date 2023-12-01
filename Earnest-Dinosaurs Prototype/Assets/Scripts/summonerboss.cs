@@ -18,20 +18,23 @@ public class summonerboss : MonoBehaviour, IDamage
     [SerializeField] int HP;
     [SerializeField] int facingSpeed;
     [SerializeField] float damageDuration;
+    [SerializeField] float stuntTime;
     [SerializeField] float knockbackForce;
     [SerializeField] int viewCone;
     [SerializeField] int shootCone;
 
     [Header("----- Boss attack's Stats ------")]
-    [SerializeField] float spawnRate;
     [SerializeField] int maxSpawn;
+
+    [Header("----- Boss's Stats ------")]
+    [SerializeField] ParticleSystem spawnParticle;
+    [SerializeField] ParticleSystem deathParticle;
 
     [Header("----- Boss barrier's Stats ------")]
     [SerializeField] GameObject barrierObject;
     [SerializeField] ParticleSystem barrierParticle;
     [SerializeField] Renderer barrierRenderer;
     [SerializeField] AudioClip barrierDestroy;
-    [SerializeField] int barrierHP;
 
     [Header("----- Summoning enemy------")]
     [SerializeField] GameObject[] summonedEnemy;
@@ -44,7 +47,9 @@ public class summonerboss : MonoBehaviour, IDamage
 
     [Header("----- Boss's Sounds------")]
     [SerializeField] AudioClip hurtSound;
+    [SerializeField] AudioClip spawnSound;
     [SerializeField] AudioClip deadSound;
+    [SerializeField] AudioClip explosionSound;
     [Range(0, 1)][SerializeField] float bossVol;
 
     //Private variable 
@@ -54,9 +59,12 @@ public class summonerboss : MonoBehaviour, IDamage
     Vector3 targetDirection;
     bool isSummoning;
     bool isDead;
+    bool isStunt;
     bool playerInSummonRange;
+    int maxHP;
     float angleToPlayer;
     float stoppingDisOrig;
+    int eliteDroneStatus;
     Vector3 startingPos;
 
     // Start is called before the first frame update
@@ -71,18 +79,28 @@ public class summonerboss : MonoBehaviour, IDamage
         }
 
         //barrierOrigColor = barrierRenderer.material.color;
-
+        maxHP = HP;
         startingPos = transform.position;
         stoppingDisOrig = navAgent.stoppingDistance;
         isDead = false;
+        isStunt = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        gameManager.instance.SetBossHealth(HP, maxHP);
+
         //If agent is not on then don't do anything
-        if (navAgent.isActiveAndEnabled && !isDead)
+        if (navAgent.isActiveAndEnabled && !isDead && !isStunt)
         {
+            //All elite drone death 
+            if (trackEliteDrone() == 0)
+            {
+                Debug.Log("Stunt and Summon");
+                StartCoroutine(stuntAndSummon());
+            }
+
             //Set the model animation speed along with its navAgent normalized velocity 
             anim.SetFloat("Speed", navAgent.velocity.normalized.magnitude);
 
@@ -115,10 +133,12 @@ public class summonerboss : MonoBehaviour, IDamage
                 navAgent.stoppingDistance = stoppingDisOrig;
 
                 //Shoot the player within the shoot cone 
-                if (angleToPlayer <= shootCone && !isSummoning && playerInSummonRange && gameManager.instance.GetEnemyCount() < maxSpawn)
+                if (angleToPlayer <= shootCone && playerInSummonRange)
                 {
-                    Debug.Log("Summon");
-                    StartCoroutine(summonMinion());
+                    if(gameManager.instance.GetEnemyCount() < maxSpawn && !isStunt)
+                    {
+                        anim.SetTrigger("Summon");
+                    }
                 }
 
                 //Do this when player is in stopping distance 
@@ -145,24 +165,14 @@ public class summonerboss : MonoBehaviour, IDamage
 
     void seekAndAvoid()
     {
-        if (!isDead)
+        if (!isDead && !isStunt)
         {
             faceTarget();
 
             float distance = Vector3.Distance(transform.position, gameManager.instance.player.transform.position);
 
-            if(distance < stoppingDisOrig)
-            {
-                //WIP on making the enemy avoid the player when player get too close 
-                Vector3 behindPosition = ((targetDirection * -1.0f) * 10.0f) + transform.position;
-                navAgent.SetDestination(behindPosition);
-            }
-
-            else
-            {
-                //Always go To Player
-                navAgent.SetDestination(gameManager.instance.player.transform.position);
-            }
+            //Always go To Player
+            navAgent.SetDestination(gameManager.instance.player.transform.position);
         }
     }
 
@@ -175,27 +185,56 @@ public class summonerboss : MonoBehaviour, IDamage
         transform.rotation = Quaternion.Lerp(transform.rotation, faceRotation, Time.deltaTime * facingSpeed);
     }
 
-    IEnumerator summonMinion()
+    int trackEliteDrone()
     {
-        isSummoning = true;
+        int currentDrone = 0;
 
-        anim.SetTrigger("Summon");
+        if(eliteDrone1.activeSelf)
+        {
+            currentDrone++;
+        }
 
-        yield return new WaitForSeconds(spawnRate);
+        if (eliteDrone2.activeSelf)
+        {
+            currentDrone++;
+        }
 
-        isSummoning = false;
+        if (eliteDrone3.activeSelf)
+        {
+            currentDrone++;
+        }
+
+        return currentDrone;
     }
 
-    void summonEliteDrone()
+    IEnumerator stuntAndSummon()
     {
-        eliteDrone1.GetComponent<eliteDrone>().fullRegen();
-        eliteDrone1.SetActive(true);
+        isStunt = true;
+        anim.SetBool("Stunt", true);
+        stunt();
 
-        eliteDrone2.GetComponent<eliteDrone>().fullRegen();
-        eliteDrone2.SetActive(true);
+        yield return new WaitForSeconds(stuntTime);
 
-        eliteDrone3.GetComponent<eliteDrone>().fullRegen();
-        eliteDrone3.SetActive(true);
+        anim.SetBool("Stunt", false);
+        eliteSummon();
+        isStunt = false;
+    }
+
+    void stunt()
+    {
+        barrierObject.SetActive(false);
+        empBurst();
+    }
+
+    void eliteSummon()
+    {
+        if(!isDead)
+        {
+            eliteDrone1.GetComponent<eliteDrone>().respawn();
+            eliteDrone2.GetComponent<eliteDrone>().respawn();
+            eliteDrone3.GetComponent<eliteDrone>().respawn();
+            barrierObject.SetActive(true);
+        }
     }
 
     public void createDroneEnemy()
@@ -214,10 +253,14 @@ public class summonerboss : MonoBehaviour, IDamage
         GameObject droneClone;
         droneClone = Instantiate(summonedEnemy[randomDrone], spawnPosition, transform.rotation);
 
+        Instantiate(spawnParticle, spawnPosition, transform.rotation);
+
+        aud.PlayOneShot(spawnSound, bossVol);
+
         //Setting enemy barrier 
         int barrierChance = Random.Range(0, 100);
  
-        if (barrierChance < 50)
+        if (barrierChance < 20)
         {
             droneClone.GetComponent<enemyAI>().SetBarrierHP(3);
         }
@@ -252,9 +295,7 @@ public class summonerboss : MonoBehaviour, IDamage
 
     public void takeDamage(int damageAmount)
     {
-        HP -= damageAmount;
-
-        empBurst();
+         HP -= damageAmount;
 
          //Model damage red flash 
          StartCoroutine(damageFeedback());
@@ -271,6 +312,7 @@ public class summonerboss : MonoBehaviour, IDamage
              isDead = true;
              navAgent.enabled = false;
              anim.SetBool("Dead", true);
+             aud.PlayOneShot(deadSound, bossVol);
 
              //turns off enemy damage colliders when dead
              damageCol.enabled = false;
@@ -283,6 +325,8 @@ public class summonerboss : MonoBehaviour, IDamage
          {
              //Play damage animation
              anim.SetTrigger("Damage");
+
+             aud.PlayOneShot(hurtSound, bossVol);
 
              if (deadSound != null)
              {
@@ -310,5 +354,18 @@ public class summonerboss : MonoBehaviour, IDamage
         {
             bossModelArray[i].material.color = modelOrigColor[i];
         }
+    }
+
+    IEnumerator OnDeath()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        Instantiate(deathParticle, transform.position, transform.rotation);
+
+        aud.PlayOneShot(explosionSound, bossVol);
+
+        yield return new WaitForSeconds(0.5f);
+
+        Destroy(gameObject);
     }
 }

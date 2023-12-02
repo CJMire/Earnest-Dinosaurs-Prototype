@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ButtonHandler : MonoBehaviour
 {
@@ -34,8 +37,10 @@ public class ButtonHandler : MonoBehaviour
 
     public void Quit()
     {
-        //on press, quits game
-        Application.Quit();
+        //on press returns to the main menu
+        gameManager.instance.playerScript.StopAllCoroutines();
+        gameManager.instance.StopAllCoroutines();
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void RespawnButton()
@@ -71,10 +76,46 @@ public class ButtonHandler : MonoBehaviour
 
     public void Back()
     {
-        gameManager.instance.GetActiveMenu().SetActive(false);
-        gameManager.instance.SetActiveMenu(null);
-        gameManager.instance.SetActiveMenu(gameManager.instance.GetPrevMenu());
-        gameManager.instance.SetPrevMenu(null);
-        gameManager.instance.GetActiveMenu().SetActive(true);
+        if (SceneManager.GetActiveScene().name == "MainMenuScene") gameManager.instance.switchMenu(gameManager.instance.GetPrevMenu());
+        else
+        {
+            gameManager.instance.GetActiveMenu().SetActive(false);
+            gameManager.instance.SetActiveMenu(null);
+            gameManager.instance.SetActiveMenu(gameManager.instance.GetPrevMenu());
+            gameManager.instance.SetPrevMenu(null);
+            gameManager.instance.GetActiveMenu().SetActive(true);
+        }
     }
+
+    #region Main Menu Buttons
+    public void MainStart()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    public void MainOptions()
+    {
+        gameManager.instance.switchMenu(gameManager.instance.GetMainOptions());
+    }
+
+    public void MainGuide()
+    {
+        gameManager.instance.switchMenu(gameManager.instance.GetMainGuide());
+    }
+
+    public void MainCredits()
+    {
+        gameManager.instance.switchMenu(gameManager.instance.GetMainCredits());
+    }
+
+    public void MainShop()
+    {
+        gameManager.instance.switchMenu(gameManager.instance.GetMainShop());
+    }
+
+    public void MainExit()
+    {
+        Application.Quit();
+    }
+    #endregion
 }

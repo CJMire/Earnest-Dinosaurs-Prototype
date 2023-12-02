@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Threading;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class gameManager : MonoBehaviour
 {
@@ -14,12 +15,23 @@ public class gameManager : MonoBehaviour
     [Header("----- Components -----")]
     [SerializeField] GameObject menuActive;
     private GameObject menuPrev;
+
+    [Header("----- Game Menu Components -----")]
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuRespawnWarning;
     [SerializeField] GameObject menuRestartWarning;
 
+    [Header("----- Main Menu Components -----")]
+    [SerializeField] GameObject menuMask;
+    [SerializeField] GameObject menuMain;
+    [SerializeField] GameObject menuOptions;
+    [SerializeField] GameObject menuGuide;
+    [SerializeField] GameObject menuCredits;
+    [SerializeField] GameObject menuShop;
+
+    [Header("----- Game Components -----")]
     public GameObject portal;
     public GameObject player;
     public playerController playerScript;
@@ -48,6 +60,7 @@ public class gameManager : MonoBehaviour
 
 
     [Header("----- Settings -----")]
+    bool isOnMainMenu;
     [SerializeField] int timePenalty;
     private bool isPaused;
     float timeScaleOriginal;
@@ -98,62 +111,72 @@ public class gameManager : MonoBehaviour
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
+        Time.timeScale = 1.0f;
         instance = this;
+        if(SceneManager.GetActiveScene().name == "MainMenuScene")
+        {
+            isOnMainMenu = true;
+            SetActiveMenu(menuMain);
+        }
+        else
+        {
+            //creates new stopwatch and starts it
+            stopwatch = Stopwatch.StartNew();
+            timeScaleOriginal = Time.timeScale;
 
-        //creates new stopwatch and starts it
-        stopwatch = Stopwatch.StartNew();
-        timeScaleOriginal = Time.timeScale;
+            //Find player from the tag 
+            player = GameObject.FindWithTag("Player");
+            playerScript = player.GetComponent<playerController>();
 
-        //Find player from the tag 
-        player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<playerController>();
+            //Set current level
+            currentLevel = 1;
 
-        //Set current level
-        currentLevel = 1;
+            //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates wave text HUD
+            SetSpawnPositions();
+            waveCurrent = 1;
+            textWaves.text = "Wave:  " + waveCurrent.ToString();
+            stopSpawning = false;
 
-        //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates wave text HUD
-        SetSpawnPositions();
-        waveCurrent = 1;
-        textWaves.text = "Wave:  " + waveCurrent.ToString();
-        stopSpawning = false;
+            //Sets current amount of enemies to zero and updates HUD
+            enemyCount = 0;
+            barrierChancePercentage = 50;
+            textEnemyCount.text = enemyCount.ToString();
 
-        //Sets current amount of enemies to zero and updates HUD
-        enemyCount = 0;
-        barrierChancePercentage = 50;
-        textEnemyCount.text = enemyCount.ToString();
-
-        totalPenaltyTime = 0; //Sets total penalty time
-        imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
-        fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
-        playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
+            totalPenaltyTime = 0; //Sets total penalty time
+            imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
+            fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
+            playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
+        }
     }
 
     void Update()
     {
-        //Pressing the ESC key calls the pause function if the menu is available and the pause menu has a refrence
-        if (Input.GetButtonDown("Cancel") && menuActive == null && menuPause != null)
+        if (!isOnMainMenu)
         {
-            statePause();
-            menuActive = menuPause;
-            menuActive.SetActive(isPaused);
-        }
-        //updates the timer everyframe if game is NOT paused
-        if (!isPaused)
-        {
-            textTimer.text = GiveTime();
-        }
+            //Pressing the ESC key calls the pause function if the menu is available and the pause menu has a refrence
+            if (Input.GetButtonDown("Cancel") && menuActive == null && menuPause != null)
+            {
+                statePause();
+                menuActive = menuPause;
+                menuActive.SetActive(isPaused);
+            }
+            //updates the timer everyframe if game is NOT paused
+            if (!isPaused)
+            {
+                textTimer.text = GiveTime();
+            }
 
-        if (stopSpawning == false)
-        {
-            UpdateEnemiesPerWave();
+            if (stopSpawning == false)
+            {
+                UpdateEnemiesPerWave();
 
-            StartCoroutine(SpawnWave());
-        }
+                StartCoroutine(SpawnWave());
+            }
 
-        if (playerScript.GetIsReloading())
-        {
-            FillReloadingIcon();
-        }
+            if (playerScript.GetIsReloading())
+            {
+                FillReloadingIcon();
+            }
 
         if(currentBoss == null && bossIsSpawned)
         {
@@ -170,34 +193,93 @@ public class gameManager : MonoBehaviour
             portalSpawn();
         }
 
-        if(playerScript.shootDamage >= 20)
-        {
-            dmgIconOn();
-        }
-        else if(playerScript.shootDamage < 20)
-        {
-            dmgIconOff();
-        }
+            if (playerScript.shootDamage >= 20)
+            {
+                dmgIconOn();
+            }
+            else if (playerScript.shootDamage < 20)
+            {
+                dmgIconOff();
+            }
 
-        if (playerScript.playerSpeed >= 16)
-        {
-            speedIconOn();
-        }
-        else if (playerScript.playerSpeed < 16)
-        {
-            speedIconOff();
-        }
+            if (playerScript.playerSpeed >= 16)
+            {
+                speedIconOn();
+            }
+            else if (playerScript.playerSpeed < 16)
+            {
+                speedIconOff();
+            }
 
-        if (bullet1.GetComponent<SphereCollider>().enabled == false)
-        {
-            invincibilityIconOn();
+            if (bullet1.GetComponent<SphereCollider>().enabled == false)
+            {
+                invincibilityIconOn();
+            }
+            else if (bullet1.GetComponent<SphereCollider>().enabled == true)
+            {
+                invincibilityIconOff();
+            }
         }
-        else if (bullet1.GetComponent<SphereCollider>().enabled == true)
+    }
+    #region Menu Management
+    public void switchMenu(GameObject requested)
+    {
+        StartCoroutine(transition(requested));
+    }
+
+    IEnumerator transition(GameObject requested)
+    {
+        if (isOnMainMenu)
         {
-            invincibilityIconOff();
+            menuMask.SetActive(true); //This is to show the mask, otherwise it would block button functionality
+
+            StartCoroutine(playTransition());
+            yield return new WaitForSeconds(0.5f);
+
+            menuActive.SetActive(false);
+            menuPrev = menuActive;
+            menuActive = requested;
+            menuActive.SetActive(true);
+
+            StartCoroutine(playTransition());
+            yield return new WaitForSeconds(0.5f);
+            menuMask.SetActive(false);
         }
     }
 
+    //Toggles the main menu mask
+    IEnumerator playTransition()
+    {
+        Color clr = menuMask.GetComponentInChildren<Image>().color;
+        if (clr != null)
+        {
+            //Take it down
+            while (clr.a < 1.0f)
+            {
+                clr.a += 0.1f;
+                menuMask.GetComponentInChildren<Image>().color = clr;
+                yield return new WaitForSeconds(0.05f);
+            }
+            //This is to avoid float errors
+            clr.a = 1;
+            menuMask.GetComponentInChildren<Image>().color = clr;
+
+            //Put it up
+            while (clr.a > 0.0f)
+            {
+                clr.a -= 0.1f;
+                menuMask.GetComponentInChildren<Image>().color = clr;
+                yield return new WaitForSeconds(0.05f);
+            }
+            //This is to avoid float errors
+            clr.a = 0;
+            menuMask.GetComponentInChildren<Image>().color = clr;
+        }
+        else UnityEngine.Debug.Log("No color component found!");
+        yield return null;
+    }
+
+    #endregion
     #region HUD and Game managing methods
     //Sets the game's time rate to zero to freeze it and frees the cursor
     public void statePause()
@@ -708,6 +790,68 @@ public class gameManager : MonoBehaviour
     {
         showRespawnWarning = show;
     }
+
+    #region Main Menus
+    public void SetMainMenu(GameObject menu)
+    {
+        menuMain = menu;
+    }
+
+    public GameObject GetMainMenu()
+    {
+        return menuMain;
+    }
+
+    public void SetMainOptions(GameObject menu)
+    {
+        menuOptions = menu;
+    }
+
+    public GameObject GetMainOptions()
+    {
+        return menuOptions;
+    }
+
+    public void SetMainGuide(GameObject menu)
+    {
+        menuGuide = menu;
+    }
+
+    public GameObject GetMainGuide()
+    {
+        return menuGuide;
+    }
+
+    public void SetMainCredits(GameObject menu)
+    {
+        menuCredits = menu;
+    }
+
+    public GameObject GetMainCredits()
+    {
+        return menuCredits;
+    }
+
+    public void SetMainShop(GameObject menu)
+    {
+        menuShop = menu;
+    }
+
+    public GameObject GetMainShop()
+    {
+        return menuShop;
+    }
+
+    public void SetMainMask(GameObject menu)
+    {
+        menuMask = menu;
+    }
+
+    public GameObject GetMainMask()
+    {
+        return menuMask;
+    }
+    #endregion
 
     public void SetBossHealth(int currentHP, int maxHP)
     {

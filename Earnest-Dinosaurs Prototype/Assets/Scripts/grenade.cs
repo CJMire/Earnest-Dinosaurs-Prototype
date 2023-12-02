@@ -15,6 +15,7 @@ public class grenade : MonoBehaviour
     [Range(0, 1)][SerializeField] float countdownVol;
 
     float countdownTick;
+    bool isExploded;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public class grenade : MonoBehaviour
         float distance = Vector3.Distance(transform.position, playerTorosPos);
 
         Debug.Log("Distance:" + distance);
+
+        isExploded = false;
 
         //Grenade projectile motion 
         rb.velocity = (Vector3.up * 2.0f) + (transform.forward) * (Mathf.Clamp(distance, 0.0f, 17.5f) * 2.0f);
@@ -40,19 +43,23 @@ public class grenade : MonoBehaviour
     {
         yield return new WaitForSeconds(explosionTime);
 
+        isExploded = true;
+
         //Check for null gameObject
-        if(explosion != null)
+        if (explosion != null)
         {
             //Create explosion
             Instantiate(explosion, transform.position, explosion.transform.rotation);
         }
 
-        Destroy(gameObject);
+        grenadeModel.enabled = false;
+
+        Destroy(gameObject, 0.7f);
     }
 
     IEnumerator aboutToExplode(float duration)
     {
-        while(true)
+        while(!isExploded)
         {
             duration *= 0.5f;
 

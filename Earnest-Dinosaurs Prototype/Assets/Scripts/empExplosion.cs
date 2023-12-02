@@ -5,11 +5,12 @@ using UnityEngine;
 public class empExplosion : MonoBehaviour
 {
     Vector3 scaleUp;
+    [SerializeField] float expandRate;
 
     // Start is called before the first frame update
     void Start()
     {
-        scaleUp = new Vector3(0.5f, 0.5f, 0.5f);
+        scaleUp = new Vector3(expandRate, expandRate, expandRate);
 
         Destroy(gameObject, 3.0f);
     }
@@ -17,7 +18,7 @@ public class empExplosion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(expandExplosion());
+        expandExplosion();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,10 +37,8 @@ public class empExplosion : MonoBehaviour
         }
     }
 
-    IEnumerator expandExplosion()
+    void expandExplosion()
     {
-        transform.localScale += scaleUp;
-
-        yield return new WaitForSeconds(0.25f);
+        transform.localScale += scaleUp * Time.deltaTime;
     }
 }

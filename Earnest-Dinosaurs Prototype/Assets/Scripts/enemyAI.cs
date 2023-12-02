@@ -209,6 +209,8 @@ public class enemyAI : MonoBehaviour, IDamage
 
             //Destroy(gameObject);
             gameManager.instance.updateEnemyCount(-1);
+
+            return;
         }
 
         if(barrierHP <= 0)

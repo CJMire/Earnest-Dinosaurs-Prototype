@@ -316,9 +316,6 @@ public class summonerboss : MonoBehaviour, IDamage
 
              //turns off enemy damage colliders when dead
              damageCol.enabled = false;
-
-             //Destroy(gameObject);
-             gameManager.instance.updateEnemyCount(-1);
          }
 
          else

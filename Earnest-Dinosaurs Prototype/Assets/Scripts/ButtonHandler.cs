@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ButtonHandler : MonoBehaviour
 {
@@ -73,11 +76,15 @@ public class ButtonHandler : MonoBehaviour
 
     public void Back()
     {
-        gameManager.instance.GetActiveMenu().SetActive(false);
-        gameManager.instance.SetActiveMenu(null);
-        gameManager.instance.SetActiveMenu(gameManager.instance.GetPrevMenu());
-        gameManager.instance.SetPrevMenu(null);
-        gameManager.instance.GetActiveMenu().SetActive(true);
+        if (SceneManager.GetActiveScene().name == "MainMenuScene") gameManager.instance.switchMenu(gameManager.instance.GetPrevMenu());
+        else
+        {
+            gameManager.instance.GetActiveMenu().SetActive(false);
+            gameManager.instance.SetActiveMenu(null);
+            gameManager.instance.SetActiveMenu(gameManager.instance.GetPrevMenu());
+            gameManager.instance.SetPrevMenu(null);
+            gameManager.instance.GetActiveMenu().SetActive(true);
+        }
     }
 
     #region Main Menu Buttons
@@ -88,26 +95,27 @@ public class ButtonHandler : MonoBehaviour
 
     public void MainOptions()
     {
-        switchMenu(gameManager.instance.GetMainOptions());
+        gameManager.instance.switchMenu(gameManager.instance.GetMainOptions());
     }
 
     public void MainGuide()
     {
-        switchMenu(gameManager.instance.GetMainGuide());
+        gameManager.instance.switchMenu(gameManager.instance.GetMainGuide());
     }
 
     public void MainCredits()
     {
-        switchMenu(gameManager.instance.GetMainCredits());
+        gameManager.instance.switchMenu(gameManager.instance.GetMainCredits());
     }
 
-
-    public void switchMenu(GameObject requested)
+    public void MainShop()
     {
-        gameManager.instance.GetActiveMenu().SetActive(false);
-        gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
-        gameManager.instance.SetActiveMenu(requested);
-        gameManager.instance.GetActiveMenu().SetActive(true);
+        gameManager.instance.switchMenu(gameManager.instance.GetMainShop());
+    }
+
+    public void MainExit()
+    {
+        Application.Quit();
     }
     #endregion
 }

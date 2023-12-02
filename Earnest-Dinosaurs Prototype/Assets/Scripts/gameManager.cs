@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Threading;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class gameManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuRestartWarning;
 
     [Header("----- Main Menu Components -----")]
+    [SerializeField] GameObject menuMask;
     [SerializeField] GameObject menuMain;
     [SerializeField] GameObject menuOptions;
     [SerializeField] GameObject menuGuide;
@@ -97,12 +99,12 @@ public class gameManager : MonoBehaviour
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
         Time.timeScale = 1.0f;
         instance = this;
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {
             isOnMainMenu = true;
+            SetActiveMenu(menuMain);
         }
         else
         {
@@ -194,7 +196,65 @@ public class gameManager : MonoBehaviour
             }
         }
     }
+    #region Menu Management
+    public void switchMenu(GameObject requested)
+    {
+        StartCoroutine(transition(requested));
+    }
 
+    IEnumerator transition(GameObject requested)
+    {
+        if (isOnMainMenu)
+        {
+            menuMask.SetActive(true); //This is to show the mask, otherwise it would block button functionality
+
+            StartCoroutine(playTransition());
+            yield return new WaitForSeconds(0.5f);
+
+            menuActive.SetActive(false);
+            menuPrev = menuActive;
+            menuActive = requested;
+            menuActive.SetActive(true);
+
+            StartCoroutine(playTransition());
+            yield return new WaitForSeconds(0.5f);
+            menuMask.SetActive(false);
+        }
+    }
+
+    //Toggles the main menu mask
+    IEnumerator playTransition()
+    {
+        Color clr = menuMask.GetComponentInChildren<Image>().color;
+        if (clr != null)
+        {
+            //Take it down
+            while (clr.a < 1.0f)
+            {
+                clr.a += 0.1f;
+                menuMask.GetComponentInChildren<Image>().color = clr;
+                yield return new WaitForSeconds(0.05f);
+            }
+            //This is to avoid float errors
+            clr.a = 1;
+            menuMask.GetComponentInChildren<Image>().color = clr;
+
+            //Put it up
+            while (clr.a > 0.0f)
+            {
+                clr.a -= 0.1f;
+                menuMask.GetComponentInChildren<Image>().color = clr;
+                yield return new WaitForSeconds(0.05f);
+            }
+            //This is to avoid float errors
+            clr.a = 0;
+            menuMask.GetComponentInChildren<Image>().color = clr;
+        }
+        else UnityEngine.Debug.Log("No color component found!");
+        yield return null;
+    }
+
+    #endregion
     #region HUD and Game managing methods
     //Sets the game's time rate to zero to freeze it and frees the cursor
     public void statePause()
@@ -713,6 +773,16 @@ public class gameManager : MonoBehaviour
     public GameObject GetMainShop()
     {
         return menuShop;
+    }
+
+    public void SetMainMask(GameObject menu)
+    {
+        menuMask = menu;
+    }
+
+    public GameObject GetMainMask()
+    {
+        return menuMask;
     }
     #endregion
 

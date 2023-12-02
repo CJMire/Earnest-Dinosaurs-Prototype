@@ -728,7 +728,7 @@ MonoBehaviour:
   anim: {fileID: 8050543315259290899}
   damageCol: {fileID: 2694569867861016979}
   aud: {fileID: 499095691832337140}
-  HP: 40
+  HP: 100
   facingSpeed: 10
   damageDuration: 0.3
   stuntTime: 5
@@ -1816,6 +1816,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2674464691076008763}
     m_Modifications:
     - target: {fileID: 413851239578600865, guid: 7c3315ed04234a04a831eb1e009cd328, type: 3}
+      propertyPath: HP
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 413851239578600865, guid: 7c3315ed04234a04a831eb1e009cd328, type: 3}
       propertyPath: summoner
       value: 
       objectReference: {fileID: 1729804343359671772}
@@ -1911,6 +1915,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2674464691076008763}
     m_Modifications:
     - target: {fileID: 413851239578600865, guid: 7c3315ed04234a04a831eb1e009cd328, type: 3}
+      propertyPath: HP
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 413851239578600865, guid: 7c3315ed04234a04a831eb1e009cd328, type: 3}
       propertyPath: summoner
       value: 
       objectReference: {fileID: 1729804343359671772}
@@ -1993,6 +2001,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2674464691076008763}
     m_Modifications:
+    - target: {fileID: 413851239578600865, guid: 7c3315ed04234a04a831eb1e009cd328, type: 3}
+      propertyPath: HP
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 413851239578600865, guid: 7c3315ed04234a04a831eb1e009cd328, type: 3}
       propertyPath: summoner
       value: 

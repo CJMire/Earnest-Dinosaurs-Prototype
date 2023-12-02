@@ -29,6 +29,7 @@ public class gameManager : MonoBehaviour
     [Header("----- HUD Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
     [SerializeField] TextMeshProUGUI textWaves;
+    [SerializeField] TextMeshProUGUI textEnemyLeft;
     [SerializeField] TextMeshProUGUI textEnemyCount;
     [SerializeField] TextMeshProUGUI isSpawningText;
     [SerializeField] Image imageHPBar;
@@ -61,6 +62,9 @@ public class gameManager : MonoBehaviour
     private bool showRespawnWarning = true;
     private bool isLowHealth = false;
     private bool playingHealthFlash = false;
+    private bool bossIsDead = false;
+    private bool bossIsSpawned = false;
+    private bool portalSpawned = false;
 
     [Header("----- Spawner Enemies -----")]
     [SerializeField] GameObject EnemyBase_1;
@@ -68,7 +72,15 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_3;
     [SerializeField] GameObject EnemyBase_4;
     [SerializeField] GameObject EnemyBase_5;
-    private int barrierChancePercentage; 
+    private int barrierChancePercentage;
+
+    [Header("----- Boss Enemies -----")]
+    [SerializeField] GameObject MechBoss;
+    [SerializeField] GameObject SummonerBoss;
+    [SerializeField] GameObject FinalBoss;
+    [SerializeField] GameObject bossHealthBar;
+    [SerializeField] TextMeshProUGUI bossName;
+    [SerializeField] GameObject currentBoss;
 
     [Header("----- Wave Settings -----")]
     [Range(1,5)] [SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
@@ -143,7 +155,20 @@ public class gameManager : MonoBehaviour
             FillReloadingIcon();
         }
 
+        if(currentBoss == null && bossIsSpawned)
+        {
+            bossIsDead = true;
+        }
 
+        if(bossIsDead && !portalSpawned)
+        {
+            textWaves.gameObject.SetActive(true);
+            textEnemyLeft.gameObject.SetActive(true);
+            textEnemyCount.gameObject.SetActive(true);
+            isSpawningText.gameObject.SetActive(true);
+            bossHealthBar.gameObject.SetActive(false);
+            portalSpawn();
+        }
 
         if(playerScript.shootDamage >= 20)
         {
@@ -383,11 +408,16 @@ public class gameManager : MonoBehaviour
             //Level Complete (completed waves == waves up to this level)
             else if (waveCurrent >= levelCompletion * currentLevel)
             {
-                portalSpawn();
-                if(SceneManager.GetActiveScene().name == "Level 2" && waveCurrent == 3)
+                if(SceneManager.GetActiveScene().name == "Level 3" && waveCurrent == 3)
                 {
                     OnWin();
                     return;
+                }
+
+                //Spawned boss
+                else
+                {
+                    bossSpawn();
                 }
             }
             else
@@ -506,11 +536,48 @@ public class gameManager : MonoBehaviour
 
     private void portalSpawn()
     {
-        if(waveCurrent == 3 && enemyCount == 0)
+        portalSpawned = true;
+        Instantiate(portal, new Vector3(0, 1.5f, 0), Quaternion.identity);
+    }
+
+    private void bossSpawn()
+    {
+        if(!bossIsDead && waveCurrent == 3 && enemyCount == 0 && !bossIsSpawned)
         {
-            Instantiate(portal, new Vector3(0, 1.5f, 0), Quaternion.identity);
+            bossIsSpawned = true;
+            textWaves.gameObject.SetActive(false);
+            textEnemyLeft.gameObject.SetActive(false);
+            textEnemyCount.gameObject.SetActive(false);
+            isSpawningText.gameObject.SetActive(false);
+
+            if (SceneManager.GetActiveScene().name == "Level 1")
+            {
+                currentBoss = Instantiate(MechBoss, new Vector3(0, 1.5f, 0), Quaternion.identity);
+                bossName.text = "Sergeant Kuller";
+                bossHealthBar.gameObject.SetActive(true);
+            }
+
+            else if(SceneManager.GetActiveScene().name == "Level 2")
+            {
+                currentBoss = Instantiate(SummonerBoss, new Vector3(0, 1.5f, 0), Quaternion.identity);
+                bossName.text = "Mastermind";
+                bossHealthBar.gameObject.SetActive(true);
+            }
+
+            else if(SceneManager.GetActiveScene().name == "Level 3")
+            {
+                currentBoss = Instantiate(FinalBoss, new Vector3(0, 1.5f, 0), Quaternion.identity);
+                bossName.text = "Phantom";
+                bossHealthBar.gameObject.SetActive(true);
+            }
+            
+            else
+            {
+                //Do nothing 
+            }
         }
     }
+
     #endregion
     #region Reload methods
 

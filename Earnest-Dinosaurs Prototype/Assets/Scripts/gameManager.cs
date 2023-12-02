@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 public class gameManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuRespawnWarning;
     [SerializeField] GameObject menuRestartWarning;
 
+    public GameObject portal;
     public GameObject player;
     public playerController playerScript;
     public GameObject dmgPickup;
@@ -49,10 +51,10 @@ public class gameManager : MonoBehaviour
     private bool isPaused;
     float timeScaleOriginal;
     Stopwatch stopwatch;
-    int waveCurrent;
-    int enemyCount;
+    public int waveCurrent;
+    public int enemyCount;
     private bool stopSpawning;
-    private int enemiesPerWave;
+    public int enemiesPerWave;
     private int currentLevel;
     private int totalPenaltyTime;
     private float fillTime;
@@ -73,8 +75,8 @@ public class gameManager : MonoBehaviour
     [Range(1, 2)][SerializeField] int totalLevels;
     [SerializeField] float spawnSpeed;
     [SerializeField] float gracePeriod;
-    [SerializeField] int totalEnemies;
-    [Range(1, 10)][SerializeField] int newWaveIncrease; // how many more enemies will there be in new wave
+    [SerializeField] public int totalEnemies;
+    [Range(1, 10)][SerializeField] public int newWaveIncrease; // how many more enemies will there be in new wave
     [SerializeField] List<gunStats> levelCompleteRewards = new List<gunStats>();
 
     [Header("----- Spawn Points -----")]
@@ -381,16 +383,23 @@ public class gameManager : MonoBehaviour
             //Level Complete (completed waves == waves up to this level)
             else if (waveCurrent >= levelCompletion * currentLevel)
             {
-                StartCoroutine("OnLevelSwitch");
+                portalSpawn();
+                if(SceneManager.GetActiveScene().name == "Level 2" && waveCurrent == 3)
+                {
+                    OnWin();
+                    return;
+                }
             }
+            else
+            {
+                //Continue to next wave
+                totalEnemies = enemiesPerWave + newWaveIncrease; // increases amount of enemies per wave
+                stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
 
-            //Continue to next wave
-            totalEnemies = enemiesPerWave + newWaveIncrease; // increases amount of enemies per wave
-            stopSpawning = false; // reactivates the if statement for the inovoke on SpawnWave
-
-            //increase wave number & update HUD
-            waveCurrent++;
-            textWaves.text = "Wave:  " + waveCurrent.ToString();
+                //increase wave number & update HUD
+                waveCurrent++;
+                textWaves.text = "Wave:  " + waveCurrent.ToString();
+            }
         }
     }
 
@@ -493,6 +502,14 @@ public class gameManager : MonoBehaviour
         currentLevel++;
         SetSpawnPositions();
         playerScript.spawnPlayer();
+    }
+
+    private void portalSpawn()
+    {
+        if(waveCurrent == 3 && enemyCount == 0)
+        {
+            Instantiate(portal, new Vector3(0, 1.5f, 0), Quaternion.identity);
+        }
     }
     #endregion
     #region Reload methods

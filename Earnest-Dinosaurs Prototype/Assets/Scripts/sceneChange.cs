@@ -6,14 +6,16 @@ using UnityEngine.SceneManagement;
 public class sceneChange : MonoBehaviour
 {
     public static gameManager instance;
-    public int level = 1;
     public int actualWave;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && SceneManager.GetActiveScene().name  == "Level 1")
         {
-            level++;
-            SceneManager.LoadScene(level);
+            SceneManager.LoadScene("Level 2");
+        }
+        else if(other.CompareTag("Player") && SceneManager.GetActiveScene().name == "Level 2")
+        {
+            SceneManager.LoadScene("Level 3");
         }
     }
 

@@ -33,6 +33,9 @@ TagManager:
   - Enemy Healer
   - Boss
   - EliteDrone
+  - Roof
+  - Floor1
+  - Floor2
   layers:
   - Default
   - TransparentFX

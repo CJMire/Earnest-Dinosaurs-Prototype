@@ -491,7 +491,7 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    private void OnLevelSwitch()
+    public void OnLevelSwitch()
     {
         if (levelCompleteRewards.Count > 0)
         {

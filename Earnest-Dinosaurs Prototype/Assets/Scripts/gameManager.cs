@@ -14,12 +14,22 @@ public class gameManager : MonoBehaviour
     [Header("----- Components -----")]
     [SerializeField] GameObject menuActive;
     private GameObject menuPrev;
+
+    [Header("----- Game Menu Components -----")]
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuRespawnWarning;
     [SerializeField] GameObject menuRestartWarning;
 
+    [Header("----- Main Menu Components -----")]
+    [SerializeField] GameObject menuMain;
+    [SerializeField] GameObject menuOptions;
+    [SerializeField] GameObject menuGuide;
+    [SerializeField] GameObject menuCredits;
+    [SerializeField] GameObject menuShop;
+
+    [Header("----- Game Components -----")]
     public GameObject portal;
     public GameObject player;
     public playerController playerScript;
@@ -47,6 +57,7 @@ public class gameManager : MonoBehaviour
 
 
     [Header("----- Settings -----")]
+    bool isOnMainMenu;
     [SerializeField] int timePenalty;
     private bool isPaused;
     float timeScaleOriginal;
@@ -86,90 +97,100 @@ public class gameManager : MonoBehaviour
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         instance = this;
+        if(SceneManager.GetActiveScene().name == "MainMenuScene")
+        {
+            isOnMainMenu = true;
+        }
+        else
+        {
+            //creates new stopwatch and starts it
+            stopwatch = Stopwatch.StartNew();
+            timeScaleOriginal = Time.timeScale;
 
-        //creates new stopwatch and starts it
-        stopwatch = Stopwatch.StartNew();
-        timeScaleOriginal = Time.timeScale;
+            //Find player from the tag 
+            player = GameObject.FindWithTag("Player");
+            playerScript = player.GetComponent<playerController>();
 
-        //Find player from the tag 
-        player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<playerController>();
+            //Set current level
+            currentLevel = 1;
 
-        //Set current level
-        currentLevel = 1;
+            //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates wave text HUD
+            SetSpawnPositions();
+            waveCurrent = 1;
+            textWaves.text = "Wave:  " + waveCurrent.ToString();
+            stopSpawning = false;
 
-        //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates wave text HUD
-        SetSpawnPositions();
-        waveCurrent = 1;
-        textWaves.text = "Wave:  " + waveCurrent.ToString();
-        stopSpawning = false;
+            //Sets current amount of enemies to zero and updates HUD
+            enemyCount = 0;
+            barrierChancePercentage = 50;
+            textEnemyCount.text = enemyCount.ToString();
 
-        //Sets current amount of enemies to zero and updates HUD
-        enemyCount = 0;
-        barrierChancePercentage = 50;
-        textEnemyCount.text = enemyCount.ToString();
-
-        totalPenaltyTime = 0; //Sets total penalty time
-        imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
-        fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
-        playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
+            totalPenaltyTime = 0; //Sets total penalty time
+            imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
+            fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
+            playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
+        }
     }
 
     void Update()
     {
-        //Pressing the ESC key calls the pause function if the menu is available and the pause menu has a refrence
-        if (Input.GetButtonDown("Cancel") && menuActive == null && menuPause != null)
+        if (!isOnMainMenu)
         {
-            statePause();
-            menuActive = menuPause;
-            menuActive.SetActive(isPaused);
-        }
-        //updates the timer everyframe if game is NOT paused
-        if (!isPaused)
-        {
-            textTimer.text = GiveTime();
-        }
+            //Pressing the ESC key calls the pause function if the menu is available and the pause menu has a refrence
+            if (Input.GetButtonDown("Cancel") && menuActive == null && menuPause != null)
+            {
+                statePause();
+                menuActive = menuPause;
+                menuActive.SetActive(isPaused);
+            }
+            //updates the timer everyframe if game is NOT paused
+            if (!isPaused)
+            {
+                textTimer.text = GiveTime();
+            }
 
-        if (stopSpawning == false)
-        {
-            UpdateEnemiesPerWave();
+            if (stopSpawning == false)
+            {
+                UpdateEnemiesPerWave();
 
-            StartCoroutine(SpawnWave());
-        }
+                StartCoroutine(SpawnWave());
+            }
 
-        if (playerScript.GetIsReloading())
-        {
-            FillReloadingIcon();
-        }
+            if (playerScript.GetIsReloading())
+            {
+                FillReloadingIcon();
+            }
 
 
 
-        if(playerScript.shootDamage >= 20)
-        {
-            dmgIconOn();
-        }
-        else if(playerScript.shootDamage < 20)
-        {
-            dmgIconOff();
-        }
+            if (playerScript.shootDamage >= 20)
+            {
+                dmgIconOn();
+            }
+            else if (playerScript.shootDamage < 20)
+            {
+                dmgIconOff();
+            }
 
-        if (playerScript.playerSpeed >= 16)
-        {
-            speedIconOn();
-        }
-        else if (playerScript.playerSpeed < 16)
-        {
-            speedIconOff();
-        }
+            if (playerScript.playerSpeed >= 16)
+            {
+                speedIconOn();
+            }
+            else if (playerScript.playerSpeed < 16)
+            {
+                speedIconOff();
+            }
 
-        if (bullet1.GetComponent<SphereCollider>().enabled == false)
-        {
-            invincibilityIconOn();
-        }
-        else if (bullet1.GetComponent<SphereCollider>().enabled == true)
-        {
-            invincibilityIconOff();
+            if (bullet1.GetComponent<SphereCollider>().enabled == false)
+            {
+                invincibilityIconOn();
+            }
+            else if (bullet1.GetComponent<SphereCollider>().enabled == true)
+            {
+                invincibilityIconOff();
+            }
         }
     }
 
@@ -641,6 +662,58 @@ public class gameManager : MonoBehaviour
     {
         showRespawnWarning = show;
     }
+
+    #region Main Menus
+    public void SetMainMenu(GameObject menu)
+    {
+        menuMain = menu;
+    }
+
+    public GameObject GetMainMenu()
+    {
+        return menuMain;
+    }
+
+    public void SetMainOptions(GameObject menu)
+    {
+        menuOptions = menu;
+    }
+
+    public GameObject GetMainOptions()
+    {
+        return menuOptions;
+    }
+
+    public void SetMainGuide(GameObject menu)
+    {
+        menuGuide = menu;
+    }
+
+    public GameObject GetMainGuide()
+    {
+        return menuGuide;
+    }
+
+    public void SetMainCredits(GameObject menu)
+    {
+        menuCredits = menu;
+    }
+
+    public GameObject GetMainCredits()
+    {
+        return menuCredits;
+    }
+
+    public void SetMainShop(GameObject menu)
+    {
+        menuShop = menu;
+    }
+
+    public GameObject GetMainShop()
+    {
+        return menuShop;
+    }
+    #endregion
 
     public void SetBossHealth(int currentHP, int maxHP)
     {

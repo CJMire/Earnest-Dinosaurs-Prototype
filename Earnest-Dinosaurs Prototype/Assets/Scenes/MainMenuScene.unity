@@ -131,9 +131,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 579283374286505813, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 875255348428550507, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255348428550507, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4006873955872105478, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
       propertyPath: m_Pivot.x
@@ -427,6 +435,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &695843967 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4155884143005875958, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+  m_PrefabInstance: {fileID: 198685644}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8024a390ce5d3a478e4f0ad1d23be67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896911985
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,57 +881,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1265411594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1265411596}
-  - component: {fileID: 1265411595}
-  m_Layer: 0
-  m_Name: MainMenuManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1265411595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265411594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9924a04d1f78e499afc8af7985d469, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UI: {fileID: 198685645}
-  menuActive: {fileID: 0}
-  menuMainMenu: {fileID: 4760502466844921933}
-  menuShop: {fileID: 644244601}
-  menuOptions: {fileID: 312744059882014861}
-  menuGuide: {fileID: 8761585172423265420}
-  menuCredits: {fileID: 4895890897991646878}
---- !u!4 &1265411596
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265411594}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1318285541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,7 +1039,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Shop
         m_Mode: 1
@@ -1374,7 +1342,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
@@ -2048,7 +2016,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Guide
         m_Mode: 1
@@ -2168,7 +2136,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Credits
         m_Mode: 1
@@ -2613,7 +2581,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
@@ -3224,7 +3192,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
@@ -3280,7 +3248,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Options
         m_Mode: 1
@@ -3956,7 +3924,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
@@ -4130,9 +4098,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
-        m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
-        m_MethodName: StartGame
+      - m_Target: {fileID: 695843967}
+        m_TargetAssemblyTypeName: ButtonHandler, Assembly-CSharp
+        m_MethodName: MainStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4288,7 +4256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1265411595}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: mainMenuManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
@@ -5256,6 +5224,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 234078191}
   - {fileID: 1251271722}
-  - {fileID: 1265411596}
   - {fileID: 2087854702}
   - {fileID: 198685644}

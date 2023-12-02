@@ -34,8 +34,10 @@ public class ButtonHandler : MonoBehaviour
 
     public void Quit()
     {
-        //on press, quits game
-        Application.Quit();
+        //on press returns to the main menu
+        gameManager.instance.playerScript.StopAllCoroutines();
+        gameManager.instance.StopAllCoroutines();
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void RespawnButton()
@@ -77,4 +79,35 @@ public class ButtonHandler : MonoBehaviour
         gameManager.instance.SetPrevMenu(null);
         gameManager.instance.GetActiveMenu().SetActive(true);
     }
+
+    #region Main Menu Buttons
+    public void MainStart()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    public void MainOptions()
+    {
+        switchMenu(gameManager.instance.GetMainOptions());
+    }
+
+    public void MainGuide()
+    {
+        switchMenu(gameManager.instance.GetMainGuide());
+    }
+
+    public void MainCredits()
+    {
+        switchMenu(gameManager.instance.GetMainCredits());
+    }
+
+
+    public void switchMenu(GameObject requested)
+    {
+        gameManager.instance.GetActiveMenu().SetActive(false);
+        gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
+        gameManager.instance.SetActiveMenu(requested);
+        gameManager.instance.GetActiveMenu().SetActive(true);
+    }
+    #endregion
 }

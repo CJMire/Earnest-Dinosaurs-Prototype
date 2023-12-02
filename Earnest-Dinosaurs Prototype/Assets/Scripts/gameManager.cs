@@ -81,7 +81,7 @@ public class gameManager : MonoBehaviour
 
     [Header("----- Spawn Points -----")]
     List<GameObject> playerSpawnLocations = new List<GameObject>();
-    List<Transform> enemySpawnLocations = new List<Transform>();
+    public List<Transform> enemySpawnLocations = new List<Transform>();
 
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()

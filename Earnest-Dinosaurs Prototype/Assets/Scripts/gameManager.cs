@@ -98,6 +98,7 @@ public class gameManager : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        Time.timeScale = 1.0f;
         instance = this;
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {

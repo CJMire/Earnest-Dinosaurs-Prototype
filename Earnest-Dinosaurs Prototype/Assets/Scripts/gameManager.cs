@@ -99,6 +99,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_3;
     [SerializeField] GameObject EnemyBase_4;
     [SerializeField] GameObject EnemyBase_5;
+    [SerializeField] GameObject EnemyBase_6;
+    [SerializeField] GameObject EnemyBase_7;
     private int barrierChancePercentage;
 
     [Header("----- Boss Enemies -----")]
@@ -539,7 +541,7 @@ public class gameManager : MonoBehaviour
     GameObject GiveEnemy()
     {
         GameObject enemy;
-        int random = Random.Range(0, 5); // random number is generated as to which enemy will spawn
+        int random = Random.Range(0, 7); // random number is generated as to which enemy will spawn
         if (random == 0)
         {
             enemy = EnemyBase_1;
@@ -556,9 +558,17 @@ public class gameManager : MonoBehaviour
         {
             enemy = EnemyBase_4;
         }
-        else
+        else if(random == 4)
         {
             enemy = EnemyBase_5;
+        }
+        else if(random == 5)
+        {
+            enemy = EnemyBase_6;
+        }
+        else
+        {
+            enemy = EnemyBase_7;
         }
 
         return enemy;
@@ -577,6 +587,7 @@ public class gameManager : MonoBehaviour
             yield return new WaitForSeconds(gracePeriod);
         }
 
+
         //Since the transform of the location is accessed twice, made a local variable for easier code readability
         Transform location = enemySpawnLocations[Random.Range(0, enemySpawnLocations.Count - 1)]; //gets random location for spawning (instantiate)
 
@@ -587,21 +598,23 @@ public class gameManager : MonoBehaviour
         GameObject enemyClone;
         enemyClone = Instantiate(GiveEnemy(), location.position, location.rotation);
 
-        //Setting enemy barrier 
-        int barrierChance = Random.Range(0, 100);
-
-        //We can change the chance of enemy spawning with barrier rate by adjusting barrierChancePercentage
-        //currently set it to 50% chance of spawning with barrier.  
-        if(barrierChance < barrierChancePercentage)
+        if (enemyClone.CompareTag("Enemy"))
         {
-            enemyClone.GetComponent<enemyAI>().SetBarrierHP(3);
-        }
+            //Setting enemy barrier 
+            int barrierChance = Random.Range(0, 100);
 
-        else
-        {
-            enemyClone.GetComponent<enemyAI>().SetBarrierHP(0);
+            //We can change the chance of enemy spawning with barrier rate by adjusting barrierChancePercentage
+            //currently set it to 50% chance of spawning with barrier.
+            if (barrierChance < barrierChancePercentage)
+            {
+                enemyClone.GetComponent<enemyAI>().SetBarrierHP(3);
+            }
+
+            else
+            {
+                enemyClone.GetComponent<enemyAI>().SetBarrierHP(0);
+            }
         }
-        
 
         totalEnemies--;
 

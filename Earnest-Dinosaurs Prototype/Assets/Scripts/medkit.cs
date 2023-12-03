@@ -24,7 +24,7 @@ public class medkit : MonoBehaviour
         //maxHP = gameManager.instance.playerScript.getPlayerMaxHP();
 
         //Temporary implementation, the getPlayerMaxHP keeps returning 0. 
-        maxHP = 10;
+        maxHP = 15;
     }
 
     // Update is called once per frame

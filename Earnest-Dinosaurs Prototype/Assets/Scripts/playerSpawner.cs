@@ -14,7 +14,7 @@ public class playerSpawner : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //makes sure the collider is not another trigger and is the enemy damage collider
-        if (!other.isTrigger && other.gameObject.CompareTag("Enemy"))
+        if (!other.isTrigger && (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss")))
         {
             isEnemyNear++;
             Debug.Log(gameObject.name + " detects " + isEnemyNear + " enemies");
@@ -23,7 +23,7 @@ public class playerSpawner : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (!other.isTrigger && other.gameObject.CompareTag("Enemy"))
+        if (!other.isTrigger && (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss")))
         {
             isEnemyNear--;
             Debug.Log(gameObject.name + " detects " + isEnemyNear + " enemies");

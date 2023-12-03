@@ -55,7 +55,7 @@ public class homingProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Ignore all trigger
-        if (other.isTrigger)
+        if (other.isTrigger || other.CompareTag("Boss"))
         {
             return;
         }
@@ -65,7 +65,7 @@ public class homingProjectile : MonoBehaviour
         //Make the bullet damage the IDamage
         IDamage damageable = other.GetComponent<IDamage>();
 
-        if (damageable != null && !other.CompareTag("Enemy") && !other.CompareTag("Boss"))
+        if (damageable != null && !other.CompareTag("Enemy"))
         {
             damageable.takeDamage(projectileDamage);
         }

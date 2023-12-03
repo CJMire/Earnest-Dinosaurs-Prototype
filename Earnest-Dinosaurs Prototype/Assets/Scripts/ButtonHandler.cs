@@ -40,7 +40,7 @@ public class ButtonHandler : MonoBehaviour
         //on press returns to the main menu
         if (gameManager.instance.player != null) gameManager.instance.playerScript.StopAllCoroutines();
         gameManager.instance.StopAllCoroutines();
-        SceneManager.LoadSceneAsync(0);
+        gameManager.instance.switchSceneAsync("MainMenuScene");
     }
 
     public void RespawnButton()

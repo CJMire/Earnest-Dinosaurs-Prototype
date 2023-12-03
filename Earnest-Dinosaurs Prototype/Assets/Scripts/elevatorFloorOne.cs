@@ -28,9 +28,12 @@ public class elevatorFloorOne : MonoBehaviour
     [SerializeField] public Transform roofPlayerSpawnPoint;
     [SerializeField] AudioSource elevators;
     [SerializeField] public AudioClip elevatorDing;
+    [SerializeField] public AudioClip elevatorDing2;
+    int elevatorSound;
     // Start is called before the first frame update
     void Start()
     {
+        elevatorSound = 0;
     }
 
     // Update is called once per frame
@@ -39,6 +42,11 @@ public class elevatorFloorOne : MonoBehaviour
         //onFloorTwo();
         if(instance.waveCurrent == 2 && instance.enemyCount == 0)
         {
+            if (elevatorSound == 0)
+            {
+                elevators.PlayOneShot(elevatorDing);
+                elevatorSound = 1;
+            }
             elevatorDoors[0].SetActive(false);
             elevatorDoors[1].SetActive(false);
             playerSpawnPoint.SetActive(false);
@@ -59,6 +67,11 @@ public class elevatorFloorOne : MonoBehaviour
         }
         if(instance.waveCurrent == 3 && instance.enemyCount == 0)
         {
+            if (elevatorSound == 1)
+            {
+                elevators.PlayOneShot(elevatorDing2);
+                elevatorSound = 2;
+            }
             elevatorDoors[0].SetActive(false);
             elevatorDoors[1].SetActive(false);
             playerSpawnPoint.SetActive(false);

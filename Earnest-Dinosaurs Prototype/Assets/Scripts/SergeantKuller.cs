@@ -51,6 +51,9 @@ public class SergeantKuller : MonoBehaviour , IDamage
     private bool collidersON;
     private bool isShooting;
 
+    //when spawning the boss, spawn at whatever y-pos you'd like, but preferably at 200 y-pos with x and z being 0
+    //that way the spawn can uitilze the bootup code implemented
+
     void Start()
     {
         isShooting = false;

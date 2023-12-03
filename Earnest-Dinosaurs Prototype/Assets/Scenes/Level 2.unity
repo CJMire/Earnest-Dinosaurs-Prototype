@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2178878439304690103, guid: a775a52356a4f544d9efca52335c4946, type: 3}
+      propertyPath: m_Radius
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 4109317346746908206, guid: a775a52356a4f544d9efca52335c4946, type: 3}
       propertyPath: m_Name
       value: Player
@@ -174,6 +178,14 @@ PrefabInstance:
     - target: {fileID: 5150851934626052695, guid: a775a52356a4f544d9efca52335c4946, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5679545073056369053, guid: a775a52356a4f544d9efca52335c4946, type: 3}
+      propertyPath: HP
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5679545073056369053, guid: a775a52356a4f544d9efca52335c4946, type: 3}
+      propertyPath: playerSpeed
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -434,6 +446,14 @@ PrefabInstance:
     - target: {fileID: 6834730134524934256, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: totalEnemies
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: newWaveIncrease
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

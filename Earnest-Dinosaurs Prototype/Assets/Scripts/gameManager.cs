@@ -213,33 +213,6 @@ public class gameManager : MonoBehaviour
             bossHealthBar.gameObject.SetActive(false);
             portalSpawn();
         }
-
-            if (playerScript.shootDamage >= 20)
-            {
-                dmgIconOn();
-            }
-            else if (playerScript.shootDamage < 20)
-            {
-                dmgIconOff();
-            }
-
-            if (playerScript.playerSpeed >= 16)
-            {
-                speedIconOn();
-            }
-            else if (playerScript.playerSpeed < 16)
-            {
-                speedIconOff();
-            }
-
-            if (bullet1.GetComponent<SphereCollider>().enabled == false)
-            {
-                invincibilityIconOn();
-            }
-            else if (bullet1.GetComponent<SphereCollider>().enabled == true)
-            {
-                invincibilityIconOff();
-            }
         }
     }
 

@@ -50,12 +50,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 5680191297079733141}
-  HP: 10
-  ammoCount: 12
-  playerSpeed: 10
+  damageEnemyEffect: {fileID: 0}
+  audio: {fileID: 0}
+  HP: 15
+  playerSpeed: 15
   playerJumpHeight: 5
   playerJumpMax: 2
   gravityStrength: -9.81
+  sprintMod: 0
+  starterGun: {fileID: 0}
+  gunList: []
+  gunModel: {fileID: 0}
+  audioSteps: []
+  audioStepsVolume: 0
+  audioDamage: []
+  audioDamageVolume: 0
+  audioJump: []
+  audioJumpVolume: 0
   shootDamage: 1
   shootDistance: 20
   shootRate: 0.25

@@ -1535,11 +1535,11 @@ PrefabInstance:
       objectReference: {fileID: 2027189373314433282, guid: ac396a218e293c548bfe9b9a1be9212f, type: 3}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: totalEnemies
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: newWaveIncrease
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: enemySpawnLocations.Array.size
@@ -1756,6 +1756,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 0d952711b52169e4f8814614972413ec, type: 3}
     - target: {fileID: 647778420884589435, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: elevatorDing2
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d952711b52169e4f8814614972413ec, type: 3}
+    - target: {fileID: 647778420884589435, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1925514179}
@@ -1773,6 +1777,10 @@ PrefabInstance:
       objectReference: {fileID: 1925514173}
     - target: {fileID: 856884871147140933, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: elevatorDing
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d952711b52169e4f8814614972413ec, type: 3}
+    - target: {fileID: 856884871147140933, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: elevatorDing2
       value: 
       objectReference: {fileID: 8300000, guid: 0d952711b52169e4f8814614972413ec, type: 3}
     - target: {fileID: 856884871147140933, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}

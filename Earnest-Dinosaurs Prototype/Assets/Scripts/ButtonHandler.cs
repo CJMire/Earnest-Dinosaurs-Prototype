@@ -20,6 +20,7 @@ public class ButtonHandler : MonoBehaviour
         gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
         gameManager.instance.SetActiveMenu(gameManager.instance.GetRestartWarning());
         gameManager.instance.GetActiveMenu().SetActive(true);
+        gameManager.instance.selectButton(gameManager.instance.menuRestartWarningButton);
     }
 
     public void Restart()
@@ -51,6 +52,7 @@ public class ButtonHandler : MonoBehaviour
             gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
             gameManager.instance.SetActiveMenu(gameManager.instance.GetRespawnWarning());
             gameManager.instance.GetActiveMenu().SetActive(true);
+            gameManager.instance.selectButton(gameManager.instance.menuRespawnWarningButton);
         }
         else
         {
@@ -76,7 +78,11 @@ public class ButtonHandler : MonoBehaviour
 
     public void Back()
     {
-        if (SceneManager.GetActiveScene().name == "MainMenuScene") gameManager.instance.switchMenu(gameManager.instance.GetPrevMenu());
+        if (SceneManager.GetActiveScene().name == "MainMenuScene")
+        {
+            gameManager.instance.switchMenu(gameManager.instance.GetPrevMenu());
+            gameManager.instance.selectButton(gameManager.instance.buttonPrev);
+        }
         else
         {
             gameManager.instance.GetActiveMenu().SetActive(false);
@@ -96,21 +102,25 @@ public class ButtonHandler : MonoBehaviour
     public void MainOptions()
     {
         gameManager.instance.switchMenu(gameManager.instance.GetMainOptions());
+        gameManager.instance.selectButton(gameManager.instance.menuOptionsButton);
     }
 
     public void MainGuide()
     {
         gameManager.instance.switchMenu(gameManager.instance.GetMainGuide());
+        gameManager.instance.selectButton(gameManager.instance.menuGuideButton);
     }
 
     public void MainCredits()
     {
         gameManager.instance.switchMenu(gameManager.instance.GetMainCredits());
+        gameManager.instance.selectButton(gameManager.instance.menuCreditsButton);
     }
 
     public void MainShop()
     {
         gameManager.instance.switchMenu(gameManager.instance.GetMainShop());
+        gameManager.instance.selectButton(gameManager.instance.menuShopButton);
     }
 
     public void MainExit()

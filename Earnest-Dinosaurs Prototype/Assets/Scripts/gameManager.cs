@@ -4,9 +4,8 @@ using System.Diagnostics;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Threading;
 using UnityEngine.SceneManagement;
-using UnityEngine.Rendering;
+using UnityEngine.EventSystems;
 
 public class gameManager : MonoBehaviour
 {
@@ -18,21 +17,32 @@ public class gameManager : MonoBehaviour
     [Header("----- Menu Components -----")]
     [SerializeField] GameObject menuActive;
     private GameObject menuPrev;
+    public GameObject buttonPrev;
 
     [Header("----- Game Menu Components -----")]
     [SerializeField] GameObject menuPause;
+    public GameObject menuPauseButton;
     [SerializeField] GameObject menuWin;
+    public GameObject menuWinButton;
     [SerializeField] GameObject menuLose;
+    public GameObject menuLoseButton;
     [SerializeField] GameObject menuRespawnWarning;
+    public GameObject menuRespawnWarningButton;
     [SerializeField] GameObject menuRestartWarning;
+    public GameObject menuRestartWarningButton;
 
     [Header("----- Main Menu Components -----")]
     [SerializeField] GameObject menuMask;
     [SerializeField] GameObject menuMain;
+    public GameObject menuMainButton;
     [SerializeField] GameObject menuOptions;
+    public GameObject menuOptionsButton;
     [SerializeField] GameObject menuGuide;
+    public GameObject menuGuideButton;
     [SerializeField] GameObject menuCredits;
+    public GameObject menuCreditsButton;
     [SerializeField] GameObject menuShop;
+    public GameObject menuShopButton;
 
     [Header("----- Game Components -----")]
     public GameObject portal;
@@ -40,7 +50,6 @@ public class gameManager : MonoBehaviour
     public playerController playerScript;
     public GameObject dmgPickup;
     public damagePickup damagePickupScript;
-    //[SerializeField] AudioClip music;
 
     [Header("----- HUD Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
@@ -119,9 +128,6 @@ public class gameManager : MonoBehaviour
         Time.timeScale = 1.0f;
         instance = this;
 
-        //aud = GetComponent<AudioSource>();
-        //aud.PlayOneShot(music);
-
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {
             isOnMainMenu = true;
@@ -169,6 +175,7 @@ public class gameManager : MonoBehaviour
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
+                selectButton(menuPauseButton);
             }
             //updates the timer everyframe if game is NOT paused
             if (!isPaused)
@@ -304,6 +311,13 @@ public class gameManager : MonoBehaviour
         yield return null;
     }
 
+    public void selectButton(GameObject button)
+    {
+        buttonPrev = EventSystem.current.currentSelectedGameObject;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(button);
+    }
+
     #endregion
     #region HUD and Game managing methods
     //Sets the game's time rate to zero to freeze it and frees the cursor
@@ -344,9 +358,10 @@ public class gameManager : MonoBehaviour
     public void OnDeath()
     {
         //no need to set anything to null or false because it's handled in the buttonHandler script
-            statePause();
-            menuActive = menuLose;
-            menuActive.SetActive(true);
+        statePause();
+        menuActive = menuLose;
+        menuActive.SetActive(true);
+        selectButton(menuLoseButton);
     }
 
     public IEnumerator playerHurtFlash()
@@ -362,6 +377,7 @@ public class gameManager : MonoBehaviour
         statePause();
         menuActive = menuWin;
         menuActive.SetActive(true);
+        selectButton(menuWinButton);
     }
 
     public void updateHUD()

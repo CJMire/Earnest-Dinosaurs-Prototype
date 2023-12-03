@@ -38,7 +38,7 @@ public class ButtonHandler : MonoBehaviour
     public void Quit()
     {
         //on press returns to the main menu
-        gameManager.instance.playerScript.StopAllCoroutines();
+        if (gameManager.instance.player != null) gameManager.instance.playerScript.StopAllCoroutines();
         gameManager.instance.StopAllCoroutines();
         SceneManager.LoadSceneAsync(0);
     }

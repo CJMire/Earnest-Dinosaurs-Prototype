@@ -12,6 +12,9 @@ public class SergeantKuller : MonoBehaviour , IDamage
     [SerializeField] Collider[] bodyColliders;
     [SerializeField] Animator animator;
     [SerializeField] Transform headPos;
+    [SerializeField] GameObject[] blowupObjects;
+    [SerializeField] ParticleSystem smallExplosion;
+    [SerializeField] ParticleSystem bigExplosion;
 
     [Header("----- Boss Settings -----")]
     [Range(1, 250)][SerializeField] float HP;
@@ -37,6 +40,8 @@ public class SergeantKuller : MonoBehaviour , IDamage
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip laser;
     [Range(0f, 1f)][SerializeField] float laserVolume;
+    [SerializeField] AudioClip explosion;
+    [Range(0f, 1f)][SerializeField] float explosionVol;
 
     private bool bootUpDone;
     private bool isAttacking;
@@ -50,6 +55,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
     private bool landed;
     private bool collidersON;
     private bool isShooting;
+    private bool alive;
 
     //when spawning the boss, spawn at whatever y-pos you'd like, but preferably at 200 y-pos with x and z being 0
     //that way the spawn can uitilze the bootup code implemented
@@ -180,7 +186,8 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
         if(HP <= 0)
         {
-
+            alive = false;
+            OnDeath();
         }
     }
 
@@ -193,7 +200,8 @@ public class SergeantKuller : MonoBehaviour , IDamage
                 bodyColliders[ndx].enabled = false;
             }
         }
-        collidersON = false;
+        if(alive)
+            collidersON = false;
     }
 
     void TurnOnColiders()
@@ -216,6 +224,43 @@ public class SergeantKuller : MonoBehaviour , IDamage
     public void SetDoubleDamage(bool dDMG)
     {
         doubleDMG = dDMG;
+    }
+
+    void OnDeath()
+    {
+        StopAllCoroutines();
+        TurnOffColiders();
+        animator.SetFloat("Turnrate", 0f);
+        animator.SetTrigger("Death");
+        aud.PlayOneShot(explosion, explosionVol);
+        for(int ndx = 0;ndx < blowupObjects.Length; ndx++)
+        {
+            Instantiate(smallExplosion, blowupObjects[ndx].transform.position, blowupObjects[ndx].transform.rotation);
+            Destroy(blowupObjects[ndx]);
+        }
+        StartCoroutine(BlowUp());
+    }
+
+    IEnumerator BlowUp()
+    {
+        while (true)
+        {
+            int ndx = Random.Range(0, bodyColliders.Length);
+            aud.PlayOneShot(explosion, explosionVol);
+            while (bodyColliders[ndx] == null)
+                ndx = Random.Range(0, bodyColliders.Length);
+            Instantiate(smallExplosion, bodyColliders[ndx].transform.position, bodyColliders[ndx].transform.rotation);
+            yield return new WaitForSeconds(Random.Range(0.1f,1f));
+        }
+    }
+
+    public void BlowUpWhole()
+    {
+        StopAllCoroutines();
+        aud.PlayOneShot(explosion, explosionVol);
+        //Has to be like this, otherwise will spawn at feet
+        Instantiate(bigExplosion, new Vector3(transform.position.x, transform.position.y, transform.position.z + 15f), bigExplosion.transform.rotation);
+        Destroy(gameObject);
     }
     #endregion
     #region Attacks

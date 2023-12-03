@@ -230,6 +230,14 @@ MonoBehaviour:
   - {fileID: 1426280318738155667}
   animator: {fileID: 1256227080646634364}
   headPos: {fileID: 1071340385304754929}
+  blowupObjects:
+  - {fileID: 9199225750262075732}
+  - {fileID: 4662037531949943207}
+  - {fileID: 7545924728032789330}
+  - {fileID: 6589158379056344873}
+  - {fileID: 3591520340414981354}
+  smallExplosion: {fileID: 4081031231161267081, guid: 2b0a4eafca6a2ea438bb64b309703f9f, type: 3}
+  bigExplosion: {fileID: 4371637952543999077, guid: 1028ea9eb529c9248ab0c5749025e42a, type: 3}
   HP: 250
   turnRate: 0.75
   attackPauseTime: 5
@@ -257,6 +265,8 @@ MonoBehaviour:
   aud: {fileID: 7809037641282195148}
   laser: {fileID: 8300000, guid: da73ae9c2d5e6cd42acdbff53acdadd5, type: 3}
   laserVolume: 0.5
+  explosion: {fileID: 8300000, guid: 0acd99f2461b350468474aa94f5cbf70, type: 3}
+  explosionVol: 0.5
 --- !u!95 &1256227080646634364
 Animator:
   serializedVersion: 5

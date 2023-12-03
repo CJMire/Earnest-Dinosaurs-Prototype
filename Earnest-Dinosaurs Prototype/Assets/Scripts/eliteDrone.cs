@@ -136,7 +136,8 @@ public class eliteDrone : MonoBehaviour, IDamage
 
     public void respawn()
     {
-        transform.position = summonerGround.transform.position + origStartPosition;
+        Vector3 position = new Vector3(summonerGround.transform.position.x + origStartPosition.x, origStartPosition.y, summonerGround.transform.position.z + origStartPosition.z);
+        transform.position = position;
         HP = maxHP;
         gameObject.SetActive(true);
         damageCol.enabled = true;

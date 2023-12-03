@@ -77,6 +77,8 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
     void Update()
     {
+        gameManager.instance.SetBossHealth((int)HP, 250);
+
         if(!gameManager.instance.GetIsPaused())
         {
             if(bootUpDone)

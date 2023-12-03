@@ -417,6 +417,10 @@ PrefabInstance:
       value: 0.8867924
       objectReference: {fileID: 0}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: MechBoss
+      value: 
+      objectReference: {fileID: 984998054344925733, guid: 7d034659607cd1044aaeb6fa9621747c, type: 3}
+    - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: menuWinButton
       value: 
       objectReference: {fileID: 196557484}

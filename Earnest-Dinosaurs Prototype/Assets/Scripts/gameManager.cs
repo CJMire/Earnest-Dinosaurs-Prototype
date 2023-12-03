@@ -675,7 +675,7 @@ public class gameManager : MonoBehaviour
 
             if (SceneManager.GetActiveScene().name == "Level 1")
             {
-                currentBoss = Instantiate(MechBoss, new Vector3(0, 1.5f, 0), Quaternion.identity);
+                currentBoss = Instantiate(MechBoss, new Vector3(0, 200.0f, 0), Quaternion.identity);
                 bossName.text = "Sergeant Kuller";
                 bossHealthBar.gameObject.SetActive(true);
             }

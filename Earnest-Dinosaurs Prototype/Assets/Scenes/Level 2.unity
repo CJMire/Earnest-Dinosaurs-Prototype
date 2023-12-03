@@ -450,7 +450,7 @@ PrefabInstance:
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: EnemyBase_6
       value: 
-      objectReference: {fileID: 7761982082733212264, guid: e8425537b06363d45a16313c1b376451, type: 3}
+      objectReference: {fileID: 2027189373314433282, guid: ac396a218e293c548bfe9b9a1be9212f, type: 3}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: EnemyBase_7
       value: 

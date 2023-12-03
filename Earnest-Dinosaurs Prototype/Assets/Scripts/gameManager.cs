@@ -100,7 +100,6 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject EnemyBase_4;
     [SerializeField] GameObject EnemyBase_5;
     [SerializeField] GameObject EnemyBase_6;
-    [SerializeField] GameObject EnemyBase_7;
     private int barrierChancePercentage;
 
     [Header("----- Boss Enemies -----")]
@@ -562,15 +561,10 @@ public class gameManager : MonoBehaviour
         {
             enemy = EnemyBase_5;
         }
-        else if(random == 5)
+        else
         {
             enemy = EnemyBase_6;
         }
-        else
-        {
-            enemy = EnemyBase_7;
-        }
-
         return enemy;
     }
 

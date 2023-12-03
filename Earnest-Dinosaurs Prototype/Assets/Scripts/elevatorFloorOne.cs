@@ -26,6 +26,8 @@ public class elevatorFloorOne : MonoBehaviour
     [SerializeField] public Transform roofSpawnPoint3;
     [SerializeField] public Transform roofSpawnPoint4;
     [SerializeField] public Transform roofPlayerSpawnPoint;
+    [SerializeField] AudioSource elevators;
+    [SerializeField] public AudioClip elevatorDing;
     // Start is called before the first frame update
     void Start()
     {

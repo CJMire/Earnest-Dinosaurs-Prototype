@@ -192,6 +192,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 5599710361296265759, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599710361296265759, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599710361296265759, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 690f1917fd824a8439aca2525c10c3aa, type: 3}
     - target: {fileID: 6834730134524934256, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: m_Pivot.x
       value: 0

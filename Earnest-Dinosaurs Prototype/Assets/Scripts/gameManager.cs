@@ -13,6 +13,9 @@ public class gameManager : MonoBehaviour
     public static gameManager instance;
 
     [Header("----- Components -----")]
+    [SerializeField] AudioSource aud;
+
+    [Header("----- Menu Components -----")]
     [SerializeField] GameObject menuActive;
     private GameObject menuPrev;
 
@@ -37,6 +40,7 @@ public class gameManager : MonoBehaviour
     public playerController playerScript;
     public GameObject dmgPickup;
     public damagePickup damagePickupScript;
+    //[SerializeField] AudioClip music;
 
     [Header("----- HUD Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
@@ -115,7 +119,8 @@ public class gameManager : MonoBehaviour
         Time.timeScale = 1.0f;
         instance = this;
 
-        
+        //aud = GetComponent<AudioSource>();
+        //aud.PlayOneShot(music);
 
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {

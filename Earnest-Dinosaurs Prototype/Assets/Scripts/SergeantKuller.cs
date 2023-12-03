@@ -33,6 +33,11 @@ public class SergeantKuller : MonoBehaviour , IDamage
     [SerializeField] Transform laserShootPoint_R;
     [SerializeField] Transform footImpactPoint;
 
+    [Header("----- Audio Components -----")]
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip laser;
+    [Range(0f, 1f)][SerializeField] float laserVolume;
+
     private bool bootUpDone;
     private bool isAttacking;
     private bool attackCooldown;
@@ -228,7 +233,11 @@ public class SergeantKuller : MonoBehaviour , IDamage
     IEnumerator Shoot()
     {
         float ogTR = turnRate;
-        turnRate = .2f;
+        turnRate = .3f;
+        isShooting = true;
+
+        aud.PlayOneShot(laser, laserVolume);
+
         Instantiate(lasers, laserShootPoint_R.transform.position, lasers.transform.rotation);
         Instantiate(lasers, laserShootPoint_L.transform.position, lasers.transform.rotation);
         yield return new WaitForSeconds(0.2f);
@@ -239,6 +248,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
         else
         {
             turnRate = ogTR;
+            isShooting = false;
         }
     }
 

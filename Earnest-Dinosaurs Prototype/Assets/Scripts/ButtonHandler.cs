@@ -90,7 +90,7 @@ public class ButtonHandler : MonoBehaviour
     #region Main Menu Buttons
     public void MainStart()
     {
-        SceneManager.LoadSceneAsync(1);
+        gameManager.instance.switchSceneAsync("Level 1");
     }
 
     public void MainOptions()

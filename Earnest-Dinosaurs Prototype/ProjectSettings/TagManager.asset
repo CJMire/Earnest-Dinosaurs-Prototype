@@ -38,6 +38,7 @@ TagManager:
   - Floor2
   - SpawnPoint3.3
   - SpawnPoint3.4
+  - Loading Screen
   layers:
   - Default
   - TransparentFX

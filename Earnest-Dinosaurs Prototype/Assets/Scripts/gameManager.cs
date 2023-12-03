@@ -60,6 +60,7 @@ public class gameManager : MonoBehaviour
 
 
     [Header("----- Settings -----")]
+    GameObject loadingScreenObj;
     bool isOnMainMenu;
     [SerializeField] int timePenalty;
     private bool isPaused;
@@ -113,6 +114,9 @@ public class gameManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         instance = this;
+
+        
+
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {
             isOnMainMenu = true;
@@ -151,6 +155,7 @@ public class gameManager : MonoBehaviour
 
     void Update()
     {
+        if(loadingScreenObj == null) loadingScreenObj = GameObject.FindWithTag("Loading Screen");
         if (!isOnMainMenu)
         {
             //Pressing the ESC key calls the pause function if the menu is available and the pause menu has a refrence
@@ -221,7 +226,18 @@ public class gameManager : MonoBehaviour
             }
         }
     }
-    #region Menu Management
+
+    public void switchSceneAsync(string sceneName)
+    {
+        UnityEngine.Debug.Log("GM switchSceneAsync");
+        if (loadingScreenObj != null)
+        {
+            UnityEngine.Debug.Log("Made it!");
+            loadingScreenObj.gameObject.GetComponent<loadingScreen>().LoadScene(sceneName);
+        }
+    }
+
+    #region Main Menu Management
     public void switchMenu(GameObject requested)
     {
         StartCoroutine(transition(requested));

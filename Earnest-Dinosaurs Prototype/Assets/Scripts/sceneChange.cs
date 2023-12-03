@@ -9,11 +9,11 @@ public class sceneChange : MonoBehaviour
     {
         if (other.CompareTag("Player") && SceneManager.GetActiveScene().name  == "Level 1")
         {
-            SceneManager.LoadScene("Level 2");
+            gameManager.instance.switchSceneAsync("Level 2");
         }
         else if(other.CompareTag("Player") && SceneManager.GetActiveScene().name == "Level 2")
         {
-            SceneManager.LoadScene("Level 3");
+            gameManager.instance.switchSceneAsync("Level 3");
         }
     }
 

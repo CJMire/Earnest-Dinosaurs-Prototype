@@ -188,7 +188,11 @@ public class gameManager : MonoBehaviour
             bossIsDead = true;
         }
 
-        if(bossIsDead && !portalSpawned)
+        if (SceneManager.GetActiveScene().name == "Level 3" && bossIsDead)
+        {
+            updateEnemyCount(enemyCount);
+        }
+            if (bossIsDead && !portalSpawned)
         {
             textWaves.gameObject.SetActive(true);
             textEnemyLeft.gameObject.SetActive(true);
@@ -506,7 +510,7 @@ public class gameManager : MonoBehaviour
             //Level Complete (completed waves == waves up to this level)
             else if (waveCurrent >= levelCompletion * currentLevel)
             {
-                if(SceneManager.GetActiveScene().name == "Level 3" && waveCurrent == 3)
+                if(SceneManager.GetActiveScene().name == "Level 3" && waveCurrent == 3 && bossIsDead)
                 {
                     OnWin();
                     return;
@@ -664,7 +668,7 @@ public class gameManager : MonoBehaviour
 
             else if(SceneManager.GetActiveScene().name == "Level 3")
             {
-                currentBoss = Instantiate(FinalBoss, new Vector3(0, 1.5f, 0), Quaternion.identity);
+                currentBoss = Instantiate(FinalBoss, new Vector3(0, 68f, 0), Quaternion.identity);
                 bossName.text = "Phantom";
                 bossHealthBar.gameObject.SetActive(true);
             }

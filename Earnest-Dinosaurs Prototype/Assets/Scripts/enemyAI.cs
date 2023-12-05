@@ -346,7 +346,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if(drop <= medkitDropRate)
         {
-            Instantiate(medkitObject, transform.position, transform.rotation);
+            Instantiate(medkitObject, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
         }
     }
 

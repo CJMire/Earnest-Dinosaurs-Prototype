@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8135341688025667715}
   - component: {fileID: 2807260510409227654}
   - component: {fileID: 5629245756640245296}
-  - component: {fileID: 4626993548860798931}
+  - component: {fileID: 4717358461104642593}
   - component: {fileID: -5966236541560459266}
   m_Layer: 0
   m_Name: Medkit
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7630504899267989855}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 0, z: -0.062247664}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -49,8 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healingAmount: 3
-  medkitDuration: 5
+  medkitDuration: 8
   rotationSpeed: 5
+  flashOffTime: 0.15
+  flashOnTime: 0.5
   aud: {fileID: -5966236541560459266}
   healSound: {fileID: 8300000, guid: da73ae9c2d5e6cd42acdbff53acdadd5, type: 3}
   healingSplash: {fileID: 8233599873522047795, guid: 737e19fab24081b428ec1218043bfffd, type: 3}
@@ -105,8 +107,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4626993548860798931
-BoxCollider:
+--- !u!135 &4717358461104642593
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -124,8 +126,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.9540792, y: 2.5032947, z: 0.4149846}
-  m_Center: {x: 0, y: 1.2310425, z: 0.20749219}
+  m_Radius: 4
+  m_Center: {x: 0, y: 1.15, z: 0.25}
 --- !u!82 &-5966236541560459266
 AudioSource:
   m_ObjectHideFlags: 0

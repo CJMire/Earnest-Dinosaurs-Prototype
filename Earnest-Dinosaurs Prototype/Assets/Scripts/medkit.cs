@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class medkit : MonoBehaviour
@@ -8,6 +10,8 @@ public class medkit : MonoBehaviour
     [SerializeField] int healingAmount;
     [SerializeField] int medkitDuration;
     [SerializeField] int rotationSpeed;
+    [Range(0f, 1f)][SerializeField] float flashOffTime;
+    [Range(0f, 1f)][SerializeField] float flashOnTime;
 
     [Header("----- Medkit's Feedback")]
     [SerializeField] AudioSource aud;
@@ -17,6 +21,9 @@ public class medkit : MonoBehaviour
 
     int maxHP;
     float currentHP;
+    float timeStamp;
+    private MeshRenderer mRend;
+    bool startedFlashing;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +32,11 @@ public class medkit : MonoBehaviour
 
         //Temporary implementation, the getPlayerMaxHP keeps returning 0. 
         maxHP = 15;
+
+        //needed for Flash() coroutine
+        mRend = GetComponent<MeshRenderer>();
+        startedFlashing = false;
+        timeStamp = Time.time;
     }
 
     // Update is called once per frame
@@ -35,6 +47,11 @@ public class medkit : MonoBehaviour
 
         //Update the current HP 
         currentHP = gameManager.instance.playerScript.getPlayerCurrentHP();
+
+        if((Time.time - timeStamp) / medkitDuration >= .7f && !startedFlashing)
+        {
+            StartCoroutine(Flash());
+        }
 
         //Destroy the medkit within this remaining time 
         Destroy(gameObject, medkitDuration);
@@ -70,7 +87,7 @@ public class medkit : MonoBehaviour
         //Heal particle 
         if (healingSplash != null)
         {
-            Instantiate(healingSplash, transform.position, transform.rotation);
+            Instantiate(healingSplash, new Vector3(transform.position.x, transform.position.y + 1.15f, transform.position.z + 0.25f), transform.rotation);
         }
 
         //Wait 
@@ -78,5 +95,16 @@ public class medkit : MonoBehaviour
 
         //Destroy gameObject
         Destroy(gameObject);
+    }
+
+    IEnumerator Flash()
+    {
+        if (!startedFlashing) { startedFlashing = true; }
+
+        mRend.enabled = false;
+        yield return new WaitForSeconds(flashOffTime);
+        mRend.enabled = true;
+        yield return new WaitForSeconds(flashOnTime);
+        StartCoroutine(Flash());
     }
 }

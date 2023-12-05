@@ -11,7 +11,7 @@ public class bullet : MonoBehaviour
     [SerializeField] ParticleSystem hitEffect;
     [SerializeField] ParticleSystem flashEffect;
     [SerializeField] AudioSource aud;
-    [SerializeField] AudioClip shootEffect;
+    [SerializeField] AudioClip[] shootEffects;
     [SerializeField] AudioClip ricochetEffect;
     [Range(0, 1)][SerializeField] float bulletVol;
 
@@ -50,7 +50,8 @@ public class bullet : MonoBehaviour
         }
 
         //Sound from player 
-        aud.PlayOneShot(shootEffect, bulletVol);
+        int randomShootSound = Random.Range(0, shootEffects.Length); 
+        aud.PlayOneShot(shootEffects[randomShootSound], bulletVol);
 
         //Destroy the bullet within this remaining time after shoot 
         Destroy(gameObject, bulletDuration);

@@ -52,7 +52,10 @@ MonoBehaviour:
   hitEffect: {fileID: 2361380641184070541, guid: f2eb82f6a82798e45a2feec0cb11ba41, type: 3}
   flashEffect: {fileID: 1608533599696579073, guid: 757cf75c7d7fddd45802da15c3655afd, type: 3}
   aud: {fileID: -3056082629956561351}
-  shootEffect: {fileID: 8300000, guid: c67e052a792186b4f8b7deca76347da5, type: 3}
+  shootEffects:
+  - {fileID: 8300000, guid: 9babdee5a79ffa14eb69951464145333, type: 3}
+  - {fileID: 8300000, guid: d4ee0a9c7c5b51746bee105943c21b4e, type: 3}
+  - {fileID: 8300000, guid: a4e2fede609bb1748a039843f72dfce5, type: 3}
   ricochetEffect: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
   bulletVol: 0.2
   bulletSpeed: 30

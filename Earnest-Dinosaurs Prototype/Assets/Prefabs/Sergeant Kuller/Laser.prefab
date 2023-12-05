@@ -52,7 +52,8 @@ MonoBehaviour:
   hitEffect: {fileID: 2361380641184070541, guid: f2eb82f6a82798e45a2feec0cb11ba41, type: 3}
   flashEffect: {fileID: 0}
   aud: {fileID: 1507603721441565758}
-  shootEffect: {fileID: 0}
+  shootEffects:
+  - {fileID: 8300000, guid: 0e265ca66bb2d5c4fb530ee256d321c7, type: 3}
   ricochetEffect: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
   bulletVol: 0.2
   bulletSpeed: 30

@@ -62,6 +62,8 @@ public class eliteDrone : MonoBehaviour, IDamage
         shieldBeam.SetPosition(0, shootPos.transform.position);
         shieldBeam.SetPosition(1, summoner.transform.position);
 
+        Debug.Log("transform position y: " + transform.position.y);
+
         droneMovement();
     }
 
@@ -136,7 +138,7 @@ public class eliteDrone : MonoBehaviour, IDamage
 
     public void respawn()
     {
-        Vector3 position = new Vector3(summonerGround.transform.position.x + origStartPosition.x, origStartPosition.y, summonerGround.transform.position.z + origStartPosition.z);
+        Vector3 position = new Vector3(summonerGround.transform.position.x + origStartPosition.x, summonerGround.transform.position.y + 6.0f, summonerGround.transform.position.z + origStartPosition.z);
         transform.position = position;
         HP = maxHP;
         gameObject.SetActive(true);

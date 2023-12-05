@@ -665,7 +665,7 @@ public class gameManager : MonoBehaviour
             else if(SceneManager.GetActiveScene().name == "Level 3")
             {
                 currentBoss = Instantiate(FinalBoss, new Vector3(0, 68f, 0), Quaternion.identity);
-                bossName.text = "Phantom";
+                bossName.text = "Master-Prime";
                 bossHealthBar.gameObject.SetActive(true);
             }
             

@@ -1526,6 +1526,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: FinalBoss
+      value: 
+      objectReference: {fileID: 3545932919612008135, guid: b69504231f0d5c2449e5ca8f9c3e1410, type: 3}
+    - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: EnemyBase_6
       value: 
       objectReference: {fileID: 2027189373314433282, guid: ac396a218e293c548bfe9b9a1be9212f, type: 3}

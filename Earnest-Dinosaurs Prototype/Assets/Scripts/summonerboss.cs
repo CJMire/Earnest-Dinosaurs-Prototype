@@ -38,9 +38,11 @@ public class summonerboss : MonoBehaviour, IDamage
 
     [Header("----- Summoning enemy------")]
     [SerializeField] GameObject[] summonedEnemy;
-    [SerializeField] GameObject eliteDrone1;
-    [SerializeField] GameObject eliteDrone2;
-    [SerializeField] GameObject eliteDrone3;
+    [SerializeField] GameObject[] eliteDrones;
+
+    //[SerializeField] GameObject eliteDrone1;
+    //[SerializeField] GameObject eliteDrone2;
+    //[SerializeField] GameObject eliteDrone3;
 
     [Header("----- EMP Burst-----")]
     [SerializeField] GameObject empBurstObject;
@@ -189,19 +191,12 @@ public class summonerboss : MonoBehaviour, IDamage
     {
         int currentDrone = 0;
 
-        if(eliteDrone1.activeSelf)
+        for(int i = 0; i < eliteDrones.Length; i++)
         {
-            currentDrone++;
-        }
-
-        if (eliteDrone2.activeSelf)
-        {
-            currentDrone++;
-        }
-
-        if (eliteDrone3.activeSelf)
-        {
-            currentDrone++;
+            if (eliteDrones[i].activeSelf)
+            {
+                currentDrone++;
+            }
         }
 
         return currentDrone;
@@ -223,6 +218,7 @@ public class summonerboss : MonoBehaviour, IDamage
     void stunt()
     {
         barrierObject.SetActive(false);
+        navAgent.SetDestination(transform.position);
         empBurst();
     }
 
@@ -230,9 +226,11 @@ public class summonerboss : MonoBehaviour, IDamage
     {
         if(!isDead)
         {
-            eliteDrone1.GetComponent<eliteDrone>().respawn();
-            eliteDrone2.GetComponent<eliteDrone>().respawn();
-            eliteDrone3.GetComponent<eliteDrone>().respawn();
+            for(int i = 0; i < eliteDrones.Length; i++)
+            {
+                eliteDrones[i].GetComponent<eliteDrone>().respawn();
+            }
+
             barrierObject.SetActive(true);
         }
     }

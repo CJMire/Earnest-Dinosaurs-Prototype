@@ -15,6 +15,7 @@ public class eliteDrone : MonoBehaviour, IDamage
     [SerializeField] AudioSource aud;
     [SerializeField] GameObject summoner;
     [SerializeField] GameObject summonerGround;
+    [SerializeField] bool MasterPrimeMode;
     [SerializeField] LineRenderer shieldBeam;
     [SerializeField] Transform startPosition;
 
@@ -69,8 +70,22 @@ public class eliteDrone : MonoBehaviour, IDamage
 
     void droneMovement()
     {
-        //Orbiting the boss 
-        transform.RotateAround(summoner.transform.position, Vector3.up, orbitingSpeed * Time.deltaTime);
+        if(MasterPrimeMode)
+        {
+            Debug.Log("MasterPrime Mode");
+
+            //Orbiting the boss 
+            transform.RotateAround(summoner.transform.position, Vector3.up, orbitingSpeed * Time.deltaTime);
+            transform.RotateAround(summoner.transform.position, Vector3.forward, orbitingSpeed * Time.deltaTime);
+            transform.RotateAround(summoner.transform.position, Vector3.right, orbitingSpeed * Time.deltaTime);
+        }
+
+        else
+        {
+            //Orbiting the boss 
+            transform.RotateAround(summoner.transform.position, Vector3.up, orbitingSpeed * Time.deltaTime);
+        }
+        
     }
 
     public void takeDamage(int damageAmount)

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEditor.FilePathAttribute;
 
-public class summonerboss : MonoBehaviour, IDamage
+public class MasterPrime : MonoBehaviour, IDamage
 {
     [Header("----- Boss's Components ------")]
     [SerializeField] Renderer[] bossModelArray;
@@ -25,9 +25,11 @@ public class summonerboss : MonoBehaviour, IDamage
 
     [Header("----- Boss attack's Stats ------")]
     [SerializeField] int maxSpawn;
+    [SerializeField] float shockWaveCooldown;
 
     [Header("----- Boss's Stats ------")]
     [SerializeField] ParticleSystem spawnParticle;
+    [SerializeField] ParticleSystem explodeSpark;
     [SerializeField] ParticleSystem deathParticle;
 
     [Header("----- Boss barrier's Stats ------")]
@@ -42,11 +44,13 @@ public class summonerboss : MonoBehaviour, IDamage
 
     [Header("----- EMP Burst-----")]
     [SerializeField] GameObject empBurstObject;
+    [SerializeField] GameObject shockWaveObject;
 
     [Header("----- Boss's Sounds------")]
     [SerializeField] AudioClip hurtSound;
     [SerializeField] AudioClip spawnSound;
     [SerializeField] AudioClip deadSound;
+    [SerializeField] AudioClip teleportSound;
     [SerializeField] AudioClip explosionSound;
     [SerializeField] AudioClip EMPSound;
     [SerializeField] AudioClip aboutToEMPSound;
@@ -60,12 +64,14 @@ public class summonerboss : MonoBehaviour, IDamage
     Vector3 targetDirection;
     bool isSummoning;
     bool isDead;
+    bool isExplodind;
     bool isStunt;
     bool playerInSummonRange;
     int maxHP;
     float angleToPlayer;
     float stoppingDisOrig;
     int eliteDroneStatus;
+    float currentShockWave;
     Vector3 startingPos;
 
     // Start is called before the first frame update
@@ -86,14 +92,13 @@ public class summonerboss : MonoBehaviour, IDamage
         isDead = false;
         isStunt = false;
 
-
         //Spawning in effects 
         for (int i = 0; i < 10; i++)
         {
-            Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
+            Instantiate(spawnParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
         }
 
-        aud.PlayOneShot(explosionSound, bossVol);
+        aud.PlayOneShot(teleportSound, bossVol);
     }
 
     // Update is called once per frame
@@ -124,7 +129,7 @@ public class summonerboss : MonoBehaviour, IDamage
         }
 
         //Floating up then teleport away 
-        if(isDead)
+        if(isExplodind)
         {
             transform.Translate(Vector3.up * Time.deltaTime);
         }
@@ -154,6 +159,12 @@ public class summonerboss : MonoBehaviour, IDamage
                     if(gameManager.instance.GetEnemyCount() < maxSpawn && !isStunt)
                     {
                         anim.SetTrigger("Summon");
+                    }
+
+                    if (gameManager.instance.GetEnemyCount() >= maxSpawn && !isStunt)
+                    {
+                        anim.SetTrigger("Shockwave");
+
                     }
                 }
 
@@ -292,6 +303,13 @@ public class summonerboss : MonoBehaviour, IDamage
         damageCol.enabled = true;
     }
 
+    IEnumerator shockWave()
+    {
+        Instantiate(shockWaveObject, transform.position, shockWaveObject.transform.rotation);
+
+        yield return new WaitForSeconds(4.0f);
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -325,6 +343,7 @@ public class summonerboss : MonoBehaviour, IDamage
                  aud.PlayOneShot(deadSound, bossVol);
              }
 
+             isExplodind = true; 
              isDead = true;
              navAgent.enabled = false;
              anim.SetBool("Dead", true);
@@ -379,14 +398,24 @@ public class summonerboss : MonoBehaviour, IDamage
 
     IEnumerator OnDeath()
     {
-        yield return new WaitForSeconds(4.0f);
+        int count = 0;
+
+        while (count < 15)
+        {
+            Instantiate(explodeSpark, transform.position + new Vector3(Random.Range(-4.0f, 4.0f), Random.Range(-1.0f, 1.0f), Random.Range(-4.0f, 4.0f)), transform.rotation);
+            aud.PlayOneShot(explosionSound, bossVol);
+
+            yield return new WaitForSeconds(0.5f);
+
+            count++;
+        }
 
         for(int i = 0; i < 10; i++)
         {
             Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
         }
 
-        aud.PlayOneShot(explosionSound, bossVol);
+        aud.PlayOneShot(explosionSound, bossVol + 0.3f);
 
         for (int i = 0; i < bossModelArray.Length; i++)
         {
@@ -418,7 +447,7 @@ public class summonerboss : MonoBehaviour, IDamage
         else
         {
             //Shouldn't get here
-            Debug.Log("SummonerBoss Error Damage Animation");
+            Debug.Log("Master-Prime Error Damage Animation");
         }
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 167beaac36d102d4ebfc2c230e406eca
+guid: 9a57c4cd0a5f35344aadfb5b77baa784
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
@@ -469,7 +469,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.44886366
-        functionName: createDroneEnemy
+        functionName: shockWave
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

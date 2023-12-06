@@ -40,10 +40,6 @@ public class summonerboss : MonoBehaviour, IDamage
     [SerializeField] GameObject[] summonedEnemy;
     [SerializeField] GameObject[] eliteDrones;
 
-    //[SerializeField] GameObject eliteDrone1;
-    //[SerializeField] GameObject eliteDrone2;
-    //[SerializeField] GameObject eliteDrone3;
-
     [Header("----- EMP Burst-----")]
     [SerializeField] GameObject empBurstObject;
 
@@ -52,6 +48,9 @@ public class summonerboss : MonoBehaviour, IDamage
     [SerializeField] AudioClip spawnSound;
     [SerializeField] AudioClip deadSound;
     [SerializeField] AudioClip explosionSound;
+    [SerializeField] AudioClip EMPSound;
+    [SerializeField] AudioClip aboutToEMPSound;
+    [SerializeField] AudioClip barrierRecoverSound;
     [Range(0, 1)][SerializeField] float bossVol;
 
     //Private variable 
@@ -86,6 +85,15 @@ public class summonerboss : MonoBehaviour, IDamage
         stoppingDisOrig = navAgent.stoppingDistance;
         isDead = false;
         isStunt = false;
+
+
+        //Spawning in effects 
+        for (int i = 0; i < 10; i++)
+        {
+            Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
+        }
+
+        aud.PlayOneShot(explosionSound, bossVol);
     }
 
     // Update is called once per frame
@@ -211,21 +219,19 @@ public class summonerboss : MonoBehaviour, IDamage
     IEnumerator stuntAndSummon()
     {
         isStunt = true;
+        damageCol.enabled = false;
         anim.SetBool("Stunt", true);
         stunt();
 
         yield return new WaitForSeconds(stuntTime);
 
         anim.SetBool("Stunt", false);
-        eliteSummon();
-        isStunt = false;
     }
 
     void stunt()
     {
         barrierObject.SetActive(false);
         navAgent.SetDestination(transform.position);
-        empBurst();
     }
 
     void eliteSummon()
@@ -238,6 +244,10 @@ public class summonerboss : MonoBehaviour, IDamage
             }
 
             barrierObject.SetActive(true);
+
+            isStunt = false;
+
+            aud.PlayOneShot(barrierRecoverSound, bossVol);
         }
     }
 
@@ -278,6 +288,8 @@ public class summonerboss : MonoBehaviour, IDamage
     public void empBurst()
     {
         Instantiate(empBurstObject, transform.position, transform.rotation);
+        aud.PlayOneShot(EMPSound, bossVol);
+        damageCol.enabled = true;
     }
 
     void OnTriggerEnter(Collider other)
@@ -320,6 +332,7 @@ public class summonerboss : MonoBehaviour, IDamage
 
              //turns off enemy damage colliders when dead
              damageCol.enabled = false;
+             StartCoroutine(OnDeathMastermind());
          }
 
          else
@@ -366,15 +379,21 @@ public class summonerboss : MonoBehaviour, IDamage
 
     IEnumerator OnDeathMastermind()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(4.0f);
 
         for(int i = 0; i < 10; i++)
         {
             Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
-            aud.PlayOneShot(explosionSound, bossVol);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        aud.PlayOneShot(explosionSound, bossVol);
+
+        for (int i = 0; i < bossModelArray.Length; i++)
+        {
+            bossModelArray[i].enabled = false;
+        }
+
+        yield return new WaitForSeconds(2.0f);
 
         Destroy(gameObject);
     }

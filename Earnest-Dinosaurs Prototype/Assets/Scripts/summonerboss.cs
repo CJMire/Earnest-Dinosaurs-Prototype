@@ -114,6 +114,12 @@ public class summonerboss : MonoBehaviour, IDamage
 
             seekAndAvoid();
         }
+
+        //Floating up then teleport away 
+        if(isDead)
+        {
+            transform.Translate(Vector3.up * Time.deltaTime);
+        }
     }
 
     bool canSeePlayer()
@@ -319,7 +325,10 @@ public class summonerboss : MonoBehaviour, IDamage
          else
          {
              //Play damage animation
-             anim.SetTrigger("Damage");
+             int damageAnimation = Random.Range(1, 4);
+             playDamageAnimaton(damageAnimation);
+
+             //anim.SetTrigger("Damage");
 
              aud.PlayOneShot(hurtSound, bossVol);
 
@@ -343,24 +352,54 @@ public class summonerboss : MonoBehaviour, IDamage
             bossModelArray[i].material.color = Color.red;
         }
 
+        damageCol.enabled = false;
+
         yield return new WaitForSeconds(damageDuration);
 
         for (int i = 0; i < bossModelArray.Length; i++)
         {
             bossModelArray[i].material.color = modelOrigColor[i];
         }
+
+        damageCol.enabled = true;
     }
 
-    IEnumerator OnDeath()
+    IEnumerator OnDeathMastermind()
     {
         yield return new WaitForSeconds(1.0f);
 
-        Instantiate(deathParticle, transform.position, transform.rotation);
-
-        aud.PlayOneShot(explosionSound, bossVol);
+        for(int i = 0; i < 10; i++)
+        {
+            Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
+            aud.PlayOneShot(explosionSound, bossVol);
+        }
 
         yield return new WaitForSeconds(0.5f);
 
         Destroy(gameObject);
+    }
+
+    void playDamageAnimaton(int damageAnim)
+    {
+        if(damageAnim == 1)
+        {
+            anim.SetTrigger("Damage1");
+        }
+        
+        else if(damageAnim == 2) 
+        {
+            anim.SetTrigger("Damage2");
+        }
+
+        else if (damageAnim == 3)
+        {
+            anim.SetTrigger("Damage3");
+        }
+
+        else
+        {
+            //Shouldn't get here
+            Debug.Log("SummonerBoss Error Damage Animation");
+        }
     }
 }

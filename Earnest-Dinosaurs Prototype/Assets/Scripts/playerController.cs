@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour, IDamage
 {
     [Header("----- Components -----")]
     [SerializeField] CharacterController characterController;
     [SerializeField] ParticleSystem damageEnemyEffect;
-    [SerializeField] AudioSource audio;
+    [SerializeField] AudioSource aud;
 
     [Header("----- Player Stats -----")]
-    [SerializeField] float HP;
-    private float maxHP;
+    [SerializeField] int HP;
+    private int maxHP;
     [SerializeField] public float playerSpeed;
     [SerializeField] float playerJumpHeight;
     [SerializeField] int playerJumpMax;
@@ -24,6 +25,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] gunStats starterGun;
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
     [SerializeField] GameObject gunModel;
+    [SerializeField] List<gunStats> levelCompleteRewards = new List<gunStats>();
 
     [Header("---- Audio ----")]
     [SerializeField] AudioClip[] audioSteps;
@@ -53,12 +55,15 @@ public class playerController : MonoBehaviour, IDamage
 
     void Start()
     {
-        //Sets the starter gun
+        //Sets the starter gun and updates gun inventory
         getGunStats(starterGun);
+        updateGunInv();
         //sets maxHP
-        maxHP = HP;
+        maxHP = PlayerPrefs.GetInt("playerMaxHP");
+        HP = PlayerPrefs.GetInt("playerHP");
+
         //spawns player in current level
-        spawnPlayer();
+        if (SceneManager.GetActiveScene().name != "Level 3") spawnPlayer();
     }
 
     void Update()
@@ -104,7 +109,7 @@ public class playerController : MonoBehaviour, IDamage
         if (Input.GetButtonDown("Jump") && jumpTimes < playerJumpMax)
         {
             playerVelocity.y = playerJumpHeight;
-            audio.PlayOneShot(audioJump[Random.Range(0, audioJump.Length)], audioJumpVolume);
+            aud.PlayOneShot(audioJump[Random.Range(0, audioJump.Length)], audioJumpVolume);
             jumpTimes++;
         }
         playerVelocity.y += gravityStrength * Time.deltaTime;
@@ -133,7 +138,7 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator playSteps()
     {
         isPlayingSteps = true;
-        audio.PlayOneShot(audioSteps[Random.Range(0, audioSteps.Length)], audioStepsVolume);
+        aud.PlayOneShot(audioSteps[Random.Range(0, audioSteps.Length)], audioStepsVolume);
         if (!isSprinting)
         {
             yield return new WaitForSeconds(0.5f);
@@ -149,7 +154,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         isShooting = true;
         gunList[selectedGun].ammoCur--;
-        audio.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootSoundVol);
+        aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootSoundVol);
         gameManager.instance.updateHUD();
 
         RaycastHit hit;
@@ -186,7 +191,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Updates HP value and HUD
         HP -= damageAmount;
-        audio.PlayOneShot(audioDamage[Random.Range(0, audioDamage.Length)], audioDamageVolume);
+        aud.PlayOneShot(audioDamage[Random.Range(0, audioDamage.Length)], audioDamageVolume);
         StartCoroutine(gameManager.instance.playerHurtFlash());
         //makes sure no HP is negative & calls lose screen
         if (HP <= 0)
@@ -196,7 +201,7 @@ public class playerController : MonoBehaviour, IDamage
             gameManager.instance.OnDeath();
             return;
         }
-        else if((HP / maxHP) <= .30f)
+        else if(((float)HP / maxHP) <= .30f)
         {
             gameManager.instance.OnLowHealth(true);
         }
@@ -294,13 +299,19 @@ public class playerController : MonoBehaviour, IDamage
         isShooting = false;
     }
 
+    void updateGunInv()
+    {
+        if (PlayerPrefs.GetInt("gun2") == 1) gunList.Add(levelCompleteRewards[0]);
+        if (PlayerPrefs.GetInt("gun3") == 1) gunList.Add(levelCompleteRewards[1]);
+    }
+
     #region Getters & Setters
-    public float getPlayerMaxHP()
+    public int getPlayerMaxHP()
     {
         return maxHP;
     }
 
-    public float getPlayerCurrentHP()
+    public int getPlayerCurrentHP()
     {
         return HP;
     }
@@ -343,6 +354,16 @@ public class playerController : MonoBehaviour, IDamage
     public float GetReloadTime()
     {
         return reloadTime;
+    }
+
+    public void SetHealth(int newHP)
+    {
+        HP = newHP;
+    }
+
+    public void SetMaxHealth(int newHP)
+    {
+        maxHP = newHP;
     }
 
     public void getGunStats(gunStats gun)

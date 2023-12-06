@@ -96,6 +96,7 @@ public class ButtonHandler : MonoBehaviour
     #region Main Menu Buttons
     public void MainStart()
     {
+        gameManager.instance.ResetGameManagerValues();
         gameManager.instance.switchSceneAsync("Level 1");
     }
 

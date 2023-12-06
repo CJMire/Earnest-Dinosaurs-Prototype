@@ -94,11 +94,12 @@ public class gameManager : MonoBehaviour
     private bool portalSpawned = false;
 
     [Header("----- Spawner Enemies -----")]
-    [SerializeField] GameObject EnemyBase_1;
-    [SerializeField] GameObject EnemyBase_2;
-    [SerializeField] GameObject EnemyBase_3;
-    [SerializeField] GameObject EnemyBase_4;
-    [SerializeField] GameObject EnemyBase_5;
+    [SerializeField] GameObject[] enemyLineup;
+    //[SerializeField] GameObject EnemyBase_1;
+    //[SerializeField] GameObject EnemyBase_2;
+    //[SerializeField] GameObject EnemyBase_3;
+    //[SerializeField] GameObject EnemyBase_4;
+    //[SerializeField] GameObject EnemyBase_5;
     private int barrierChancePercentage;
 
     [Header("----- Boss Enemies -----")]
@@ -116,7 +117,6 @@ public class gameManager : MonoBehaviour
     [SerializeField] float gracePeriod;
     [SerializeField] public int totalEnemies;
     [Range(1, 10)][SerializeField] public int newWaveIncrease; // how many more enemies will there be in new wave
-    [SerializeField] List<gunStats> levelCompleteRewards = new List<gunStats>();
 
     [Header("----- Spawn Points -----")]
     List<GameObject> playerSpawnLocations = new List<GameObject>();
@@ -125,6 +125,9 @@ public class gameManager : MonoBehaviour
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
+        //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
+        if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
+
         Time.timeScale = 1.0f;
         instance = this;
 
@@ -132,6 +135,7 @@ public class gameManager : MonoBehaviour
         {
             isOnMainMenu = true;
             SetActiveMenu(menuMain);
+            FactoryReset();
         }
         else
         {
@@ -144,10 +148,11 @@ public class gameManager : MonoBehaviour
             playerScript = player.GetComponent<playerController>();
 
             //Set current level
-            currentLevel = 1;
+            currentLevel = PlayerPrefs.GetInt("level");
 
             //Sets spawn locations, current wave to " 1 ", sets stopSpawning, and updates wave text HUD
-            SetSpawnPositions();
+            //Since level 3 works differently, the spawning logic is offloaded to there (See elevatorFoorOne.cs)
+            if(SceneManager.GetActiveScene().name != "Level 3") SetSpawnPositions();
             waveCurrent = 1;
             textWaves.text = "Wave:  " + waveCurrent.ToString();
             stopSpawning = false;
@@ -218,12 +223,63 @@ public class gameManager : MonoBehaviour
 
     public void switchSceneAsync(string sceneName)
     {
-        UnityEngine.Debug.Log("GM switchSceneAsync");
         if (loadingScreenObj != null)
         {
-            UnityEngine.Debug.Log("Made it!");
             loadingScreenObj.gameObject.GetComponent<loadingScreen>().LoadScene(sceneName);
         }
+    }
+
+    //These are all the player pref keys as of now
+    //"playerHP" - int
+    //"playerMaxHP" - int
+    //"level" - int
+    //"gun1" - int
+    //"gun2" - int
+    //"gun3" - int
+    //"SFXVolume" - float
+    //"MusicVolume" - float
+
+    //This method is for starting new runs
+    public void ResetGameManagerValues()
+    {
+        PlayerPrefs.SetInt("level", 1);
+        PlayerPrefs.SetInt("playerHP", PlayerPrefs.GetInt("playerMaxHP"));
+        //The 1 means the player has it, and the 0 means they don't
+        PlayerPrefs.SetInt("gun1", 1);
+        PlayerPrefs.SetInt("gun2", 0);
+        PlayerPrefs.SetInt("gun3", 0);
+    }
+
+    //This method is to stage for changing levels (This should be used at the END of a level)
+    public void SavePlayerData()
+    {
+        //This will increment the level
+        PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level")+1);
+        //Saves the player health
+        PlayerPrefs.SetInt("playerHP", playerScript.getPlayerCurrentHP());
+        //These ifs will give the player the weapon upon level completion, and will take effect on the next level
+        //There is not a Level 3 case because that is the last level and there will be no reward
+        if (SceneManager.GetActiveScene().name == "Level 1") PlayerPrefs.SetInt("gun2", 1);
+        else if (SceneManager.GetActiveScene().name == "Level 2") PlayerPrefs.SetInt("gun3", 1);
+    }
+
+    //This is used to set the playerPrefs back to a fresh install, or to a new save
+    public static void FactoryReset()
+    {
+        //Game state
+        PlayerPrefs.SetInt("level", 1);
+        //Player stats
+        PlayerPrefs.SetInt("playerHP", 15);
+        PlayerPrefs.SetInt("playerMaxHP", 15);
+        PlayerPrefs.SetInt("gun1", 1);
+        PlayerPrefs.SetInt("gun2", 0);
+        PlayerPrefs.SetInt("gun3", 0);
+        //Boss tokens
+            //PlayerPrefs.SetInt("BossTokens",0.5f);
+        //Purchased upgrades
+        //Options prefs
+        PlayerPrefs.SetFloat("SFXVolume",0.5f);
+        PlayerPrefs.SetFloat("MusicVolume", 0.5f);
     }
 
     #region Main Menu Management
@@ -538,8 +594,11 @@ public class gameManager : MonoBehaviour
     //Gives random enemy to use for spawning
     GameObject GiveEnemy()
     {
-        GameObject enemy;
-        int random = Random.Range(0, 5); // random number is generated as to which enemy will spawn
+        //GameObject enemy;
+        int random = Random.Range(0, enemyLineup.Length); // random number is generated as to which enemy will spawn
+
+        return enemyLineup[random];
+        /*
         if (random == 0)
         {
             enemy = EnemyBase_1;
@@ -561,6 +620,7 @@ public class gameManager : MonoBehaviour
             enemy = EnemyBase_5;
         }
         return enemy;
+        */
     }
 
     IEnumerator SpawnWave()
@@ -621,12 +681,6 @@ public class gameManager : MonoBehaviour
 
     public void OnLevelSwitch()
     {
-        if (levelCompleteRewards.Count > 0)
-        {
-            playerScript.getGunStats(levelCompleteRewards[0]);
-            levelCompleteRewards.RemoveAt(0);
-        }
-        
         currentLevel++;
         SetSpawnPositions();
         playerScript.spawnPlayer();

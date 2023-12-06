@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -279,6 +279,38 @@ PrefabInstance:
       propertyPath: menuOptionsButton
       value: 
       objectReference: {fileID: 7292705488885691978}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[0]
+      value: 
+      objectReference: {fileID: 948443828552473790, guid: 60693e56b8fe9124783adaae50c261da, type: 3}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[1]
+      value: 
+      objectReference: {fileID: 3470342452325303564, guid: bc4e650ec89502b4d828260fe5af8699, type: 3}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[2]
+      value: 
+      objectReference: {fileID: 7775215010929995151, guid: db49dae2171bd344eaa790b324223044, type: 3}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[3]
+      value: 
+      objectReference: {fileID: 2291291316118895893, guid: 2919e2bc30039de448da1578fd4151de, type: 3}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[4]
+      value: 
+      objectReference: {fileID: 36896644056189770, guid: 4ea6b5357f2d0a0429d8dfcf7feef765, type: 3}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[5]
+      value: 
+      objectReference: {fileID: 2027189373314433282, guid: ac396a218e293c548bfe9b9a1be9212f, type: 3}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: enemyLineup.Array.data[6]
+      value: 
+      objectReference: {fileID: 7761982082733212264, guid: e8425537b06363d45a16313c1b376451, type: 3}
     - target: {fileID: 7336854782753824833, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
       propertyPath: Loop
       value: 1

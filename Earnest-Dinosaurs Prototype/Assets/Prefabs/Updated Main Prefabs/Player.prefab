@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 2178878439304690103}
   damageEnemyEffect: {fileID: 0}
-  audio: {fileID: 446792626378349524}
+  aud: {fileID: 446792626378349524}
   HP: 15
   playerSpeed: 12
   playerJumpHeight: 5
@@ -255,6 +255,9 @@ MonoBehaviour:
   starterGun: {fileID: 11400000, guid: b7d8fdc642021e74db8785aed416a038, type: 2}
   gunList: []
   gunModel: {fileID: 3428078393627711577}
+  levelCompleteRewards:
+  - {fileID: 11400000, guid: 8def1c2fb5f3352449482a67fe4e882e, type: 2}
+  - {fileID: 11400000, guid: c8585b4bc5b2af24a9f8243c49cfaa75, type: 2}
   audioSteps:
   - {fileID: 8300000, guid: 989bf3d4446c739479168b0b4cfb8c5c, type: 3}
   - {fileID: 8300000, guid: 8dbadfe74611143418c355be5ce68c04, type: 3}

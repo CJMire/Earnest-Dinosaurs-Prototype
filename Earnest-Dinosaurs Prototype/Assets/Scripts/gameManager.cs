@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class gameManager : MonoBehaviour
 {
@@ -70,7 +72,10 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject bullet1;
     [SerializeField] Image imageReloadingIcon;
     [SerializeField] float hitMarkerRate;
-
+    [SerializeField] GameObject bossTknUI;
+    [SerializeField] GameObject[] bossTknUIObjects;
+    [SerializeField] TextMeshProUGUI bossTknAmountTxt;
+    [SerializeField] TextMeshProUGUI bossTknFloatTxt;
 
     [Header("----- Settings -----")]
     GameObject loadingScreenObj;
@@ -92,6 +97,8 @@ public class gameManager : MonoBehaviour
     private bool bossIsDead = false;
     private bool bossIsSpawned = false;
     private bool portalSpawned = false;
+    private Vector3 originalFloatTextPOS;
+    private int bossTknAmount;
 
     [Header("----- Spawner Enemies -----")]
     [SerializeField] GameObject[] enemyLineup;
@@ -128,6 +135,7 @@ public class gameManager : MonoBehaviour
         //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
         if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
 
+        originalFloatTextPOS = bossTknUIObjects[bossTknUIObjects.Length - 1].GetComponent<RectTransform>().position;
         Time.timeScale = 1.0f;
         instance = this;
 
@@ -139,6 +147,11 @@ public class gameManager : MonoBehaviour
         }
         else
         {
+            //Sets current level for spawn location assignment
+            if (SceneManager.GetActiveScene().name == "Level 1") PlayerPrefs.SetInt("level", 1);
+            else if (SceneManager.GetActiveScene().name == "Level 2") PlayerPrefs.SetInt("level", 2);
+            else if (SceneManager.GetActiveScene().name == "Level 3") PlayerPrefs.SetInt("level", 3);
+
             //creates new stopwatch and starts it
             stopwatch = Stopwatch.StartNew();
             timeScaleOriginal = Time.timeScale;
@@ -167,6 +180,7 @@ public class gameManager : MonoBehaviour
             fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
             playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
         }
+        ShowBossTokens(-15);
     }
 
     void Update()
@@ -538,6 +552,124 @@ public class gameManager : MonoBehaviour
             playingHealthFlash = false;
             playerLowHealthScreen.SetActive(false);
             yield break;
+        }
+    }
+
+    //this method will always have a floating text if there is an increase or decrease in the amount of tokens
+    //if you just call it, it will just show the text and how much the player has
+    public void ShowBossTokens(int amount = 0)
+    {
+        bossTknAmount += amount;
+        bossTknAmountTxt.text = bossTknAmount.ToString();
+
+        //makes sure the alphas are set to one so they can be seen
+        for (int i = 0; i < bossTknUIObjects.Length - 1; i++)
+        {
+            if (bossTknUIObjects[i].GetComponent<Image>() != null && bossTknUIObjects[i].GetComponent<Image>().color.a != 1f)
+            {
+                bossTknUIObjects[i].GetComponent<Image>().color = Color.white;
+            }
+            else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null && bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color.a != 1f)
+            {
+                bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color = Color.white;
+            }
+        }
+
+        bossTknUI.SetActive(true); //makes it seen
+        bossTknUIObjects[bossTknUIObjects.Length - 1].SetActive(true);
+        bossTknUIObjects[bossTknUIObjects.Length - 1].transform.position = originalFloatTextPOS;
+
+        //When tokens are added - only in-game - the whole thing will fade after the floating text has faded
+        if (amount > 0)
+        {
+            bossTknFloatTxt.color = Color.green;
+            bossTknFloatTxt.text = "+" + amount.ToString();
+            StartCoroutine(FadeFloatText());
+        }
+        else if (amount < 0) //if tokens are being taken - only in the shop - the whole text won't fade but the floating text will
+        {
+            bossTknFloatTxt.color = Color.red;
+            bossTknFloatTxt.text = amount.ToString();
+            StartCoroutine(FadeFloatText(false));
+        }
+        else //if this method is just called with no args, the text will show-up
+        {
+            bossTknFloatTxt.text = "";
+        }
+    }
+
+    IEnumerator FadeFloatText(bool completelyFade = true)
+    {
+        //Slowly makes text transparent
+        Color color = bossTknFloatTxt.color;
+        color.a += (0 - bossTknFloatTxt.color.a) * (Time.deltaTime * .5f);
+        bossTknFloatTxt.color = color;
+
+        //slowly moves text upwards
+        Vector3 pos = bossTknFloatTxt.transform.position;
+        pos.y += (0 + bossTknFloatTxt.transform.position.y) * (Time.deltaTime * .01f);
+        bossTknFloatTxt.transform.position = pos;
+
+        UnityEngine.Debug.Log(bossTknFloatTxt.color.a);
+        yield return new WaitForEndOfFrame();
+        if(bossTknFloatTxt.color.a >= 0.1f)
+        {
+            StartCoroutine(FadeFloatText(completelyFade));
+        }
+        else
+        {
+            bossTknUIObjects[bossTknUIObjects.Length - 1].SetActive(false);
+
+        }
+        if (!(bossTknFloatTxt.color.a >= 0.1f) && completelyFade)
+        {
+            yield return new WaitForSeconds(3);
+            StartCoroutine(FadeBossTokenText());
+        }
+    }
+
+    IEnumerator FadeBossTokenText()
+    {
+        //slowly decreases the alpha of the text
+        for (int i = 0; i < bossTknUIObjects.Length - 1; i++)
+        {
+
+            if (bossTknUIObjects[i].GetComponent<Image>() != null)
+            {
+                Color color = bossTknUIObjects[i].GetComponent<Image>().color;
+                color.a += (0 - color.a) * .05f;
+                bossTknUIObjects[i].GetComponent<Image>().color = color;
+                UnityEngine.Debug.Log(color.a);
+            }
+            else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null)
+            {
+                Color color = bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color;
+                color.a += (0 - color.a) * .05f;
+                bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color = color;
+            }
+        }
+
+        yield return new WaitForEndOfFrame();
+
+        //checks if the alpha is 0, if not it starts this again
+        for (int i = 0; i <= bossTknUIObjects.Length - 1; i++)
+        {
+            if(i == bossTknUIObjects.Length)
+            {
+                bossTknUI.SetActive(true);
+                break;
+            }
+
+            if (bossTknUIObjects[i].GetComponent<Image>() != null && bossTknUIObjects[i].GetComponent<Image>().color.a >= 0.05)
+            {
+                StartCoroutine(FadeBossTokenText());
+                break;
+            }
+            else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null && bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color.a >= 0.05)
+            {
+                StartCoroutine(FadeBossTokenText());
+                break;
+            }
         }
     }
     #endregion

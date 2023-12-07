@@ -180,7 +180,6 @@ public class gameManager : MonoBehaviour
             fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
             playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
         }
-        ShowBossTokens(-15);
     }
 
     void Update()
@@ -565,13 +564,20 @@ public class gameManager : MonoBehaviour
         //makes sure the alphas are set to one so they can be seen
         for (int i = 0; i < bossTknUIObjects.Length - 1; i++)
         {
-            if (bossTknUIObjects[i].GetComponent<Image>() != null && bossTknUIObjects[i].GetComponent<Image>().color.a != 1f)
+            UnityEngine.Debug.Log("for-loop entered");
+            if (bossTknUIObjects[i].GetComponent<Image>() != null && bossTknUIObjects[i].GetComponent<Image>().color.a < 0.05f)
             {
-                bossTknUIObjects[i].GetComponent<Image>().color = Color.white;
+                UnityEngine.Debug.Log("Image if-check entered");
+                Color color = bossTknUIObjects[i].GetComponent<Image>().color;
+                color.a = 255f;
+                bossTknUIObjects[i].GetComponent<Image>().color = color;
             }
-            else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null && bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color.a != 1f)
+            else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null && bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color.a < 0.05f)
             {
-                bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color = Color.white;
+                UnityEngine.Debug.Log("TextMeshProUGUI if-check entered");
+                Color color = bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color;
+                color.a = 255f;
+                bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color = color;
             }
         }
 
@@ -610,7 +616,6 @@ public class gameManager : MonoBehaviour
         pos.y += (0 + bossTknFloatTxt.transform.position.y) * (Time.deltaTime * .01f);
         bossTknFloatTxt.transform.position = pos;
 
-        UnityEngine.Debug.Log(bossTknFloatTxt.color.a);
         yield return new WaitForEndOfFrame();
         if(bossTknFloatTxt.color.a >= 0.1f)
         {
@@ -637,14 +642,13 @@ public class gameManager : MonoBehaviour
             if (bossTknUIObjects[i].GetComponent<Image>() != null)
             {
                 Color color = bossTknUIObjects[i].GetComponent<Image>().color;
-                color.a += (0 - color.a) * .05f;
+                color.a += (0 - color.a) * .025f;
                 bossTknUIObjects[i].GetComponent<Image>().color = color;
-                UnityEngine.Debug.Log(color.a);
             }
             else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null)
             {
                 Color color = bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color;
-                color.a += (0 - color.a) * .05f;
+                color.a += (0 - color.a) * .025f;
                 bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color = color;
             }
         }

@@ -73,6 +73,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
         attackCooldown = true;
         dontTurn = false;
         playerDirection = gameManager.instance.player.transform.position - headPos.transform.position;
+        gameManager.instance.ShowBossTokens(1);
     }
 
     void Update()
@@ -188,7 +189,6 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
         if(HP <= 0)
         {
-            alive = false;
             OnDeath();
         }
     }
@@ -230,6 +230,8 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
     void OnDeath()
     {
+        alive = false;
+        gameManager.instance.ShowBossTokens(2);
         StopAllCoroutines();
         TurnOffColiders();
         animator.SetFloat("Turnrate", 0f);
@@ -252,7 +254,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
             while (bodyColliders[ndx] == null)
                 ndx = Random.Range(0, bodyColliders.Length);
             Instantiate(smallExplosion, bodyColliders[ndx].transform.position, bodyColliders[ndx].transform.rotation);
-            yield return new WaitForSeconds(Random.Range(0.1f,1f));
+            yield return new WaitForSeconds(Random.Range(0.1f,0.5f));
         }
     }
 

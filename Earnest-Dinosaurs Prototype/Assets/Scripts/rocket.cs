@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class rocket : MonoBehaviour
@@ -9,6 +10,7 @@ public class rocket : MonoBehaviour
     [SerializeField] GameObject explosion;
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip shootEffect;
+    [SerializeField] AudioClip rocketFlying; 
     [Range(0, 1)][SerializeField] float rocketVol;
 
     [Header("----- Rocket's Stats ------")]
@@ -23,6 +25,8 @@ public class rocket : MonoBehaviour
 
         //Sound from player 
         aud.PlayOneShot(shootEffect, rocketVol);
+
+        aud.PlayOneShot(rocketFlying, rocketVol);
 
         //Destroy the bullet within this remaining time after shoot 
         Destroy(gameObject, rocketDuration);

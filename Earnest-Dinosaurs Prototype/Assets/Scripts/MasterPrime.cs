@@ -46,6 +46,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     [SerializeField] GameObject empBurstObject;
     [SerializeField] ParticleSystem empBurstParticle;
     [SerializeField] GameObject shockWaveObject;
+    [SerializeField] ParticleSystem shockWaveParticle;
 
     [Header("----- Boss's Sounds------")]
     [SerializeField] AudioClip hurtSound;
@@ -256,6 +257,8 @@ public class MasterPrime : MonoBehaviour, IDamage
                 eliteDrones[i].GetComponent<eliteDrone>().respawn();
             }
 
+            Instantiate(shockWaveParticle, transform.position, transform.rotation);
+
             barrierObject.SetActive(true);
 
             isStunt = false;
@@ -309,7 +312,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     IEnumerator shockWave()
     {
         Instantiate(shockWaveObject, transform.position, shockWaveObject.transform.rotation);
-
+        Instantiate(shockWaveParticle, transform.position, transform.rotation);
         yield return new WaitForSeconds(4.0f);
     }
 

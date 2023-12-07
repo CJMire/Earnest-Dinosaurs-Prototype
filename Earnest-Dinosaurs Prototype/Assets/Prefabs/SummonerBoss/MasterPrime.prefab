@@ -754,7 +754,7 @@ MonoBehaviour:
   - {fileID: 9118392254573451934}
   empBurstObject: {fileID: 4154880878222500193, guid: 87e7b4a3312d48e49b94031d1d8fe96f, type: 3}
   empBurstParticle: {fileID: 2567504588914573624, guid: e430ff6231876224aa4c933bbb8d9007, type: 3}
-  shockWaveObject: {fileID: 9174951663972750234, guid: 5829d11025b9b794c91a5ca97554d929, type: 3}
+  shockWaveObject: {fileID: 9174951663972750234, guid: 23970634624a6f143992a7883c03e86c, type: 3}
   hurtSound: {fileID: 8300000, guid: 63cf59c847f88a24884803faf745a6eb, type: 3}
   spawnSound: {fileID: 8300000, guid: 312191784e79b3e47a82d4b18b017f25, type: 3}
   deadSound: {fileID: 8300000, guid: f02917b0852f3c94f8ab5fbd47ed9af8, type: 3}

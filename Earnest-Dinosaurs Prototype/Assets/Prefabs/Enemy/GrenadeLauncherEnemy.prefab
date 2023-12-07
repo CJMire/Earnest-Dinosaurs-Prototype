@@ -235,7 +235,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.523805, y: 0, z: 11.668865}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2360697391946279983}
@@ -282,6 +282,7 @@ MonoBehaviour:
   barrierDamage: {fileID: 0}
   barrierDestroy: {fileID: 0}
   barrierHP: 5
+  droneDeathParticle: {fileID: 0}
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 30
   hurtSound: {fileID: 8300000, guid: 4b25ff5b9c72d5644a2dc86153e09a1f, type: 3}

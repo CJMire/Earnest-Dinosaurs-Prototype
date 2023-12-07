@@ -136,7 +136,8 @@ MonoBehaviour:
   rb: {fileID: 5558521989685626180}
   explosion: {fileID: 7549068130658129789, guid: b0e5e7f4579ed9b4a90661d1404c3bf1, type: 3}
   aud: {fileID: 4278836534078475926}
-  shootEffect: {fileID: 8300000, guid: c67e052a792186b4f8b7deca76347da5, type: 3}
+  shootEffect: {fileID: 8300000, guid: 23d80b5297162e9459fea98d1bec36f4, type: 3}
+  rocketFlying: {fileID: 8300000, guid: 28f3034a036ce604aad25bf62e1e5395, type: 3}
   rocketVol: 0.5
   rocketSpeed: 30
   rocketDuration: 5

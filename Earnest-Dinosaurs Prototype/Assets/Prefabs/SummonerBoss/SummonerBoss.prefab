@@ -756,7 +756,7 @@ MonoBehaviour:
   deadSound: {fileID: 8300000, guid: f02917b0852f3c94f8ab5fbd47ed9af8, type: 3}
   explosionSound: {fileID: 8300000, guid: 312191784e79b3e47a82d4b18b017f25, type: 3}
   EMPSound: {fileID: 8300000, guid: a97bf9b7dcc54f14580cb4e0cd645fca, type: 3}
-  aboutToEMPSound: {fileID: 8300000, guid: 1276376621f42ad40be667420d99b32c, type: 3}
+  aboutToEMPSound: {fileID: 8300000, guid: f433dd47bae4e4db5a0518044da14a8d, type: 3}
   barrierRecoverSound: {fileID: 8300000, guid: 5c9c5b775d408e449acff71c99c6be3a, type: 3}
   bossVol: 0.5
 --- !u!195 &8256379280178316812

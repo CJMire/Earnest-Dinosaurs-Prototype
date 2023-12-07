@@ -451,63 +451,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d046370ef16b92419976e33044261e9, type: 3}
---- !u!1001 &6209007708919837153
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674464691076008763, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3545932919612008135, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
-      propertyPath: m_Name
-      value: SummonerBoss
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -516,4 +459,3 @@ SceneRoots:
   - {fileID: 2034432058}
   - {fileID: 1533363514}
   - {fileID: 1592436723}
-  - {fileID: 6209007708919837153}

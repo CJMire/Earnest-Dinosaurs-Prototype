@@ -219,6 +219,7 @@ public class summonerboss : MonoBehaviour, IDamage
 
     IEnumerator stuntAndSummon()
     {
+        aud.PlayOneShot(aboutToEMPSound, bossVol);
         isStunt = true;
         damageCol.enabled = false;
         anim.SetBool("Stunt", true);

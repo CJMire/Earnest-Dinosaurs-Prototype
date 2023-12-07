@@ -42,6 +42,7 @@ public class summonerboss : MonoBehaviour, IDamage
 
     [Header("----- EMP Burst-----")]
     [SerializeField] GameObject empBurstObject;
+    [SerializeField] ParticleSystem empBurstParticle;
 
     [Header("----- Boss's Sounds------")]
     [SerializeField] AudioClip hurtSound;
@@ -288,6 +289,7 @@ public class summonerboss : MonoBehaviour, IDamage
     public void empBurst()
     {
         Instantiate(empBurstObject, transform.position, transform.rotation);
+        Instantiate(empBurstParticle, transform.position, transform.rotation);
         aud.PlayOneShot(EMPSound, bossVol);
         damageCol.enabled = true;
     }

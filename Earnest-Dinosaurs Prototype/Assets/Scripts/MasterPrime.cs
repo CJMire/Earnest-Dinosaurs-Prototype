@@ -44,6 +44,7 @@ public class MasterPrime : MonoBehaviour, IDamage
 
     [Header("----- EMP Burst-----")]
     [SerializeField] GameObject empBurstObject;
+    [SerializeField] ParticleSystem empBurstParticle;
     [SerializeField] GameObject shockWaveObject;
 
     [Header("----- Boss's Sounds------")]
@@ -299,6 +300,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     public void empBurst()
     {
         Instantiate(empBurstObject, transform.position, transform.rotation);
+        Instantiate(empBurstParticle, transform.position, transform.rotation);
         aud.PlayOneShot(EMPSound, bossVol);
         damageCol.enabled = true;
     }

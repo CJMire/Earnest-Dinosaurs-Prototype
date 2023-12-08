@@ -135,7 +135,8 @@ public class gameManager : MonoBehaviour
         //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
         if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
 
-        originalFloatTextPOS = bossTknUIObjects[bossTknUIObjects.Length - 1].GetComponent<RectTransform>().position;
+        
+
         Time.timeScale = 1.0f;
         instance = this;
 
@@ -143,7 +144,10 @@ public class gameManager : MonoBehaviour
         {
             isOnMainMenu = true;
             SetActiveMenu(menuMain);
-            FactoryReset();
+
+            //for the shop menu Boss Token UI
+            originalFloatTextPOS = new Vector3(1740, 985, 0);
+            bossTknFloatTxt.GetComponent<RectTransform>().position = originalFloatTextPOS;
         }
         else
         {
@@ -179,6 +183,7 @@ public class gameManager : MonoBehaviour
             imageReloadingIcon.fillAmount = 0; //Makes sure the reload icon is 0 and not seen
             fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
             playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
+            originalFloatTextPOS = bossTknUIObjects[bossTknUIObjects.Length - 1].transform.position; //for the floating text of the Boss Token UI
         }
     }
 
@@ -251,6 +256,7 @@ public class gameManager : MonoBehaviour
     //"gun3" - int
     //"SFXVolume" - float
     //"MusicVolume" - float
+    //"BossTokens" - int
 
     //This method is for starting new runs
     public void ResetGameManagerValues()
@@ -288,7 +294,7 @@ public class gameManager : MonoBehaviour
         PlayerPrefs.SetInt("gun2", 0);
         PlayerPrefs.SetInt("gun3", 0);
         //Boss tokens
-            //PlayerPrefs.SetInt("BossTokens",0.5f);
+        PlayerPrefs.SetInt("BossTokens",0);
         //Purchased upgrades
         //Options prefs
         PlayerPrefs.SetFloat("SFXVolume",0.5f);
@@ -558,23 +564,26 @@ public class gameManager : MonoBehaviour
     //if you just call it, it will just show the text and how much the player has
     public void ShowBossTokens(int amount = 0)
     {
+        bossTknFloatTxt.transform.position = originalFloatTextPOS; //resets the position of floating text
+        //Stops the coroutine to not call it twice in one run
+        StopCoroutine(FadeFloatText());
+        //updates Boss token amount
         bossTknAmount += amount;
-        bossTknAmountTxt.text = bossTknAmount.ToString();
+        //Sets the amount upon recieving or giving Boss Tokens
+        PlayerPrefs.SetInt("BossTokens", bossTknAmount);
+        bossTknAmountTxt.text = bossTknAmount.ToString(); //Displays the updated amount
 
         //makes sure the alphas are set to one so they can be seen
         for (int i = 0; i < bossTknUIObjects.Length - 1; i++)
         {
-            UnityEngine.Debug.Log("for-loop entered");
             if (bossTknUIObjects[i].GetComponent<Image>() != null && bossTknUIObjects[i].GetComponent<Image>().color.a < 0.05f)
             {
-                UnityEngine.Debug.Log("Image if-check entered");
                 Color color = bossTknUIObjects[i].GetComponent<Image>().color;
                 color.a = 255f;
                 bossTknUIObjects[i].GetComponent<Image>().color = color;
             }
             else if (bossTknUIObjects[i].GetComponent<TextMeshProUGUI>() != null && bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color.a < 0.05f)
             {
-                UnityEngine.Debug.Log("TextMeshProUGUI if-check entered");
                 Color color = bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color;
                 color.a = 255f;
                 bossTknUIObjects[i].GetComponent<TextMeshProUGUI>().color = color;
@@ -582,8 +591,8 @@ public class gameManager : MonoBehaviour
         }
 
         bossTknUI.SetActive(true); //makes it seen
-        bossTknUIObjects[bossTknUIObjects.Length - 1].SetActive(true);
-        bossTknUIObjects[bossTknUIObjects.Length - 1].transform.position = originalFloatTextPOS;
+        bossTknUIObjects[bossTknUIObjects.Length - 1].SetActive(true); //makes the floating text enabled
+        bossTknFloatTxt.GetComponent<RectTransform>().position = originalFloatTextPOS; //resets the position of floating text
 
         //When tokens are added - only in-game - the whole thing will fade after the floating text has faded
         if (amount > 0)
@@ -598,7 +607,7 @@ public class gameManager : MonoBehaviour
             bossTknFloatTxt.text = amount.ToString();
             StartCoroutine(FadeFloatText(false));
         }
-        else //if this method is just called with no args, the text will show-up
+        else //if this method is just called with no args, the floating text will NOT show-up
         {
             bossTknFloatTxt.text = "";
         }
@@ -606,6 +615,9 @@ public class gameManager : MonoBehaviour
 
     IEnumerator FadeFloatText(bool completelyFade = true)
     {
+        float target = 0;
+        if (SceneManager.GetActiveScene().name == "MainMenuScene") { target = 100; }
+        else { target = 8; }
         //Slowly makes text transparent
         Color color = bossTknFloatTxt.color;
         color.a += (0 - bossTknFloatTxt.color.a) * (Time.deltaTime * .5f);
@@ -613,8 +625,8 @@ public class gameManager : MonoBehaviour
 
         //slowly moves text upwards
         Vector3 pos = bossTknFloatTxt.transform.position;
-        pos.y += (0 + bossTknFloatTxt.transform.position.y) * (Time.deltaTime * .01f);
-        bossTknFloatTxt.transform.position = pos;
+        pos.y += (target + bossTknFloatTxt.transform.position.y) * (Time.deltaTime * .01f);
+        bossTknFloatTxt.GetComponent<RectTransform>().position = pos;
 
         yield return new WaitForEndOfFrame();
         if(bossTknFloatTxt.color.a >= 0.1f)

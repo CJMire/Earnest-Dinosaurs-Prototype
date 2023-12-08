@@ -120,6 +120,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void MainShop()
     {
+        gameManager.instance.ShowBossTokens();
         gameManager.instance.switchMenu(gameManager.instance.GetMainShop());
         gameManager.instance.selectButton(gameManager.instance.menuShopButton);
     }
@@ -127,6 +128,12 @@ public class ButtonHandler : MonoBehaviour
     public void MainExit()
     {
         Application.Quit();
+    }
+    #endregion
+    #region Shop Menu Buttons
+    public void Buy()
+    {
+        gameManager.instance.ShowBossTokens(-1);
     }
     #endregion
 }

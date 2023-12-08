@@ -11,6 +11,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] CharacterController characterController;
     [SerializeField] ParticleSystem damageEnemyEffect;
     [SerializeField] AudioSource aud;
+    [SerializeField] Animator anim;
 
     [Header("----- Player Stats -----")]
     [SerializeField] int HP;
@@ -101,9 +102,24 @@ public class playerController : MonoBehaviour, IDamage
             playerVelocity.y = 0;
             jumpTimes = 0;
         }
+        if (isPlayingSteps && playerSpeed == 12)
+        {
+            anim.SetBool("IsWalking", true);
+            anim.SetFloat("Speed", 1f);
+        }
+        else if (isPlayingSteps && playerSpeed > 12)
+        {
+            anim.SetFloat("Speed", 1.6f);
+        }
+        else if (!isPlayingSteps)
+        {
+            anim.SetFloat("Speed", 0f);
+        }
+
 
         move = Input.GetAxis("Horizontal") * transform.right +
                Input.GetAxis("Vertical") * transform.forward;
+
         characterController.Move(move * Time.deltaTime * playerSpeed);
 
         if (Input.GetButtonDown("Jump") && jumpTimes < playerJumpMax)

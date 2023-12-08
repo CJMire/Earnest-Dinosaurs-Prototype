@@ -12,7 +12,7 @@ public class bullet : MonoBehaviour
     [SerializeField] ParticleSystem flashEffect;
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip[] shootEffects;
-    [SerializeField] AudioClip ricochetEffect;
+    [SerializeField] AudioClip[] ricochetEffect;
     [Range(0, 1)][SerializeField] float bulletVol;
 
     [Header("----- Bullet's Stats ------")]
@@ -80,7 +80,8 @@ public class bullet : MonoBehaviour
             Instantiate(hitEffect, transform.position, hitEffect.transform.rotation);
 
             //Sound from player 
-            aud.PlayOneShot(ricochetEffect, bulletVol);
+            int randomRicoSound = Random.Range(0, ricochetEffect.Length);
+            aud.PlayOneShot(ricochetEffect[randomRicoSound], bulletVol);
         }
         
         //Destroy the bullet when hitting the gameObject 

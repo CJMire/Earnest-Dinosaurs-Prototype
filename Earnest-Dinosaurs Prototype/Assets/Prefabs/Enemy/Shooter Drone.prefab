@@ -75,15 +75,17 @@ MonoBehaviour:
   barrierObject: {fileID: 603384611691919402}
   barrierParticle: {fileID: 1586974591214697254, guid: 5975f641c8c7cae48a720adbc29539f6, type: 3}
   barrierRenderer: {fileID: 9067890530372186450}
-  barrierDamage: {fileID: 8300000, guid: 4b25ff5b9c72d5644a2dc86153e09a1f, type: 3}
+  barrierDamage: {fileID: 8300000, guid: a7e2d2bd449fe465d8d17fe971309d84, type: 3}
   barrierDestroy: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
   barrierHP: 2
   droneDeathParticle: {fileID: 7663006645152379582, guid: 073b9d9d0e0d7ce4189664cb00ddf050, type: 3}
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 0
-  hurtSound: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
-  deadSound: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
-  enemyVol: 0.5
+  hurtSound:
+  - {fileID: 8300000, guid: 61665acde9346c64686e4121678ab17d, type: 3}
+  deadSound:
+  - {fileID: 8300000, guid: 05ccb380d978a444bb350e107d69ee0a, type: 3}
+  enemyVol: 0.7
 --- !u!195 &2812675854375594145
 NavMeshAgent:
   m_ObjectHideFlags: 0

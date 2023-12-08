@@ -75,9 +75,7 @@ public class eliteDrone : MonoBehaviour, IDamage
             Debug.Log("MasterPrime Mode");
 
             //Orbiting the boss 
-            transform.RotateAround(summoner.transform.position, Vector3.up, orbitingSpeed * Time.deltaTime);
-            transform.RotateAround(summoner.transform.position, Vector3.forward, orbitingSpeed * Time.deltaTime);
-            transform.RotateAround(summoner.transform.position, Vector3.right, orbitingSpeed * Time.deltaTime);
+            transform.RotateAround(summoner.transform.position, Vector3.up, 75.0f * Time.deltaTime);
         }
 
         else

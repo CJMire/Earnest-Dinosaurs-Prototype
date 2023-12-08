@@ -60,7 +60,7 @@ MonoBehaviour:
   damage: 2
   liveTime: 3
   aud: {fileID: 3872756182658629801}
-  explosion: {fileID: 8300000, guid: 0acd99f2461b350468474aa94f5cbf70, type: 3}
+  explosion: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
   explosionVol: 0.5
   fadeOut: {fileID: 8300000, guid: 312191784e79b3e47a82d4b18b017f25, type: 3}
   fadeOutVol: 0.258

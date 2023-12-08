@@ -45,6 +45,7 @@ public class summonerboss : MonoBehaviour, IDamage
     [SerializeField] ParticleSystem empBurstParticle;
 
     [Header("----- Boss's Sounds------")]
+    [SerializeField] AudioClip fearDeathSound;
     [SerializeField] AudioClip hurtSound;
     [SerializeField] AudioClip spawnSound;
     [SerializeField] AudioClip deadSound;
@@ -382,6 +383,8 @@ public class summonerboss : MonoBehaviour, IDamage
 
     IEnumerator OnDeath()
     {
+        aud.PlayOneShot(fearDeathSound, bossVol);
+
         yield return new WaitForSeconds(4.0f);
 
         for(int i = 0; i < 10; i++)

@@ -11,6 +11,7 @@ public class grenade : MonoBehaviour
     [SerializeField] Renderer grenadeModel;
 
     [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip launchSound;
     [SerializeField] AudioClip countdownSound;
     [Range(0, 1)][SerializeField] float countdownVol;
 
@@ -24,14 +25,14 @@ public class grenade : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, playerTorosPos);
 
-        Debug.Log("Distance:" + distance);
-
         isExploded = false;
 
         //Grenade projectile motion 
         rb.velocity = (Vector3.up * 2.0f) + (transform.forward) * (Mathf.Clamp(distance, 0.0f, 17.5f) * 2.0f);
 
         countdownTick = explosionTime;
+
+        aud.PlayOneShot(launchSound, countdownVol);
 
         StartCoroutine(aboutToExplode(countdownTick));
 

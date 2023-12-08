@@ -427,15 +427,19 @@ MonoBehaviour:
   barrierObject: {fileID: 8369761586372940551}
   barrierParticle: {fileID: 1586974591214697254, guid: 5975f641c8c7cae48a720adbc29539f6, type: 3}
   barrierRenderer: {fileID: 6176841808376453110}
-  barrierDamage: {fileID: 8300000, guid: 4b25ff5b9c72d5644a2dc86153e09a1f, type: 3}
+  barrierDamage: {fileID: 8300000, guid: a7e2d2bd449fe465d8d17fe971309d84, type: 3}
   barrierDestroy: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
   barrierHP: 5
   droneDeathParticle: {fileID: 0}
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 30
-  hurtSound: {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
-  deadSound: {fileID: 8300000, guid: 279364a71e4a93a4d9d1143598d6f2dd, type: 3}
-  enemyVol: 0.3
+  hurtSound:
+  - {fileID: 8300000, guid: 63cf59c847f88a24884803faf745a6eb, type: 3}
+  - {fileID: 8300000, guid: 8316647891ee6764d957fcca1aeda2e7, type: 3}
+  - {fileID: 8300000, guid: c57a589b1ae765f4197fdd01e136905d, type: 3}
+  deadSound:
+  - {fileID: 8300000, guid: 279364a71e4a93a4d9d1143598d6f2dd, type: 3}
+  enemyVol: 0.7
 --- !u!95 &1320519790314336126
 Animator:
   serializedVersion: 5

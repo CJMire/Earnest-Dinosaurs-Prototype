@@ -44,8 +44,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [Range(1,100)][SerializeField] float medkitDropRate;
 
     [Header("----- Enemy Sound------")]
-    [SerializeField] AudioClip hurtSound;
-    [SerializeField] AudioClip deadSound;
+    [SerializeField] AudioClip[] hurtSound;
+    [SerializeField] AudioClip[] deadSound;
     [Range(0, 1)][SerializeField] float enemyVol;
 
     Color[] modelOrigColor;
@@ -194,10 +194,11 @@ public class enemyAI : MonoBehaviour, IDamage
         if(damageAmount > 100)
         {
             barrierObject.SetActive(false);
-            
-            //Spawn medkit within drop rate, set isDead and destroy gameObject 
-            aud.PlayOneShot(deadSound, enemyVol);
 
+            int randomSound = UnityEngine.Random.Range(0, deadSound.Length);
+            aud.PlayOneShot(deadSound[randomSound], enemyVol);
+
+            //Spawn medkit within drop rate, set isDead and destroy gameObject 
             DropSomething(); //Drops one puick-up for player use
 
             isDead = true;
@@ -224,7 +225,8 @@ public class enemyAI : MonoBehaviour, IDamage
             if (HP <= 0)
             {
                 //Spawn medkit within drop rate, set isDead and destroy gameObject 
-                aud.PlayOneShot(deadSound, enemyVol);
+                int randomSound = UnityEngine.Random.Range(0, deadSound.Length);
+                aud.PlayOneShot(deadSound[randomSound], enemyVol);
 
                 DropSomething(); //Drops one puick-up for player use
 
@@ -245,7 +247,8 @@ public class enemyAI : MonoBehaviour, IDamage
                 //Play damage animation
                 anim.SetTrigger("Damage");
 
-                aud.PlayOneShot(hurtSound, enemyVol);
+                int randomSound = UnityEngine.Random.Range(0, hurtSound.Length);
+                aud.PlayOneShot(hurtSound[randomSound], enemyVol);
 
                 //If take damage,then chase the player 
                 if (!isDead)

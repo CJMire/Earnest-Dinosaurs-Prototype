@@ -53,6 +53,7 @@ MonoBehaviour:
   explosion: {fileID: 7549068130658129789, guid: b0e5e7f4579ed9b4a90661d1404c3bf1, type: 3}
   grenadeModel: {fileID: 2751600576473270419}
   aud: {fileID: 7725080710134296901}
+  launchSound: {fileID: 8300000, guid: 380a61624a607f042ab5e96218f37633, type: 3}
   countdownSound: {fileID: 8300000, guid: e8ac050cdc662954c82148c3cfa7b252, type: 3}
   countdownVol: 0.5
 --- !u!135 &145239315170767359

@@ -57,8 +57,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e2cb947990d0d9c4d8ed138df076a53d, type: 3}
   - {fileID: 8300000, guid: b4b6a720b0ba76d40aa26206b1f17218, type: 3}
   - {fileID: 8300000, guid: b91c1d0066de57946a355e9e4e621e7b, type: 3}
-  ricochetEffect: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
-  bulletVol: 0.2
+  ricochetEffect:
+  - {fileID: 8300000, guid: 75adfe9a619833445a701305b983e548, type: 3}
+  - {fileID: 8300000, guid: e11a5a019377fbd4c81caa0adcb4c236, type: 3}
+  bulletVol: 0.1
   bulletSpeed: 30
   bulletDuration: 3
   bulletDamage: 1

@@ -10,9 +10,11 @@ public class MasterPrime : MonoBehaviour, IDamage
     [SerializeField] Renderer[] bossModelArray;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform shootPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
     [SerializeField] AudioSource aud;
+
 
     [Header("----- Boss's Stats ------")]
     [SerializeField] int HP;
@@ -41,6 +43,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     [Header("----- Summoning enemy------")]
     [SerializeField] GameObject[] summonedEnemy;
     [SerializeField] GameObject[] eliteDrones;
+    [SerializeField] GameObject[] bullets;
 
     [Header("----- EMP Burst-----")]
     [SerializeField] GameObject empBurstObject;
@@ -49,6 +52,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     [SerializeField] ParticleSystem shockWaveParticle;
 
     [Header("----- Boss's Sounds------")]
+    [SerializeField] AudioClip notSurviveSound;
     [SerializeField] AudioClip hurtSound;
     [SerializeField] AudioClip spawnSound;
     [SerializeField] AudioClip deadSound;
@@ -65,6 +69,7 @@ public class MasterPrime : MonoBehaviour, IDamage
 
     Vector3 targetDirection;
     bool isSummoning;
+    bool isShooting;
     bool isDead;
     bool isExplodind;
     bool isStunt;
@@ -100,7 +105,9 @@ public class MasterPrime : MonoBehaviour, IDamage
             Instantiate(spawnParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
         }
 
-        aud.PlayOneShot(teleportSound, bossVol);
+        aud.PlayOneShot(teleportSound, bossVol - 0.2f);
+
+        aud.PlayOneShot(notSurviveSound, bossVol);
     }
 
     // Update is called once per frame
@@ -163,11 +170,18 @@ public class MasterPrime : MonoBehaviour, IDamage
                         anim.SetTrigger("Summon");
                     }
 
+                    if(gameManager.instance.GetEnemyCount() >= maxSpawn && !isStunt && !isShooting)
+                    {
+                        StartCoroutine(shootAttack());
+                    }
+
+                    /*
                     if (gameManager.instance.GetEnemyCount() >= maxSpawn && !isStunt)
                     {
                         anim.SetTrigger("Shockwave");
 
                     }
+                    */
                 }
 
                 //Do this when player is in stopping distance 
@@ -314,6 +328,24 @@ public class MasterPrime : MonoBehaviour, IDamage
         Instantiate(shockWaveObject, transform.position, shockWaveObject.transform.rotation);
         Instantiate(shockWaveParticle, transform.position, transform.rotation);
         yield return new WaitForSeconds(4.0f);
+    }
+
+    public void createRandomBullet()
+    {
+        int randomBullet = UnityEngine.Random.Range(0, bullets.Length);
+        Instantiate(bullets[randomBullet], shootPos.position, transform.rotation);
+    }
+
+    IEnumerator shootAttack()
+    {
+        isShooting = true;
+
+        anim.SetTrigger("RandomAttack");
+
+        //Shooting rate 
+        yield return new WaitForSeconds(1.0f);
+
+        isShooting = false;
     }
 
     void OnTriggerEnter(Collider other)

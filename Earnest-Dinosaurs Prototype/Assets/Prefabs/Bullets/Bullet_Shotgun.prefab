@@ -59,7 +59,7 @@ MonoBehaviour:
   ricochetEffect: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
   bulletVol: 0.2
   bulletSpeed: 30
-  bulletDuration: 0.4
+  bulletDuration: 0.5
   bulletDamage: 1
   isShotgun: 1
   shotgunRandomValue: 2

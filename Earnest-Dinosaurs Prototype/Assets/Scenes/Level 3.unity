@@ -1549,7 +1549,7 @@ PrefabInstance:
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: FinalBoss
       value: 
-      objectReference: {fileID: 3545932919612008135, guid: b69504231f0d5c2449e5ca8f9c3e1410, type: 3}
+      objectReference: {fileID: 3545932919612008135, guid: 79e876a0ac031014cb6be82c14fa12d4, type: 3}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: EnemyBase_6
       value: 
@@ -1573,7 +1573,7 @@ PrefabInstance:
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: enemyLineup.Array.data[0]
       value: 
-      objectReference: {fileID: 948443828552473790, guid: 60693e56b8fe9124783adaae50c261da, type: 3}
+      objectReference: {fileID: 7556517881347986790, guid: f3496ed2997f1ff47af2d2fc6ed63319, type: 3}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: enemyLineup.Array.data[1]
       value: 
@@ -1585,7 +1585,7 @@ PrefabInstance:
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: enemyLineup.Array.data[3]
       value: 
-      objectReference: {fileID: 2291291316118895893, guid: 2919e2bc30039de448da1578fd4151de, type: 3}
+      objectReference: {fileID: 8087753347956122677, guid: 7a37a620e9ac696458256335eb042a03, type: 3}
     - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
       propertyPath: enemyLineup.Array.data[4]
       value: 

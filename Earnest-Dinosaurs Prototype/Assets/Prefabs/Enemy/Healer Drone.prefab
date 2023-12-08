@@ -1167,7 +1167,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e5c4e881b23ba49bad3cd88993ef6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyModelArray: []
+  enemyModelArray:
+  - {fileID: 8527115375219703019}
+  - {fileID: 4348501013928045173}
+  - {fileID: 8859822865346294549}
+  - {fileID: 982027760321989515}
+  - {fileID: 2143658953091939417}
+  - {fileID: 8382592430845336853}
+  - {fileID: 5541636465015596922}
+  - {fileID: 1214514799119987269}
+  - {fileID: 1725831941920035318}
+  - {fileID: 7280273406927790957}
   navAgent: {fileID: 4110441753255340386}
   shootPosition: {fileID: 9161901831214935394}
   headPos: {fileID: 134264592413180689}

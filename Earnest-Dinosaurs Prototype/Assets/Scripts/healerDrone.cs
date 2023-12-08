@@ -194,6 +194,22 @@ public class healerDrone : MonoBehaviour, IDamage
     {
         isHealing = true;
         beamObject.enabled = true;
+
+        enemyAI targetScript = target.GetComponent<enemyAI>();
+        if (targetScript.GetIsDead()) updateBeam();
+
+        while (targetInHealRange && !isDead && !targetScript.GetIsDead())
+        {
+            targetScript.heal(healAmount);
+            yield return new WaitForSeconds(healRate);
+        }
+
+        isHealing = false;
+        beamObject.enabled = false;
+
+        /*
+        isHealing = true;
+        beamObject.enabled = true;
         updateBeam();
 
         var targetScript = target.GetComponent<enemyAI>();
@@ -205,12 +221,17 @@ public class healerDrone : MonoBehaviour, IDamage
 
         isHealing = false;
         beamObject.enabled = false;
+        */
     }
 
     public void updateBeam()
     {
-        beamObject.SetPosition(0, shootPosition.transform.position);
-        beamObject.SetPosition(1, target.gameObject.transform.position);
+        if(target != null)
+        {
+            beamObject.SetPosition(0, shootPosition.transform.position);
+            beamObject.SetPosition(1, target.gameObject.transform.position);
+        }
+      
     }
 
     public void takeDamage(int damageAmount)

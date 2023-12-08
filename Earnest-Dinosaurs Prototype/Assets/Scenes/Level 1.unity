@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -215,6 +215,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: enemyLineup.Array.data[0]
+      value: 
+      objectReference: {fileID: 7556517881347986790, guid: f3496ed2997f1ff47af2d2fc6ed63319, type: 3}
+    - target: {fileID: 8318151301494999346, guid: cf35b126df3180542939e60a7faf55a5, type: 3}
+      propertyPath: enemyLineup.Array.data[3]
+      value: 
+      objectReference: {fileID: 8087753347956122677, guid: 7a37a620e9ac696458256335eb042a03, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

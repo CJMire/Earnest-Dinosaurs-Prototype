@@ -126,7 +126,7 @@ public class gameManager : MonoBehaviour
     [Range(1, 10)][SerializeField] public int newWaveIncrease; // how many more enemies will there be in new wave
 
     [Header("----- Spawn Points -----")]
-    List<GameObject> playerSpawnLocations = new List<GameObject>();
+    [SerializeField] List<GameObject> playerSpawnLocations = new List<GameObject>();
     public List<Transform> enemySpawnLocations = new List<Transform>();
 
     //Awake runs before Start() will, letting us instantiate this object
@@ -1084,6 +1084,16 @@ public class gameManager : MonoBehaviour
     public int GetEnemyCount()
     {
         return enemyCount;
+    }
+
+    public void SetCurrentBossTokens(int amount)
+    {
+        bossTknAmount = amount;
+    }
+
+    public int GetCurrentBossTokens()
+    {
+        return bossTknAmount;
     }
     #endregion
 }

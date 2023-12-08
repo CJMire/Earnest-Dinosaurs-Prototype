@@ -130,10 +130,4 @@ public class ButtonHandler : MonoBehaviour
         Application.Quit();
     }
     #endregion
-    #region Shop Menu Buttons
-    public void Buy()
-    {
-        gameManager.instance.ShowBossTokens(-1);
-    }
-    #endregion
 }

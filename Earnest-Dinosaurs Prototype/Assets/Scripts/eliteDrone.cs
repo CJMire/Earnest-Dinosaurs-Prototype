@@ -9,6 +9,7 @@ public class eliteDrone : MonoBehaviour, IDamage
     [Header("----- Drone's Components ------")]
     [SerializeField] Renderer[] enemyModelArray;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform torsoPos;
     [SerializeField] Transform shootPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
@@ -24,6 +25,8 @@ public class eliteDrone : MonoBehaviour, IDamage
     [SerializeField] float damageDuration;
 
     [Header("----- Drone's Exlusive Component ------")]
+    [SerializeField] ParticleSystem damageParticle;
+    [SerializeField] ParticleSystem lightingParticle;
     [SerializeField] ParticleSystem droneDeathParticle;
 
     [Header("----- Enemy Sound------")]
@@ -101,7 +104,9 @@ public class eliteDrone : MonoBehaviour, IDamage
         {
             //Spawn medkit within drop rate, set isDead and destroy gameObject 
             aud.PlayOneShot(deadSound, enemyVol);
-            
+
+            Instantiate(lightingParticle, torsoPos.position, lightingParticle.transform.rotation);
+
             //anim.SetBool("Dead", true);
             StartCoroutine(OnDroneDeath());
 
@@ -113,6 +118,8 @@ public class eliteDrone : MonoBehaviour, IDamage
         {
             //Play damage animation
             anim.SetTrigger("Damage");
+
+            Instantiate(damageParticle, torsoPos.position, transform.rotation);
 
             aud.PlayOneShot(hurtSound, enemyVol);
         }

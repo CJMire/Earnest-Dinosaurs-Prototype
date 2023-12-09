@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEditor.FilePathAttribute;
@@ -10,6 +11,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     [SerializeField] Renderer[] bossModelArray;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform torsoPos;
     [SerializeField] Transform shootPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
@@ -33,6 +35,8 @@ public class MasterPrime : MonoBehaviour, IDamage
     [SerializeField] ParticleSystem spawnParticle;
     [SerializeField] ParticleSystem explodeSpark;
     [SerializeField] ParticleSystem deathParticle;
+    [SerializeField] ParticleSystem damageParticle;
+    [SerializeField] ParticleSystem chargeExplodeParticle;
 
     [Header("----- Boss barrier's Stats ------")]
     [SerializeField] GameObject barrierObject;
@@ -58,6 +62,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     [SerializeField] AudioClip deadSound;
     [SerializeField] AudioClip teleportSound;
     [SerializeField] AudioClip explosionSound;
+    [SerializeField] AudioClip[] lightingMalfunctionSound;
     [SerializeField] AudioClip EMPSound;
     [SerializeField] AudioClip aboutToEMPSound;
     [SerializeField] AudioClip barrierRecoverSound;
@@ -68,6 +73,7 @@ public class MasterPrime : MonoBehaviour, IDamage
     Color barrierOrigColor;
 
     Vector3 targetDirection;
+    ParticleSystem charging;
     bool isSummoning;
     bool isShooting;
     bool isDead;
@@ -141,6 +147,11 @@ public class MasterPrime : MonoBehaviour, IDamage
         if(isExplodind)
         {
             transform.Translate(Vector3.up * Time.deltaTime);
+
+            if(charging != null)
+            {
+                charging.transform.Translate(Vector3.up * Time.deltaTime);
+            }
         }
     }
 
@@ -287,17 +298,21 @@ public class MasterPrime : MonoBehaviour, IDamage
         int randomDrone = Random.Range(0, summonedEnemy.Length - 1);
 
         //Create vector 3 of spawn position 
-        float positionX = transform.position.x + Random.Range(-4.0f, 4.0f);
         float positionY = transform.position.y + 3.0f;
-        float positionZ = transform.position.z + Random.Range(-4.0f, 4.0f);
 
-        Vector3 spawnPosition = new Vector3(positionX, positionY, positionZ);
+        Vector3 spawnPosition1 = new Vector3(transform.position.x + Random.Range(-4.0f, 4.0f), positionY, transform.position.z + Random.Range(-4.0f, 4.0f));
+        Vector3 spawnPosition2 = new Vector3(transform.position.x + Random.Range(-4.0f, 4.0f), positionY, transform.position.z + Random.Range(-4.0f, 4.0f));
+
 
         //Add variable name to access the SetBarrierHP function 
-        GameObject droneClone;
-        droneClone = Instantiate(summonedEnemy[randomDrone], spawnPosition, transform.rotation);
+        GameObject droneClone1;
+        GameObject droneClone2;
 
-        Instantiate(spawnParticle, spawnPosition, transform.rotation);
+        droneClone1 = Instantiate(summonedEnemy[randomDrone], spawnPosition1, transform.rotation);
+        Instantiate(spawnParticle, spawnPosition1, transform.rotation);
+
+        droneClone2 = Instantiate(summonedEnemy[randomDrone], spawnPosition2, transform.rotation);
+        Instantiate(spawnParticle, spawnPosition1, transform.rotation);
 
         aud.PlayOneShot(spawnSound, bossVol);
 
@@ -306,12 +321,14 @@ public class MasterPrime : MonoBehaviour, IDamage
  
         if (barrierChance < 20)
         {
-            droneClone.GetComponent<enemyAI>().SetBarrierHP(3);
+            droneClone1.GetComponent<enemyAI>().SetBarrierHP(3);
+            droneClone2.GetComponent<enemyAI>().SetBarrierHP(3);
         }
 
         else
         {
-            droneClone.GetComponent<enemyAI>().SetBarrierHP(0);
+            droneClone1.GetComponent<enemyAI>().SetBarrierHP(0);
+            droneClone2.GetComponent<enemyAI>().SetBarrierHP(0);
         }
     }
 
@@ -422,6 +439,8 @@ public class MasterPrime : MonoBehaviour, IDamage
             bossModelArray[i].material.color = Color.red;
         }
 
+        Instantiate(damageParticle, torsoPos.position, transform.rotation);
+
         damageCol.enabled = false;
 
         yield return new WaitForSeconds(damageDuration);
@@ -436,22 +455,25 @@ public class MasterPrime : MonoBehaviour, IDamage
 
     IEnumerator OnDeath()
     {
+        charging = Instantiate(chargeExplodeParticle, torsoPos.position, chargeExplodeParticle.transform.rotation);
+
         int count = 0;
 
-        while (count < 15)
+        while (count < 13)
         {
             Instantiate(explodeSpark, transform.position + new Vector3(Random.Range(-4.0f, 4.0f), Random.Range(-1.0f, 1.0f), Random.Range(-4.0f, 4.0f)), transform.rotation);
-            aud.PlayOneShot(explosionSound, bossVol);
+            
+            int randomSound = UnityEngine.Random.Range(0, lightingMalfunctionSound.Length);
+            aud.PlayOneShot(lightingMalfunctionSound[randomSound], bossVol);
 
             yield return new WaitForSeconds(0.5f);
 
             count++;
         }
 
-        for(int i = 0; i < 10; i++)
-        {
-            Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
-        }
+        charging.Stop();
+
+        Instantiate(deathParticle, transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)), transform.rotation);
 
         aud.PlayOneShot(explosionSound, bossVol + 0.3f);
 

@@ -11,9 +11,12 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform torsoPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
     [SerializeField] AudioSource aud;
+    [SerializeField] ParticleSystem damageParticle;
+    [SerializeField] ParticleSystem lightingParticle;
 
     [Header("----- Enemy's Stats ------")]
     [SerializeField] int HP;
@@ -234,6 +237,11 @@ public class enemyAI : MonoBehaviour, IDamage
                 navAgent.enabled = false;
                 anim.SetBool("Dead", true);
 
+                if (lightingParticle != null)
+                {
+                    Instantiate(lightingParticle, torsoPos.position, lightingParticle.transform.rotation);
+                }
+
                 //turns off enemy damage colliders when dead
                 damageCol.enabled = false;
 
@@ -288,6 +296,8 @@ public class enemyAI : MonoBehaviour, IDamage
             enemyModelArray[i].material.color = Color.red;
         }
 
+        Instantiate(damageParticle, torsoPos.position, transform.rotation);
+
         yield return new WaitForSeconds(damageDuration);
 
         for (int i = 0; i < enemyModelArray.Length; i++)
@@ -304,7 +314,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if (barrierParticle != null)
         {
-            Instantiate(barrierParticle, transform.position, barrierParticle.transform.rotation);
+            Instantiate(barrierParticle, torsoPos.position, barrierParticle.transform.rotation);
         }
 
         yield return new WaitForSeconds(damageDuration);

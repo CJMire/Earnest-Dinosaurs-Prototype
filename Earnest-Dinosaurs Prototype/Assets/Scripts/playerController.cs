@@ -183,6 +183,7 @@ public class playerController : MonoBehaviour, IDamage
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
             IDamage damageable = hit.collider.GetComponent<IDamage>();
+            IBossBarrier bossBarrier = hit.collider.GetComponent<IBossBarrier>();   
 
             if (hit.transform != transform && damageable != null)
             {
@@ -197,6 +198,11 @@ public class playerController : MonoBehaviour, IDamage
                 gameManager.instance.GetHitMarker().gameObject.SetActive(true);
                 yield return new WaitForSeconds(offset);
                 gameManager.instance.GetHitMarker().gameObject.SetActive(false);
+            }
+
+            if(hit.transform != transform && bossBarrier != null)
+            {
+                bossBarrier.takeNoDamage(hit.transform);
             }
 
         }

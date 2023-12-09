@@ -5,10 +5,27 @@ using UnityEngine;
 public class playerSpawner : MonoBehaviour
 {
     int isEnemyNear;
+    List<GameObject> enemies;
 
     void Start()
     {
         isEnemyNear = 0;
+        enemies = new List<GameObject>();
+    }
+
+    private void Update()
+    {
+        if(enemies.Count > 0)
+        {
+            for(int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i].GetComponent<enemyAI>().GetIsDead())
+                {
+                    isEnemyNear--;
+                    enemies.RemoveAt(i);
+                }
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -17,7 +34,7 @@ public class playerSpawner : MonoBehaviour
         if (!other.isTrigger && (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss")))
         {
             isEnemyNear++;
-            Debug.Log(gameObject.name + " detects " + isEnemyNear + " enemies");
+            if (other.gameObject.CompareTag("Enemy")) { enemies.Add(other.gameObject); }
         }
     }
 
@@ -26,7 +43,13 @@ public class playerSpawner : MonoBehaviour
         if (!other.isTrigger && (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss")))
         {
             isEnemyNear--;
-            Debug.Log(gameObject.name + " detects " + isEnemyNear + " enemies");
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i] == other.gameObject)
+                {
+                    enemies.RemoveAt(i);
+                }
+            }
         }
     }
 

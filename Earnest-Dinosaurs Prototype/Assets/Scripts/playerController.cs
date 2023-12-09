@@ -66,6 +66,7 @@ public class playerController : MonoBehaviour, IDamage
         //sets maxHP
         maxHP = PlayerPrefs.GetInt("playerMaxHP");
         HP = PlayerPrefs.GetInt("playerHP");
+        playerSpeed = PlayerPrefs.GetFloat("playerSpeed");
 
         //spawns player in current level
         if (SceneManager.GetActiveScene().name != "Level 3") spawnPlayer();

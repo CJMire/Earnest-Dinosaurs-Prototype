@@ -257,6 +257,9 @@ public class gameManager : MonoBehaviour
     //"BossTokens" - int
     //"MaxHPCost" - int
     //"MaxHPPurchases" - int
+    // - "playerSpeed" - float
+    // - "SpeedCost" - int
+    // - "SpeedPurchases" - int
 
     //This method is for starting new runs
     public void ResetGameManagerValues()
@@ -290,6 +293,7 @@ public class gameManager : MonoBehaviour
         //Player stats
         PlayerPrefs.SetInt("playerHP", 15);
         PlayerPrefs.SetInt("playerMaxHP", 15);
+        PlayerPrefs.SetFloat("playerSpeed", 12);
         PlayerPrefs.SetInt("gun1", 1);
         PlayerPrefs.SetInt("gun2", 0);
         PlayerPrefs.SetInt("gun3", 0);
@@ -298,6 +302,8 @@ public class gameManager : MonoBehaviour
         //Purchased upgrades
         PlayerPrefs.SetInt("MaxHPCost", 1);
         PlayerPrefs.SetInt("MaxHPPurchases", 0);
+        PlayerPrefs.SetInt("SpeedCost", 1);
+        PlayerPrefs.SetInt("SpeedPurchases", 0);
         //Options prefs
         PlayerPrefs.SetFloat("SFXVolume",0.5f);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);

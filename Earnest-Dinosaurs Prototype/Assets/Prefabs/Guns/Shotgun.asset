@@ -10,20 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96a164b61b67e1540b450582bf39b1c7, type: 3}
-  m_Name: Auto Rifle
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
   shootDamage: 2
-  shootDist: 50
-  shootRate: 0.2
-  ammoCur: 19
-  ammoMax: 20
+  shootDist: 30
+  shootRate: 0.5
+  ammoCur: 4
+  ammoMax: 5
   reloadTime: 1.5
-  isShotgun: 0
-  spread: 0
-  pelletCount: 0
-  model: {fileID: 5571641588984482722, guid: c303a18f1cbdd4156b139b9e5b35d6a9, type: 3}
+  model: {fileID: 5494625650325380441, guid: 944f765b84e4c4012876d61f4dfc7b5a, type: 3}
   shootEffect: {fileID: 5394015775494062700, guid: 8d1ba55d69965004e9000ea325396470, type: 3}
-  trailEffect: {fileID: 4748870701725100217, guid: 0da47548907b77f4083c34fea2dab960, type: 3}
   hitEffect: {fileID: 0}
   shootSound: {fileID: 8300000, guid: c67e052a792186b4f8b7deca76347da5, type: 3}
-  shootSoundVol: 0.5
+  shootSoundVol: 0

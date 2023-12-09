@@ -135,8 +135,6 @@ public class gameManager : MonoBehaviour
         //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
         if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
 
-        
-
         Time.timeScale = 1.0f;
         instance = this;
 
@@ -257,6 +255,8 @@ public class gameManager : MonoBehaviour
     //"SFXVolume" - float
     //"MusicVolume" - float
     //"BossTokens" - int
+    //"MaxHPCost" - int
+    //"MaxHPPurchases" - int
 
     //This method is for starting new runs
     public void ResetGameManagerValues()
@@ -296,6 +296,8 @@ public class gameManager : MonoBehaviour
         //Boss tokens
         PlayerPrefs.SetInt("BossTokens",0);
         //Purchased upgrades
+        PlayerPrefs.SetInt("MaxHPCost", 1);
+        PlayerPrefs.SetInt("MaxHPPurchases", 0);
         //Options prefs
         PlayerPrefs.SetFloat("SFXVolume",0.5f);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);

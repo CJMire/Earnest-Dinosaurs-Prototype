@@ -12,9 +12,13 @@ public class healerDrone : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform shootPosition;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform torsoPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
     [SerializeField] AudioSource aud;
+    [SerializeField] ParticleSystem damageParticle;
+    [SerializeField] ParticleSystem lightingParticle;
+    [SerializeField] ParticleSystem droneDeathParticle;
 
     [Header("----- Healer's Stats ------")]
     [SerializeField] int HP;
@@ -249,6 +253,8 @@ public class healerDrone : MonoBehaviour, IDamage
                 //Spawn medkit within drop rate, set isDead and destroy gameObject 
                 aud.PlayOneShot(deadSound, enemyVol);
 
+                Instantiate(lightingParticle, torsoPos.position, lightingParticle.transform.rotation);
+
                 DropSomething(); //Drops one puick-up for player use
 
                 isDead = true;
@@ -297,6 +303,8 @@ public class healerDrone : MonoBehaviour, IDamage
         {
             enemyModelArray[i].material.color = Color.red;
         }
+
+        Instantiate(damageParticle, torsoPos.position, transform.rotation);
 
         yield return new WaitForSeconds(damageDuration);
 
@@ -366,7 +374,8 @@ public class healerDrone : MonoBehaviour, IDamage
     //Destroys gameObject after set amount of time
     IEnumerator OnDeath()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.5f);
+        Instantiate(droneDeathParticle, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

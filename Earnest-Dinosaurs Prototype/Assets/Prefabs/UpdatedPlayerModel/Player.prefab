@@ -1325,6 +1325,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7528810260780055157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4392011527178452625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6502814840633557711}
+  m_Layer: 0
+  m_Name: ShootPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6502814840633557711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4392011527178452625}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.004, y: 0.165, z: 1.76}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3301249543897779407}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4454092865081461097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,9 +2114,10 @@ MonoBehaviour:
   starterGun: {fileID: 11400000, guid: b7d8fdc642021e74db8785aed416a038, type: 2}
   gunList: []
   gunModel: {fileID: 8863515858300831341}
+  shootPos: {fileID: 4392011527178452625}
   levelCompleteRewards:
   - {fileID: 11400000, guid: 8def1c2fb5f3352449482a67fe4e882e, type: 2}
-  - {fileID: 11400000, guid: c8585b4bc5b2af24a9f8243c49cfaa75, type: 2}
+  - {fileID: 11400000, guid: a7f046743ebcc0043ac2f50e0c27f1a7, type: 2}
   audioSteps:
   - {fileID: 8300000, guid: 989bf3d4446c739479168b0b4cfb8c5c, type: 3}
   - {fileID: 8300000, guid: 8dbadfe74611143418c355be5ce68c04, type: 3}
@@ -2756,7 +2788,8 @@ Transform:
   m_LocalPosition: {x: 0.2339611, y: 0.1865446, z: 0.57782507}
   m_LocalScale: {x: 0.39999986, y: 0.44999966, z: 0.39999992}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6502814840633557711}
   m_Father: {fileID: 108496532896509872}
   m_LocalEulerAnglesHint: {x: 0, y: -6.139, z: 0}
 --- !u!33 &6755950431910867876

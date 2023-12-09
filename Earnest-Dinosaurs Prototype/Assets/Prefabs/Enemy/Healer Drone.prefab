@@ -1181,9 +1181,13 @@ MonoBehaviour:
   navAgent: {fileID: 4110441753255340386}
   shootPosition: {fileID: 9161901831214935394}
   headPos: {fileID: 134264592413180689}
+  torsoPos: {fileID: 134264592413180689}
   anim: {fileID: 1050467682530261146}
   damageCol: {fileID: 2564404495520917222}
   aud: {fileID: 5418833456402217592}
+  damageParticle: {fileID: 4212237911574779970, guid: f34d53a9f8cd409428b8d1e3addf4807, type: 3}
+  lightingParticle: {fileID: 7123867197800266456, guid: 7fc2e10b593508845baf8e9044b6eb93, type: 3}
+  droneDeathParticle: {fileID: 7663006645152379582, guid: 073b9d9d0e0d7ce4189664cb00ddf050, type: 3}
   HP: 4
   facingSpeed: 4
   damageDuration: 0.5

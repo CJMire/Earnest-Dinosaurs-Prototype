@@ -264,9 +264,11 @@ MonoBehaviour:
   navAgent: {fileID: 8819668072597375513}
   shootPosition: {fileID: 8333514642319641575}
   headPos: {fileID: 2360697391946279983}
+  torsoPos: {fileID: 6484703986525245990}
   anim: {fileID: 518654349300882654}
   damageCol: {fileID: 5121003103625591369}
   aud: {fileID: -463261720616113696}
+  damageParticle: {fileID: 4212237911574779970, guid: f34d53a9f8cd409428b8d1e3addf4807, type: 3}
   HP: 3
   maxHP: 3
   facingSpeed: 10

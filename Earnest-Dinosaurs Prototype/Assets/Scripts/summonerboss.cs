@@ -10,6 +10,7 @@ public class summonerboss : MonoBehaviour, IDamage
     [SerializeField] Renderer[] bossModelArray;
     [SerializeField] NavMeshAgent navAgent;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform torsoPos;
     [SerializeField] Animator anim;
     [SerializeField] Collider damageCol;
     [SerializeField] AudioSource aud;
@@ -29,6 +30,8 @@ public class summonerboss : MonoBehaviour, IDamage
     [Header("----- Boss's Stats ------")]
     [SerializeField] ParticleSystem spawnParticle;
     [SerializeField] ParticleSystem deathParticle;
+    [SerializeField] ParticleSystem damageParticle;
+    [SerializeField] ParticleSystem lightingParticle;
 
     [Header("----- Boss barrier's Stats ------")]
     [SerializeField] GameObject barrierObject;
@@ -369,6 +372,8 @@ public class summonerboss : MonoBehaviour, IDamage
             bossModelArray[i].material.color = Color.red;
         }
 
+        Instantiate(damageParticle, torsoPos.position, transform.rotation);
+
         damageCol.enabled = false;
 
         yield return new WaitForSeconds(damageDuration);
@@ -384,6 +389,7 @@ public class summonerboss : MonoBehaviour, IDamage
     IEnumerator OnDeath()
     {
         aud.PlayOneShot(fearDeathSound, bossVol);
+        Instantiate(lightingParticle, torsoPos.position, lightingParticle.transform.rotation);
 
         yield return new WaitForSeconds(4.0f);
 

@@ -1,7 +1,10 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +29,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] gunStats starterGun;
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
     [SerializeField] GameObject gunModel;
+    [SerializeField] GameObject shootPos;
     [SerializeField] List<gunStats> levelCompleteRewards = new List<gunStats>();
 
     [Header("---- Audio ----")]
@@ -170,7 +174,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         isShooting = true;
         gunList[selectedGun].ammoCur--;
-        aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootSoundVol);
+        StartCoroutine(PlayShootEffects(gunList[selectedGun]));
         gameManager.instance.updateHUD();
 
         RaycastHit hit;
@@ -179,13 +183,13 @@ public class playerController : MonoBehaviour, IDamage
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
             IDamage damageable = hit.collider.GetComponent<IDamage>();
+            IBossBarrier bossBarrier = hit.collider.GetComponent<IBossBarrier>();   
 
             if (hit.transform != transform && damageable != null)
             {
                 damageable.takeDamage(shootDamage);
 
-                if(damageEnemyEffect != null)
-                    Instantiate(damageEnemyEffect, hit.point, damageEnemyEffect.transform.rotation);
+                if (damageEnemyEffect != null) Instantiate(damageEnemyEffect, hit.point, damageEnemyEffect.transform.rotation);
 
                 //since the hitmarker will be shown for x amount of time, we must offset the next time the player can shoot
                 offset = gameManager.instance.getHitMarkerRate();
@@ -196,11 +200,23 @@ public class playerController : MonoBehaviour, IDamage
                 gameManager.instance.GetHitMarker().gameObject.SetActive(false);
             }
 
+            if(hit.transform != transform && bossBarrier != null)
+            {
+                bossBarrier.takeNoDamage(hit.transform);
+            }
+
         }
         //If the raycastHit doesn't hit, there's no subtraction and shootrate remains constant
         //if it does, there's a slightly longer wait to shoot again. this ensures there's no loss in time
         yield return new WaitForSeconds(shootRate - offset);
         isShooting = false;
+    }
+
+    IEnumerator PlayShootEffects(gunStats currGun)
+    {
+        Instantiate(currGun.shootEffect, shootPos.transform.position, shootPos.transform.rotation);
+        aud.PlayOneShot(currGun.shootSound, currGun.shootSoundVol);
+        yield return null;
     }
 
     public void takeDamage(int damageAmount)

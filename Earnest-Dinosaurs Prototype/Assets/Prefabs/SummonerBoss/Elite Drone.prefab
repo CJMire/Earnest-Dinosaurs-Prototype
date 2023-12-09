@@ -886,16 +886,22 @@ MonoBehaviour:
   - {fileID: 7822509132561529813}
   - {fileID: 5107957240840941659}
   headPos: {fileID: 8870155477788446129}
+  torsoPos: {fileID: 8529803768373113670}
   shootPos: {fileID: 858786183353408061}
   anim: {fileID: 186830078179646564}
   damageCol: {fileID: 869345254092701435}
   aud: {fileID: 5009713532157710356}
   summoner: {fileID: 0}
+  summonerGround: {fileID: 0}
+  MasterPrimeMode: 0
   shieldBeam: {fileID: 1631525429503804178}
+  startPosition: {fileID: 0}
   HP: 5
   damageDuration: 0.3
+  damageParticle: {fileID: 4212237911574779970, guid: f34d53a9f8cd409428b8d1e3addf4807, type: 3}
+  lightingParticle: {fileID: 7123867197800266456, guid: 7fc2e10b593508845baf8e9044b6eb93, type: 3}
   droneDeathParticle: {fileID: 7663006645152379582, guid: 073b9d9d0e0d7ce4189664cb00ddf050, type: 3}
-  hurtSound: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
+  hurtSound: {fileID: 8300000, guid: a7e2d2bd449fe465d8d17fe971309d84, type: 3}
   deadSound: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
   enemyVol: 0.5
 --- !u!136 &869345254092701435

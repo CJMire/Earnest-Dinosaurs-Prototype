@@ -1804,6 +1804,14 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 2003938242}
+    - target: {fileID: 844112528329427624, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 844112528329427624, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.09
+      objectReference: {fileID: 0}
     - target: {fileID: 856884871147140933, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: instance
       value: 
@@ -1856,6 +1864,30 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2146808180}
+    - target: {fileID: 2833744883919381243, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2833744883919381243, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902755320997919693, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2902755320997919693, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 3010346134437092187, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3010346134437092187, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.09
+      objectReference: {fileID: 0}
     - target: {fileID: 3204997040334391457, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1883,6 +1915,14 @@ PrefabInstance:
     - target: {fileID: 4510297901835566528, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Name
       value: SkyScraper
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823399126646653919, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823399126646653919, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.09
       objectReference: {fileID: 0}
     - target: {fileID: 5382344235593593795, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Mesh
@@ -1944,6 +1984,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1918521191}
+    - target: {fileID: 8134183814387033262, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8134183814387033262, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.09
+      objectReference: {fileID: 0}
     - target: {fileID: 8476742064435264400, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

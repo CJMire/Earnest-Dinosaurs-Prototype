@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.8490565, g: 0.8490565, b: 0.8490565, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 55437ff1ebdb74f4d8d009402fa9907c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -37,8 +37,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_Sun: {fileID: 669006867}
+  m_IndirectSpecularColor: {r: 0.32107174, g: 0.21133253, b: 0.40438062, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1848,14 +1848,30 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 383258360}
+    - target: {fileID: 1808199793887096981, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aafa21b2fb64511499b1e39e26a2c97d, type: 2}
     - target: {fileID: 2248592165033531742, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2146808180}
+    - target: {fileID: 3204997040334391457, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aafa21b2fb64511499b1e39e26a2c97d, type: 2}
     - target: {fileID: 3507597798993828248, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 255030857}
+    - target: {fileID: 3613456048201823417, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aafa21b2fb64511499b1e39e26a2c97d, type: 2}
+    - target: {fileID: 3932481568022016637, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aafa21b2fb64511499b1e39e26a2c97d, type: 2}
     - target: {fileID: 4064035231666453801, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1876,6 +1892,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1918521191}
+    - target: {fileID: 5958330925557864476, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aafa21b2fb64511499b1e39e26a2c97d, type: 2}
     - target: {fileID: 6810191909426497243, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7623435
@@ -1924,6 +1944,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1918521191}
+    - target: {fileID: 8476742064435264400, guid: 09c7cbf00296a9849b3d411074cf86af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aafa21b2fb64511499b1e39e26a2c97d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

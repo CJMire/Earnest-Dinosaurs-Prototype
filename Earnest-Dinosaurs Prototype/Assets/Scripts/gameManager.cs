@@ -119,7 +119,7 @@ public class gameManager : MonoBehaviour
 
     [Header("----- Wave Settings -----")]
     [Range(1,5)] [SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
-    [Range(1, 2)][SerializeField] int totalLevels;
+    [Range(3, 3)][SerializeField] int totalLevels;
     [SerializeField] float spawnSpeed;
     [SerializeField] float gracePeriod;
     [SerializeField] public int totalEnemies;
@@ -183,6 +183,8 @@ public class gameManager : MonoBehaviour
             fillTime = 0; //Sets fillTime for use in the FillReloadingIcon
             playerLowHealthScreen.SetActive(false); //makes sure the low health screen is off
             originalFloatTextPOS = bossTknUIObjects[bossTknUIObjects.Length - 1].transform.position; //for the floating text of the Boss Token UI
+            bossIsDead = false;
+            bossIsSpawned = false;
         }
     }
 
@@ -217,24 +219,25 @@ public class gameManager : MonoBehaviour
                 FillReloadingIcon();
             }
 
-        if(currentBoss == null && bossIsSpawned)
-        {
-            bossIsDead = true;
-        }
+            if(currentBoss == null && bossIsSpawned)
+            {
+                bossIsDead = true;
+            }
 
-        if (SceneManager.GetActiveScene().name == "Level 3" && bossIsDead)
-        {
-            updateEnemyCount(enemyCount);
-        }
+            if (SceneManager.GetActiveScene().name == "Level 3" && bossIsDead)
+            {
+                updateEnemyCount(enemyCount);
+            }
+
             if (bossIsDead && !portalSpawned)
-        {
-            textWaves.gameObject.SetActive(true);
-            textEnemyLeft.gameObject.SetActive(true);
-            textEnemyCount.gameObject.SetActive(true);
-            isSpawningText.gameObject.SetActive(true);
-            bossHealthBar.gameObject.SetActive(false);
-            portalSpawn();
-        }
+            {
+                textWaves.gameObject.SetActive(true);
+                textEnemyLeft.gameObject.SetActive(true);
+                textEnemyCount.gameObject.SetActive(true);
+                isSpawningText.gameObject.SetActive(true);
+                bossHealthBar.gameObject.SetActive(false);
+                portalSpawn();
+            }
         }
     }
 
@@ -711,25 +714,16 @@ public class gameManager : MonoBehaviour
         if(enemyCount <= 0 && totalEnemies == 0)
         {
             //Game complete (completed waves == total waves)
-            if (waveCurrent >= levelCompletion * totalLevels)
+            if (SceneManager.GetActiveScene().name == "Level 3" && waveCurrent == levelCompletion && bossIsDead)
             {
                 OnWin();
                 return;
             }
             //Level Complete (completed waves == waves up to this level)
-            else if (waveCurrent >= levelCompletion * currentLevel)
+            else if (waveCurrent == levelCompletion)
             {
-                if(SceneManager.GetActiveScene().name == "Level 3" && waveCurrent == 3 && bossIsDead)
-                {
-                    OnWin();
-                    return;
-                }
-
                 //Spawned boss
-                else
-                {
-                    bossSpawn();
-                }
+                bossSpawn();
             }
             else
             {
@@ -853,7 +847,7 @@ public class gameManager : MonoBehaviour
 
     private void bossSpawn()
     {
-        if(!bossIsDead && waveCurrent == 3 && enemyCount == 0 && !bossIsSpawned)
+        if(!bossIsDead && waveCurrent == levelCompletion && enemyCount == 0 && !bossIsSpawned)
         {
             bossIsSpawned = true;
             textWaves.gameObject.SetActive(false);
@@ -880,11 +874,6 @@ public class gameManager : MonoBehaviour
                 currentBoss = Instantiate(FinalBoss, new Vector3(0, 68f, 0), Quaternion.identity);
                 bossName.text = "Master-Prime";
                 bossHealthBar.gameObject.SetActive(true);
-            }
-            
-            else
-            {
-                //Do nothing 
             }
         }
     }

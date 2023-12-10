@@ -234,6 +234,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
         gameManager.instance.ShowBossTokens(2);
         StopAllCoroutines();
         TurnOffColiders();
+        PlayerPrefs.SetInt("SergeantKullerKills", PlayerPrefs.GetInt("SergeantKullerKills", 0) + 1);
         animator.SetFloat("Turnrate", 0f);
         animator.SetTrigger("Death");
         aud.PlayOneShot(explosion, explosionVol);

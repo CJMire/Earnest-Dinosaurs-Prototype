@@ -15,6 +15,7 @@ public class gameManager : MonoBehaviour
 
     [Header("----- Components -----")]
     [SerializeField] AudioSource aud;
+    [SerializeField] GameObject mainCam;
 
     [Header("----- Menu Components -----")]
     [SerializeField] GameObject menuActive;
@@ -158,9 +159,10 @@ public class gameManager : MonoBehaviour
             stopwatch = Stopwatch.StartNew();
             timeScaleOriginal = Time.timeScale;
 
-            //Find player from the tag 
+            //Find player and main camera from the tag 
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<playerController>();
+            mainCam = GameObject.FindWithTag("MainCamera");
 
             //Set current level
             currentLevel = PlayerPrefs.GetInt("level");
@@ -260,6 +262,7 @@ public class gameManager : MonoBehaviour
     // - "playerSpeed" - float
     // - "SpeedCost" - int
     // - "SpeedPurchases" - int
+    // - "SergeantKullerKills" - int
 
     //This method is for starting new runs
     public void ResetGameManagerValues()
@@ -304,6 +307,8 @@ public class gameManager : MonoBehaviour
         PlayerPrefs.SetInt("MaxHPPurchases", 0);
         PlayerPrefs.SetInt("SpeedCost", 1);
         PlayerPrefs.SetInt("SpeedPurchases", 0);
+        //Boss Kills
+        PlayerPrefs.SetInt("SergeantKullerKills", 0);
         //Options prefs
         PlayerPrefs.SetFloat("SFXVolume",0.5f);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);

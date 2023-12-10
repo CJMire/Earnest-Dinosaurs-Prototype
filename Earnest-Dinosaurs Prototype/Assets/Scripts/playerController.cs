@@ -188,6 +188,9 @@ public class playerController : MonoBehaviour, IDamage
 
             if (hit.transform != transform && damageable != null)
             {
+                //for the last bullet upgrade
+                if (gunList[selectedGun].ammoCur == 0 && PlayerPrefs.GetInt("LastBulletPurchase", 0) > 0) { shootDamage *= 2; }
+
                 damageable.takeDamage(shootDamage);
 
                 if (damageEnemyEffect != null) Instantiate(damageEnemyEffect, hit.point, damageEnemyEffect.transform.rotation);

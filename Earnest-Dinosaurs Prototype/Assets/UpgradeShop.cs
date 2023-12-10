@@ -35,17 +35,17 @@ public class UpgradeShop : MonoBehaviour
     private int speedCost;
     private int speedPurchases;
 
-    [Header("----- Speed Upgrade Components-----")]
-    [SerializeField] Button buttonLastBulletUpgrade;
-    [SerializeField] GameObject[] textLastBulletInfo;
-    [SerializeField] TextMeshProUGUI textLastBulletCost;
-    [SerializeField] TextMeshProUGUI textLastBulletPurchases;
-    [SerializeField] TextMeshProUGUI textLastBulletUpgradeMaximum;
-    [SerializeField] TextMeshProUGUI textLastBulletUpgradeAmount;
-    [SerializeField] GameObject[] buttonLastBulletTexts; //this will exclude the maximum text BC it will still be used
+    //[Header("----- Last Bullet Upgrade Components-----")]
+    //[SerializeField] Button buttonLastBulletUpgrade;
+    //[SerializeField] GameObject[] textLastBulletInfo;
+    //[SerializeField] TextMeshProUGUI textLastBulletCost;
+    //[SerializeField] TextMeshProUGUI textLastBulletPurchases;
+    //[SerializeField] TextMeshProUGUI textLastBulletUpgradeMaximum;
+    //[SerializeField] TextMeshProUGUI textLastBulletUpgradeAmount;
+    //[SerializeField] GameObject[] buttonLastBulletTexts; //this will exclude the maximum text BC it will still be used
 
-    [Header("----- Covers -----")]
-    [SerializeField] GameObject lastBulletCover;
+    //[Header("----- Covers -----")]
+    //[SerializeField] GameObject lastBulletCover;
     //Keys:
     // - "playerMaxHP" - int
     // - "MaxHPCost" - int
@@ -82,19 +82,19 @@ public class UpgradeShop : MonoBehaviour
         }
 
         //Sets Last Bullet UI
-        if (PlayerPrefs.GetInt("SergeantKullerKills", 0) > 0)
-        {
-            lastBulletCover.SetActive(false);
-            buttonLastBulletUpgrade.interactable = true;
-            for(int i = 0; i < textLastBulletInfo.Length; i++)
-            {
-                textLastBulletInfo[i].SetActive(true);
-            }
-            if(CheckIfPurchasable(PlayerPrefs.GetInt("LastBulletPurchase", 0), 1, buttonLastBulletUpgrade, textLastBulletUpgradeMaximum, buttonLastBulletTexts))
-            {
-                textLastBulletPurchases.text = "1 / 1";
-            }
-        }
+        //if (PlayerPrefs.GetInt("SergeantKullerKills", 0) > 0)
+        //{
+        //    lastBulletCover.SetActive(false);
+        //    buttonLastBulletUpgrade.interactable = true;
+        //    for(int i = 0; i < textLastBulletInfo.Length; i++)
+        //    {
+        //        textLastBulletInfo[i].SetActive(true);
+        //    }
+        //    if(CheckIfPurchasable(PlayerPrefs.GetInt("LastBulletPurchase", 0), 1, buttonLastBulletUpgrade, textLastBulletUpgradeMaximum, buttonLastBulletTexts))
+        //    {
+        //        textLastBulletPurchases.text = "1 / 1";
+        //    }
+        //}
     }
 
     //checks if the corresponding button is still purchasable
@@ -177,26 +177,26 @@ public class UpgradeShop : MonoBehaviour
         }
     }
 
-    public void UpgradeLastBullet()
-    {
-        if (gameManager.instance.GetCurrentBossTokens() - 5 >= 0 && PlayerPrefs.GetInt("LastBulletPurchase", 0) < 1)
-        {
-            //makes sure no other shop sound effect is playing at the time
-            if (!aud.isPlaying) { aud.PlayOneShot(purchaseSuccess, 0.5f); }
+    //public void UpgradeLastBullet()
+    //{
+    //    if (gameManager.instance.GetCurrentBossTokens() - 5 >= 0 && PlayerPrefs.GetInt("LastBulletPurchase", 0) < 1)
+    //    {
+    //        //makes sure no other shop sound effect is playing at the time
+    //        if (!aud.isPlaying) { aud.PlayOneShot(purchaseSuccess, 0.5f); }
 
-            //takes away cost amount from the boss tokens and shows float text
-            gameManager.instance.ShowBossTokens(-5);
+    //        //takes away cost amount from the boss tokens and shows float text
+    //        gameManager.instance.ShowBossTokens(-5);
 
-            //Sets that it was bought
-            PlayerPrefs.SetInt("LastBulletPurchase", 1);
+    //        //Sets that it was bought
+    //        PlayerPrefs.SetInt("LastBulletPurchase", 1);
 
-            //Make sure to disable after purchase
-            CheckIfPurchasable(PlayerPrefs.GetInt("LastBulletPurchase", 0), 1, buttonLastBulletUpgrade, textLastBulletUpgradeMaximum, buttonLastBulletTexts);
-        }
-        else
-        {
-            //makes sure no other shop sound effect is playing at the time
-            if (!aud.isPlaying) { aud.PlayOneShot(purchaseFailed, 0.5f); }
-        }
-    }
+    //        //Make sure to disable after purchase
+    //        CheckIfPurchasable(PlayerPrefs.GetInt("LastBulletPurchase", 0), 1, buttonLastBulletUpgrade, textLastBulletUpgradeMaximum, buttonLastBulletTexts);
+    //    }
+    //    else
+    //    {
+    //        //makes sure no other shop sound effect is playing at the time
+    //        if (!aud.isPlaying) { aud.PlayOneShot(purchaseFailed, 0.5f); }
+    //    }
+    //}
 }

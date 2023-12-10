@@ -64,9 +64,10 @@ public class playerController : MonoBehaviour, IDamage
         getGunStats(starterGun);
         updateGunInv();
         //sets maxHP
-        maxHP = PlayerPrefs.GetInt("playerMaxHP");
-        HP = PlayerPrefs.GetInt("playerHP");
-        playerSpeed = PlayerPrefs.GetFloat("playerSpeed");
+        maxHP = PlayerPrefs.GetInt("playerMaxHP", 15);
+        HP = PlayerPrefs.GetInt("playerHP", 15);
+        playerSpeed = PlayerPrefs.GetFloat("playerSpeed", 12);
+        CheckHealth();
 
         //spawns player in current level
         if (SceneManager.GetActiveScene().name != "Level 3") spawnPlayer();
@@ -227,6 +228,9 @@ public class playerController : MonoBehaviour, IDamage
         HP -= damageAmount;
         aud.PlayOneShot(audioDamage[Random.Range(0, audioDamage.Length)], audioDamageVolume);
         StartCoroutine(gameManager.instance.playerHurtFlash());
+
+
+
         //makes sure no HP is negative & calls lose screen
         if (HP <= 0)
         {
@@ -235,10 +239,7 @@ public class playerController : MonoBehaviour, IDamage
             gameManager.instance.OnDeath();
             return;
         }
-        else if(((float)HP / maxHP) <= .30f)
-        {
-            gameManager.instance.OnLowHealth(true);
-        }
+        CheckHealth();
         gameManager.instance.updateHUD();
     }
 
@@ -246,13 +247,22 @@ public class playerController : MonoBehaviour, IDamage
     {
         //Heal the player 
         HP += amount;
-        if (HP > maxHP)
-            HP = maxHP;
-        if((HP / maxHP) > .30f)
+        if (HP > maxHP) { HP = maxHP; }
+
+        CheckHealth();
+        gameManager.instance.updateHUD();
+    }
+
+    void CheckHealth()
+    {
+        if(((float)HP / maxHP) <= .30f)
+        {
+            gameManager.instance.OnLowHealth(true);
+        }
+        else
         {
             gameManager.instance.OnLowHealth(false);
         }
-        gameManager.instance.updateHUD();
     }
 
     public void speedUpPlayer(float amount)

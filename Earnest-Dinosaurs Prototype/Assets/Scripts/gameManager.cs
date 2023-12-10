@@ -517,8 +517,8 @@ public class gameManager : MonoBehaviour
     {
         if (lowHP && !playingHealthFlash)
         {
-            isLowHealth = lowHP;
-            playerLowHealthScreen.SetActive(lowHP); // turns it on
+            isLowHealth = true;
+            playerLowHealthScreen.SetActive(true); // turns it on
 
             //checks if the last time it was used, it was set back to prefered alpha level, if not this will
             if (playerLowHealthScreen.GetComponent<Image>().color.a != .39f)
@@ -533,10 +533,10 @@ public class gameManager : MonoBehaviour
             playingHealthFlash = true;
             
         }
-        else
+        else if(!lowHP)
         {
-            isLowHealth = lowHP;
-            playerLowHealthScreen.SetActive(lowHP);
+            isLowHealth = false;
+            playerLowHealthScreen.SetActive(false);
         }
         
     }

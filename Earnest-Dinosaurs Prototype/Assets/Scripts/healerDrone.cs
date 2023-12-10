@@ -290,7 +290,6 @@ public class healerDrone : MonoBehaviour, IDamage
 
             if (barrierHP <= 0)
             {
-                Debug.Log("Barrier down");
                 aud.PlayOneShot(barrierDestroy, enemyVol);
                 barrierObject.SetActive(false);
             }
@@ -322,7 +321,6 @@ public class healerDrone : MonoBehaviour, IDamage
 
         if (barrierParticle != null)
         {
-            Debug.Log("Barrier particle");
             Instantiate(barrierParticle, transform.position, barrierParticle.transform.rotation);
         }
 

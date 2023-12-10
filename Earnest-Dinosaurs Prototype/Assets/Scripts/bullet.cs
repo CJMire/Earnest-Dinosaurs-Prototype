@@ -64,8 +64,6 @@ public class bullet : MonoBehaviour
             return;
         }
 
-        Debug.Log("Tag: " + other.gameObject.name);
-
         //Make the bullet damage the IDamage
         IDamage damageable = other.GetComponent<IDamage>();
 

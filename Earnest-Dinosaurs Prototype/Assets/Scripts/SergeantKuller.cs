@@ -134,8 +134,6 @@ public class SergeantKuller : MonoBehaviour , IDamage
         playerDirection = gameManager.instance.player.transform.position - headPos.transform.position;
         angleToPlayer = Vector3.Angle(playerDirection, headPos.transform.forward);
 
-        UnityEngine.Debug.DrawRay(headPos.transform.position, playerDirection);
-
         RaycastHit hit;
         if (Physics.Raycast(headPos.position, playerDirection, out hit))
         {
@@ -170,19 +168,13 @@ public class SergeantKuller : MonoBehaviour , IDamage
         if(doubleDMG) 
         {
             damageAmount *= 2;
-
-            UnityEngine.Debug.Log("Double Damage");
         }
         else
         { //half damage if it is not
             damageAmount /= 2;
-
-            UnityEngine.Debug.Log("Damage Halved");
         }
 
         HP -= damageAmount;
-
-        Debug.Log("Boss HP: " + HP.ToString());
 
         //after use, will turn double damage off if on
         if(doubleDMG) { doubleDMG = false; }
@@ -333,7 +325,6 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
         if(attacks == 1)
         {
-            UnityEngine.Debug.Log("ROCKETS");
             StartCoroutine(Rockets());
             return; //if rockets is the only thing that can be used, it will
         }
@@ -345,13 +336,11 @@ public class SergeantKuller : MonoBehaviour , IDamage
             attacks = Random.Range(0, attacks); //rerolls
             if (attacks == 0)
             {
-                UnityEngine.Debug.Log("ROCKETS");
                 StartCoroutine(Rockets());
                 return;
             }
             else if (attacks == 1)
             {
-                Debug.Log("Shockwave Attack");
                 animator.SetTrigger("Shockwave Attack");
                 return;
             }
@@ -360,17 +349,14 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
         if (attacks == 0)
         {
-            UnityEngine.Debug.Log("ROCKETS");
             StartCoroutine(Rockets());
         }
         else if (attacks == 1)
         {
-            Debug.Log("Shooting Lasers");
             StartCoroutine (Shoot());
         }
         else if(attacks == 2) //if we can't use shockwave, we will never reach it
         {
-            Debug.Log("Shockwave Attack");
             animator.SetTrigger("Shockwave Attack");
         }
     }

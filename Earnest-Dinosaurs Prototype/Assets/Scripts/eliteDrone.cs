@@ -66,8 +66,6 @@ public class eliteDrone : MonoBehaviour, IDamage
         shieldBeam.SetPosition(0, shootPos.transform.position);
         shieldBeam.SetPosition(1, summoner.transform.position);
 
-        Debug.Log("transform position y: " + transform.position.y);
-
         droneMovement();
     }
 
@@ -75,8 +73,6 @@ public class eliteDrone : MonoBehaviour, IDamage
     {
         if(MasterPrimeMode)
         {
-            Debug.Log("MasterPrime Mode");
-
             //Orbiting the boss 
             transform.RotateAround(summoner.transform.position, Vector3.up, 75.0f * Time.deltaTime);
         }
@@ -92,9 +88,6 @@ public class eliteDrone : MonoBehaviour, IDamage
     public void takeDamage(int damageAmount)
     {
         HP -= damageAmount;
-
-        Debug.Log("HP:" + HP + " Damage amount: " + damageAmount);
-        Debug.Log(HP -= damageAmount);
 
         //Model damage red flash 
         StartCoroutine(damageFeedback());
@@ -127,8 +120,6 @@ public class eliteDrone : MonoBehaviour, IDamage
 
     IEnumerator damageFeedback()
     {
-        Debug.Log("Damage Feedback");
-
         for (int i = 0; i < enemyModelArray.Length; i++)
         {
             enemyModelArray[i].material.color = Color.red;

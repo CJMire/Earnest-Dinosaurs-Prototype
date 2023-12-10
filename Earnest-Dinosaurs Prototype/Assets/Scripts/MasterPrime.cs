@@ -127,7 +127,6 @@ public class MasterPrime : MonoBehaviour, IDamage
             //All elite drone death 
             if (trackEliteDrone() == 0)
             {
-                Debug.Log("Stunt and Summon");
                 StartCoroutine(stuntAndSummon());
             }
 
@@ -507,7 +506,6 @@ public class MasterPrime : MonoBehaviour, IDamage
         else
         {
             //Shouldn't get here
-            Debug.Log("Master-Prime Error Damage Animation");
         }
     }
 }

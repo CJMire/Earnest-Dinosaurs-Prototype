@@ -112,7 +112,6 @@ public class summonerboss : MonoBehaviour, IDamage
             //All elite drone death 
             if (trackEliteDrone() == 0)
             {
-                Debug.Log("Stunt and Summon");
                 StartCoroutine(stuntAndSummon());
             }
 
@@ -425,12 +424,6 @@ public class summonerboss : MonoBehaviour, IDamage
         else if (damageAnim == 3)
         {
             anim.SetTrigger("Damage3");
-        }
-
-        else
-        {
-            //Shouldn't get here
-            Debug.Log("SummonerBoss Error Damage Animation");
         }
     }
 }

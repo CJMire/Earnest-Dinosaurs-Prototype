@@ -95,8 +95,6 @@ public class playerController : MonoBehaviour, IDamage
     {
         sprint();
 
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
-
         playerIsGrounded = characterController.isGrounded;
         if (playerIsGrounded && move.normalized.magnitude > 0.3f && !isPlayingSteps)
         {
@@ -242,7 +240,6 @@ public class playerController : MonoBehaviour, IDamage
             gameManager.instance.OnLowHealth(true);
         }
         gameManager.instance.updateHUD();
-        UnityEngine.Debug.Log(HP / maxHP);
     }
 
     public void healPlayer(int amount)

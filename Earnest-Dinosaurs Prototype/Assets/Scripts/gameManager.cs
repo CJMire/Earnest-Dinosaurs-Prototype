@@ -52,7 +52,6 @@ public class gameManager : MonoBehaviour
     public GameObject player;
     public playerController playerScript;
     public GameObject dmgPickup;
-    public damagePickup damagePickupScript;
 
     [Header("----- HUD Components -----")]
     [SerializeField] TextMeshProUGUI textTimer;
@@ -368,7 +367,6 @@ public class gameManager : MonoBehaviour
             clr.a = 0;
             menuMask.GetComponentInChildren<Image>().color = clr;
         }
-        else UnityEngine.Debug.Log("No color component found!");
         yield return null;
     }
 

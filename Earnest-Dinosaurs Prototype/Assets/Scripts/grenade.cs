@@ -68,8 +68,6 @@ public class grenade : MonoBehaviour
 
             yield return new WaitForSeconds(duration);
 
-            Debug.Log("Grenade Test");
-
             grenadeModel.material.color = Color.red;
         }
     }

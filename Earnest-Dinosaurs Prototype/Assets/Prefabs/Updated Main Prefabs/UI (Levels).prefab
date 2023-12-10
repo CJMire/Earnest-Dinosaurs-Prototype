@@ -78,6 +78,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &89449966986546711
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4771691542750127028}
+  - component: {fileID: 6366938650086015506}
+  - component: {fileID: 3807614884844151}
+  m_Layer: 0
+  m_Name: Last Bullet Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4771691542750127028
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89449966986546711}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5534052895547160021}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -420, y: -430}
+  m_SizeDelta: {x: 90, y: 90}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6366938650086015506
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89449966986546711}
+  m_CullTransparentMesh: 1
+--- !u!114 &3807614884844151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89449966986546711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e04713b2f8481ca4cbf1ea7012600072, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &108552154182113333
 GameObject:
   m_ObjectHideFlags: 0
@@ -7265,6 +7340,7 @@ Transform:
   - {fileID: 5863960056465872222}
   - {fileID: 6591682295555489053}
   - {fileID: 5423098156271438957}
+  - {fileID: 4771691542750127028}
   m_Father: {fileID: 6834730134524934256}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5260900766306875020
@@ -9319,6 +9395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aud: {fileID: 0}
+  mainCam: {fileID: 0}
   menuActive: {fileID: 0}
   buttonPrev: {fileID: 0}
   menuPause: {fileID: 2019567224983485549}
@@ -9359,9 +9436,7 @@ MonoBehaviour:
   playerLowHealthScreen: {fileID: 4801629384879059340}
   hitMarker: {fileID: 3513907136829470669}
   reloadIcon: {fileID: 5336728480474123252}
-  dmgUpIcon: {fileID: 4159626303751586869}
-  invincibilityIcon: {fileID: 6497193782752923470}
-  speedUpIcon: {fileID: 5036261711048730952}
+  lastBulletIcon: {fileID: 89449966986546711}
   bullet1: {fileID: 6015357232526322307, guid: 8416ab4bc4acebe448464fd4c881be1b, type: 3}
   imageReloadingIcon: {fileID: 1674759889121493034}
   hitMarkerRate: 0.05
@@ -9378,10 +9453,10 @@ MonoBehaviour:
   enemyCount: 0
   enemiesPerWave: 0
   enemyLineup:
-  - {fileID: 948443828552473790, guid: 60693e56b8fe9124783adaae50c261da, type: 3}
+  - {fileID: 7556517881347986790, guid: f3496ed2997f1ff47af2d2fc6ed63319, type: 3}
   - {fileID: 3470342452325303564, guid: bc4e650ec89502b4d828260fe5af8699, type: 3}
   - {fileID: 7775215010929995151, guid: db49dae2171bd344eaa790b324223044, type: 3}
-  - {fileID: 2291291316118895893, guid: 2919e2bc30039de448da1578fd4151de, type: 3}
+  - {fileID: 8087753347956122677, guid: 7a37a620e9ac696458256335eb042a03, type: 3}
   - {fileID: 36896644056189770, guid: 4ea6b5357f2d0a0429d8dfcf7feef765, type: 3}
   MechBoss: {fileID: 984998054344925733, guid: 7d034659607cd1044aaeb6fa9621747c, type: 3}
   SummonerBoss: {fileID: 3545932919612008135, guid: 1a17405a1811d0547a11a2e4059eb897, type: 3}
@@ -9395,6 +9470,7 @@ MonoBehaviour:
   gracePeriod: 3
   totalEnemies: 4
   newWaveIncrease: 2
+  playerSpawnLocations: []
   enemySpawnLocations: []
 --- !u!114 &3329392931558329214
 MonoBehaviour:

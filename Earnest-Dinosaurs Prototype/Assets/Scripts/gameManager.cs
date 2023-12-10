@@ -67,7 +67,9 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject playerLowHealthScreen;
     [SerializeField] GameObject hitMarker;
     [SerializeField] GameObject reloadIcon;
-    [SerializeField] GameObject lastBulletIcon;
+    [SerializeField] GameObject dmgUpIcon;
+    [SerializeField] GameObject invincibilityIcon;
+    [SerializeField] GameObject speedUpIcon;
     [SerializeField] GameObject bullet1;
     [SerializeField] Image imageReloadingIcon;
     [SerializeField] float hitMarkerRate;
@@ -133,8 +135,6 @@ public class gameManager : MonoBehaviour
     {
         //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
         if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
-
-        FactoryReset();
 
         Time.timeScale = 1.0f;
         instance = this;
@@ -218,30 +218,24 @@ public class gameManager : MonoBehaviour
                 FillReloadingIcon();
             }
 
-            if(currentBoss == null && bossIsSpawned)
-            {
-                bossIsDead = true;
-            }
+        if(currentBoss == null && bossIsSpawned)
+        {
+            bossIsDead = true;
+        }
 
-            if (SceneManager.GetActiveScene().name == "Level 3" && bossIsDead)
-            {
-                updateEnemyCount(enemyCount);
-            }
+        if (SceneManager.GetActiveScene().name == "Level 3" && bossIsDead)
+        {
+            updateEnemyCount(enemyCount);
+        }
             if (bossIsDead && !portalSpawned)
-            {
-                textWaves.gameObject.SetActive(true);
-                textEnemyLeft.gameObject.SetActive(true);
-                textEnemyCount.gameObject.SetActive(true);
-                isSpawningText.gameObject.SetActive(true);
-                bossHealthBar.gameObject.SetActive(false);
-                portalSpawn();
-            }
-
-            if(PlayerPrefs.GetInt("LastBulletPurchase", 0) >= 1 && playerScript.getPlayerCurrentAmmo() == 1)
-            {
-                lastBulletIcon.SetActive(true);
-            }
-            else { lastBulletIcon.SetActive(false); }
+        {
+            textWaves.gameObject.SetActive(true);
+            textEnemyLeft.gameObject.SetActive(true);
+            textEnemyCount.gameObject.SetActive(true);
+            isSpawningText.gameObject.SetActive(true);
+            bossHealthBar.gameObject.SetActive(false);
+            portalSpawn();
+        }
         }
     }
 
@@ -269,7 +263,6 @@ public class gameManager : MonoBehaviour
     // - "SpeedCost" - int
     // - "SpeedPurchases" - int
     // - "SergeantKullerKills" - int
-    // - "LastBulletPurchase" - int
 
     //This method is for starting new runs
     public void ResetGameManagerValues()
@@ -314,7 +307,6 @@ public class gameManager : MonoBehaviour
         PlayerPrefs.SetInt("MaxHPPurchases", 0);
         PlayerPrefs.SetInt("SpeedCost", 1);
         PlayerPrefs.SetInt("SpeedPurchases", 0);
-        PlayerPrefs.SetInt("LastBulletPurchase", 0);
         //Boss Kills
         PlayerPrefs.SetInt("SergeantKullerKills", 0);
         //Options prefs
@@ -493,6 +485,33 @@ public class gameManager : MonoBehaviour
     public void UpdateTotalTime()
     {
         totalPenaltyTime += timePenalty;
+    }
+
+    public void dmgIconOn()
+    {
+        dmgUpIcon.SetActive(true);
+    }
+    public void dmgIconOff()
+    {
+        dmgUpIcon.SetActive(false);
+    }
+
+    public void speedIconOn()
+    {
+        speedUpIcon.SetActive(true);
+    }
+    public void speedIconOff()
+    {
+        speedUpIcon.SetActive(false);
+    }
+
+    public void invincibilityIconOn()
+    {
+        invincibilityIcon.SetActive(true);
+    }
+    public void invincibilityIconOff()
+    {
+        invincibilityIcon.SetActive(false);
     }
 
     //will turn on the low health screen

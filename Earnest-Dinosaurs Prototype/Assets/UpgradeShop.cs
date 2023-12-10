@@ -35,11 +35,13 @@ public class UpgradeShop : MonoBehaviour
     private int speedCost;
     private int speedPurchases;
 
-    [Header("----- Last Upgrade Upgrade Components-----")]
+    [Header("----- Speed Upgrade Components-----")]
     [SerializeField] Button buttonLastBulletUpgrade;
     [SerializeField] GameObject[] textLastBulletInfo;
+    [SerializeField] TextMeshProUGUI textLastBulletCost;
     [SerializeField] TextMeshProUGUI textLastBulletPurchases;
     [SerializeField] TextMeshProUGUI textLastBulletUpgradeMaximum;
+    [SerializeField] TextMeshProUGUI textLastBulletUpgradeAmount;
     [SerializeField] GameObject[] buttonLastBulletTexts; //this will exclude the maximum text BC it will still be used
 
     [Header("----- Covers -----")]
@@ -92,11 +94,6 @@ public class UpgradeShop : MonoBehaviour
             {
                 textLastBulletPurchases.text = "1 / 1";
             }
-        }
-        else
-        {
-            lastBulletCover.SetActive(true);
-            buttonLastBulletUpgrade.interactable = false;
         }
     }
 
@@ -195,9 +192,6 @@ public class UpgradeShop : MonoBehaviour
 
             //Make sure to disable after purchase
             CheckIfPurchasable(PlayerPrefs.GetInt("LastBulletPurchase", 0), 1, buttonLastBulletUpgrade, textLastBulletUpgradeMaximum, buttonLastBulletTexts);
-
-            //Change purchases text
-            textLastBulletPurchases.text = "1 / 1";
         }
         else
         {

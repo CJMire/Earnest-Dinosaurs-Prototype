@@ -28,10 +28,7 @@ public class medkit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //maxHP = gameManager.instance.playerScript.getPlayerMaxHP();
-
-        //Temporary implementation, the getPlayerMaxHP keeps returning 0. 
-        maxHP = 15;
+        maxHP = PlayerPrefs.GetInt("playerMaxHP", 15);
 
         //needed for Flash() coroutine
         mRend = GetComponent<MeshRenderer>();
@@ -53,7 +50,7 @@ public class medkit : MonoBehaviour
             StartCoroutine(Flash());
         }
 
-        //Destroy the medkit within this remaining time 
+        //Destroy the medkit within this remaining time
         Destroy(gameObject, medkitDuration);
     }
 

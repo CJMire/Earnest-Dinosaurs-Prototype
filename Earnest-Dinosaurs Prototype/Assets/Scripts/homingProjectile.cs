@@ -12,6 +12,7 @@ public class homingProjectile : MonoBehaviour
     [SerializeField] ParticleSystem flashEffect;
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip shootEffect;
+    [SerializeField] AudioClip flyingSoundEffect;
     [SerializeField] AudioClip detonateEffect;
     [Range(0, 1)][SerializeField] float bulletVol;
 
@@ -32,6 +33,9 @@ public class homingProjectile : MonoBehaviour
 
         //Sound from player 
         aud.PlayOneShot(shootEffect, bulletVol);
+
+        //Flying missile sound 
+        aud.PlayOneShot(flyingSoundEffect, bulletVol);
 
         //Destroy the bullet within this remaining time after shoot 
         Destroy(gameObject, projectileDuration);
@@ -78,6 +82,6 @@ public class homingProjectile : MonoBehaviour
         }
 
         //Destroy the projectile
-        Destroy(gameObject);
+        Destroy(gameObject, 0.5f);
     }
 }

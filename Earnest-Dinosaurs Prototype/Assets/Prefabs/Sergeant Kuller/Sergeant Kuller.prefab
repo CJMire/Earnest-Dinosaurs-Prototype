@@ -238,6 +238,7 @@ MonoBehaviour:
   - {fileID: 3591520340414981354}
   smallExplosion: {fileID: 4081031231161267081, guid: 2b0a4eafca6a2ea438bb64b309703f9f, type: 3}
   bigExplosion: {fileID: 4371637952543999077, guid: 1028ea9eb529c9248ab0c5749025e42a, type: 3}
+  sergeantKullerTank: {fileID: 6879181313656080868}
   HP: 250
   turnRate: 0.75
   attackPauseTime: 5
@@ -267,6 +268,12 @@ MonoBehaviour:
   laserVolume: 0.5
   explosion: {fileID: 8300000, guid: 0acd99f2461b350468474aa94f5cbf70, type: 3}
   explosionVol: 0.5
+  lightDamageSound: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
+  lightDamageVol: 0.5
+  tankDamageSound:
+  - {fileID: 8300000, guid: 958408b32ccf3714ea02821877b0870c, type: 3}
+  - {fileID: 8300000, guid: 2e071f5b8b8467d45a5e6e24c23c6ad4, type: 3}
+  tankDamageVol: 0.5
 --- !u!95 &1256227080646634364
 Animator:
   serializedVersion: 5

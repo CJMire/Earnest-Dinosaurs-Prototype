@@ -15,6 +15,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
     [SerializeField] GameObject[] blowupObjects;
     [SerializeField] ParticleSystem smallExplosion;
     [SerializeField] ParticleSystem bigExplosion;
+    [SerializeField] Renderer sergeantKullerTank;
 
     [Header("----- Boss Settings -----")]
     [Range(1, 250)][SerializeField] float HP;
@@ -42,6 +43,10 @@ public class SergeantKuller : MonoBehaviour , IDamage
     [Range(0f, 1f)][SerializeField] float laserVolume;
     [SerializeField] AudioClip explosion;
     [Range(0f, 1f)][SerializeField] float explosionVol;
+    [SerializeField] AudioClip lightDamageSound;
+    [Range(0f, 1f)][SerializeField] float lightDamageVol;
+    [SerializeField] AudioClip[] tankDamageSound;
+    [Range(0f, 1f)][SerializeField] float tankDamageVol;
 
     private bool bootUpDone;
     private bool isAttacking;
@@ -56,6 +61,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
     private bool collidersON;
     private bool isShooting;
     private bool alive;
+    private Color colorOrig;
 
     //when spawning the boss, spawn at whatever y-pos you'd like, but preferably at 200 y-pos with x and z being 0
     //that way the spawn can uitilze the bootup code implemented
@@ -74,6 +80,7 @@ public class SergeantKuller : MonoBehaviour , IDamage
         dontTurn = false;
         playerDirection = gameManager.instance.player.transform.position - headPos.transform.position;
         gameManager.instance.ShowBossTokens(1);
+        colorOrig = sergeantKullerTank.material.color;
     }
 
     void Update()
@@ -168,10 +175,15 @@ public class SergeantKuller : MonoBehaviour , IDamage
         if(doubleDMG) 
         {
             damageAmount *= 2;
+            StartCoroutine(tankDamageFeedback());
+
+            int randomSound = Random.Range(0, tankDamageSound.Length);
+            aud.PlayOneShot(tankDamageSound[randomSound], tankDamageVol);
         }
         else
         { //half damage if it is not
             damageAmount /= 2;
+            aud.PlayOneShot(lightDamageSound, lightDamageVol);
         }
 
         HP -= damageAmount;
@@ -183,6 +195,17 @@ public class SergeantKuller : MonoBehaviour , IDamage
         {
             OnDeath();
         }
+    }
+
+    IEnumerator tankDamageFeedback()
+    {
+        sergeantKullerTank.material.color = Color.red;
+
+        Instantiate(smallExplosion, weakSpot.transform.position, smallExplosion. transform.rotation);
+
+        yield return new WaitForSeconds(0.5f);
+
+        sergeantKullerTank.material.color = colorOrig;
     }
 
     void TurnOffColiders()

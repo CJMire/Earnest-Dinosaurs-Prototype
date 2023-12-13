@@ -2103,6 +2103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 2845145608206299597}
   damageEnemyEffect: {fileID: 0}
+  sparkEffect: {fileID: 4212237911574779970, guid: f34d53a9f8cd409428b8d1e3addf4807, type: 3}
   aud: {fileID: 3050392302523979497}
   anim: {fileID: 2828562829599335477}
   HP: 15

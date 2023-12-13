@@ -13,6 +13,7 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Components -----")]
     [SerializeField] CharacterController characterController;
     [SerializeField] ParticleSystem damageEnemyEffect;
+    [SerializeField] ParticleSystem sparkEffect;
     [SerializeField] AudioSource aud;
     [SerializeField] Animator anim;
 
@@ -193,6 +194,11 @@ public class playerController : MonoBehaviour, IDamage
                 damageable.takeDamage(shootDamage);
 
                 if (damageEnemyEffect != null) Instantiate(damageEnemyEffect, hit.point, damageEnemyEffect.transform.rotation);
+
+                if(hit.collider.CompareTag("Boss"))
+                {
+                    Instantiate(sparkEffect, hit.point, sparkEffect.transform.rotation);
+                }
 
                 //since the hitmarker will be shown for x amount of time, we must offset the next time the player can shoot
                 offset = gameManager.instance.getHitMarkerRate();

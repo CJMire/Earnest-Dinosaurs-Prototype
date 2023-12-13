@@ -319,11 +319,8 @@ public class summonerboss : MonoBehaviour, IDamage
     {
          HP -= damageAmount;
 
-         //Model damage red flash 
-         StartCoroutine(damageFeedback());
-
          //HP is zero then destroy the enemy 
-         if (HP <= 0)
+         if (HP <= 0 && !isDead)
          {
              //Spawn medkit within drop rate, set isDead and destroy gameObject 
              if(deadSound != null)
@@ -334,7 +331,6 @@ public class summonerboss : MonoBehaviour, IDamage
              isDead = true;
              navAgent.enabled = false;
              anim.SetBool("Dead", true);
-             aud.PlayOneShot(deadSound, bossVol);
 
              //turns off enemy damage colliders when dead
              damageCol.enabled = false;
@@ -343,8 +339,11 @@ public class summonerboss : MonoBehaviour, IDamage
 
          else
          {
-             //Play damage animation
-             int damageAnimation = Random.Range(1, 4);
+            //Model damage red flash 
+            StartCoroutine(damageFeedback());
+
+            //Play damage animation
+            int damageAnimation = Random.Range(1, 4);
              playDamageAnimaton(damageAnimation);
 
              //anim.SetTrigger("Damage");

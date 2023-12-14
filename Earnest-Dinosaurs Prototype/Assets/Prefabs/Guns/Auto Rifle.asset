@@ -21,5 +21,7 @@ MonoBehaviour:
   model: {fileID: 5571641588984482722, guid: c303a18f1cbdd4156b139b9e5b35d6a9, type: 3}
   shootEffect: {fileID: 4887621958210768013, guid: 58dcc4b3891abdb4e81315e6de4962a8, type: 3}
   hitEffect: {fileID: 0}
-  shootSound: {fileID: 8300000, guid: c67e052a792186b4f8b7deca76347da5, type: 3}
+  shootSound:
+  - {fileID: 8300000, guid: 8581f806dddef8046b4942de05b897be, type: 3}
+  - {fileID: 8300000, guid: 30114844b380b88418785402b1e582c0, type: 3}
   shootSoundVol: 0.5

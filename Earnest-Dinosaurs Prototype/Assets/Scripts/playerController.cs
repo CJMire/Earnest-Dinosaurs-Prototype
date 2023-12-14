@@ -224,7 +224,10 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator PlayShootEffects(gunStats currGun)
     {
         Instantiate(currGun.shootEffect, shootPos.transform.position, shootPos.transform.rotation);
-        aud.PlayOneShot(currGun.shootSound, currGun.shootSoundVol);
+
+        int randomSound = Random.Range(0, currGun.shootSound.Length);
+        aud.PlayOneShot(currGun.shootSound[randomSound], currGun.shootSoundVol);
+
         yield return null;
     }
 

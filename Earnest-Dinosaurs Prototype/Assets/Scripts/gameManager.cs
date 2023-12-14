@@ -119,7 +119,6 @@ public class gameManager : MonoBehaviour
 
     [Header("----- Wave Settings -----")]
     [Range(1,5)] [SerializeField] int levelCompletion; //how many waves must be completed inorder to progress to next level
-    [Range(3, 3)][SerializeField] int totalLevels;
     [SerializeField] float spawnSpeed;
     [SerializeField] float gracePeriod;
     [SerializeField] public int totalEnemies;
@@ -137,6 +136,8 @@ public class gameManager : MonoBehaviour
 
         Time.timeScale = 1.0f;
         instance = this;
+        
+        bossTknAmount = PlayerPrefs.GetInt("BossTokens", 0);
 
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {

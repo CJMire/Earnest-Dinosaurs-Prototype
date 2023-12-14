@@ -1525,14 +1525,6 @@ MonoBehaviour:
   buttonSpeedTexts:
   - {fileID: 1449216827}
   - {fileID: 179005515}
-  buttonLastBulletUpgrade: {fileID: 0}
-  textLastBulletInfo: []
-  textLastBulletCost: {fileID: 0}
-  textLastBulletPurchases: {fileID: 0}
-  textLastBulletUpgradeMaximum: {fileID: 0}
-  textLastBulletUpgradeAmount: {fileID: 0}
-  buttonLastBulletTexts: []
-  lastBulletCover: {fileID: 0}
 --- !u!82 &644244607
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6830,42 +6822,39 @@ MonoBehaviour:
   m_text: "Developed by C4 Inc.\r\n\r\n-- Developers and Designers --\r\n\r\nChristian
     Mireles\r\n\r\nChayathorn Kanjanapetcharat\r\n\r\nCameron Sullivan\r\n\r\nCalvin
     Reynolds\r\n\r\n\r\n-- Textures --\r\n\r\nGround: Earth and Rocks texture by
-    Texture Me! from\r\nhttps://assetstore.unity.com/packages/2d/textures-materials/nature/ground-earth-and-rocks-free-texture-a-hand-painted-235783\r\n\r\nConcrete
-    Ground 01 texture from Free Stylized (no author)\r\nhttps://freestylized.com/material/concrete_ground_01/\r\n\r\n\r\n--
-    Models --\r\nGrenades Lowpoly by Game Stuff Studio from https://assetstore.unity.com/packages/3d/props/grenades-lowpoly-120047\r\n\r\nPBR
-    RPG/FPS Game Assets (Industrial Set v1.0) by Dmitrii Kutsenko from\r\nhttps://assetstore.unity.com/packages/3d/environments/industrial/pbr-rpg-fps-game-assets-industrial-set-v1-0-146519\r\n\r\nMedium
-    Mech Striker by MSGDI from\r\nhttps://assetstore.unity.com/packages/3d/characters/robots/medium-mech-striker-124342\r\n\r\nRobot
-    1 by Baydinman from\r\nhttps://assetstore.unity.com/packages/3d/characters/robots/robot-1-65726\r\n\r\nCyber
-    Soldier by Will Morillas from\r\nhttps://assetstore.unity.com/packages/3d/characters/robots/cyber-soldier-52064\r\n\r\nSci
-    Fi Space Soldier PolygonR by PolygonR from\r\nhttps://assetstore.unity.com/packages/3d/characters/humanoids/sci-fi/sci-fi-space-soldier-polygonr-66384\r\n\r\nFirst-Aid
-    Set by GeeKay 3D from\r\nhttps://assetstore.unity.com/packages/3d/props/first-aid-set-160073\r\n\r\nRobot
-    Soldier by Marcelo Barrio from\r\nhttps://assetstore.unity.com/packages/3d/characters/robots/robot-soldier-142438\r\n\r\nToon
-    Soldiers Demo by Polygon Blacksmith from\r\nhttps://assetstore.unity.com/packages/3d/characters/toon-soldiers-demo-69684\r\n\r\nRobot
-    Metallic humanoid by Agarkova_CG from\r\nhttps://assetstore.unity.com/packages/3d/characters/robots/robot-metallic-humanoid-171295\r\n\r\nWood
-    Crate by Yuji Nagata from\r\nhttps://assetstore.unity.com/packages/3d/props/wood-crate-4428\r\n\r\nLow-Poly
-    3D Lockers by Tridentcorp from\r\nhttps://assetstore.unity.com/packages/3d/props/interior/low-poly-3d-lockers-239681\r\n\r\nFlat
-    Style Vehicles Pack by loan Stan from\r\nhttps://assetstore.unity.com/packages/3d/vehicles/flat-style-vehicles-pack-free-90081\r\n\r\nStylized
-    Low Poly Rocks by JustCreate from\r\nhttps://assetstore.unity.com/packages/3d/environments/landscapes/stylized-low-poly-rocks-271334\r\n\r\nLow
-    Poly Sci Fi Set by Walter Palladino from\r\nhttps://assetstore.unity.com/packages/3d/environments/sci-fi/low-poly-sci-fi-set-110775\r\n\r\nY-Bot
-    player model from\r\nhttps://www.mixamo.com/#/?page=1&query=y+bot&type=Character\r\n\r\n\r\n--
-    Animations --\r\n\r\nMedium Mech Striker by MSGDI from\r\nhttps://assetstore.unity.com/packages/3d/characters/robots/medium-mech-striker-124342\r\n\r\nRPG
-    Character Mecanim Animation Pack FREE by Explosive from\r\nhttps://assetstore.unity.com/packages/3d/animations/rpg-character-mecanim-animation-pack-free-65284#content\r\n\r\nWarrior
-    Pack Bundle 1 FREE by Explosive from\r\nhttps://assetstore.unity.com/packages/3d/animations/warrior-pack-bundle-1-free-36405\r\n\r\nWarrior
-    Pack Bundle 2 FREE by Explosive from\r\nhttps://assetstore.unity.com/packages/3d/animations/warrior-pack-bundle-2-free-42454\r\n\r\n\r\n--
-    VFX --\r\n\r\nSimple Particles FX : Toon Effects by Indian Ocean Assets from\r\nhttps://assetstore.unity.com/packages/vfx/particles/simple-particles-fx-toon-effects-244171
-    \r\n\r\nSherbb's Particle Collection by Sherbb from \r\nhttps://assetstore.unity.com/packages/vfx/particles/sherbb-s-particle-collection-170798
-    \r\n\r\nFREE Skybox Extended Shader from\r\nhttps://assetstore.unity.com/packages/vfx/shaders/free-skybox-extended-shader-107400\r\n\r\n\r\n--
-    SFX --\r\n\r\nSci Fi World Sounds - Free Package by Poligons Sounds from\r\nhttps://assetstore.unity.com/packages/audio/music/sci-fi-world-sounds-free-package-123545
-    \r\n\r\nFree Laser Weapons by Daniel SoundsGood from\r\nhttps://assetstore.unity.com/packages/audio/sound-fx/weapons/free-laser-weapons-214929
-    \r\n\r\nUltra Sci-Fi Game Audio Weapons Pack Vol. 1 by Eric Berzins from\r\nhttps://assetstore.unity.com/packages/audio/sound-fx/weapons/ultra-sci-fi-game-audio-weapons-pack-vol-1-113047
-    \r\n\r\nRocketThrustMaxx by Pixabay\r\nhttps://pixabay.com/sound-effects/rocketthrustmaxx-100019/
-    \r\n\r\nElectric Sound Effects Library by Little Robot Sound Factory from \r\nhttps://assetstore.unity.com/packages/audio/electric-sound-effects-library-36990
-    \r\n\r\nFree Sound Effects Pack by Olivier Girardot from\r\nhttps://assetstore.unity.com/packages/audio/sound-fx/free-sound-effects-pack-155776
-    \r\n\r\nSpace SFX - 102218 by GWriterStudio from\r\nhttps://assetstore.unity.com/packages/audio/sound-fx/space-sfx-102218-131463  
-    \r\n\r\nCash Register (Kaching) - Sound Effect by Modestas123123 from\r\nhttps://pixabay.com/sound-effects/cash-register-kaching-sound-effect-125042/\r\n\r\nWrong
-    by Pixabay from\r\nhttps://pixabay.com/sound-effects/wrong-47985/\r\n\r\n\r\n--
-    Music --\r\n\r\nTrippy Dance by Moscillate from\r\nhttps://icons8.com/music/track/trippy-dance--moscillate\r\n\r\nBull
-    Shift by Emmraan from\r\nhttps://icons8.com/music/track/wild-car-driving-powerful-industrial-sport-rock--1\r\n"
+    Texture Me! from\r\nassetstore.unity.com\n\r\nConcrete Ground 01 texture from
+    Free Stylized (no author)\r \nfrom\nfreestylized.com\r\n\r\n\r\n-- Models --\r\nGrenades
+    Lowpoly by Game Stuff Studio from \nassetstore.unity.com\r\n\r\nPBR RPG/FPS Game
+    Assets (Industrial Set v1.0) by Dmitrii Kutsenko from\r\nassetstore.unity.com\n\r\nMedium
+    Mech Striker by MSGDI from\r\nassetstore.unity.com\n\r\nRobot 1 by Baydinman
+    from\r\nassetstore.unity.com\n\r\nCyber Soldier by Will Morillas from\r\nassetstore.unity.com\n\r\nSci
+    Fi Space Soldier PolygonR by PolygonR from\r\nassetstore.unity.com\n\r\nFirst-Aid
+    Set by GeeKay 3D from\r\nassetstore.unity.com\n\r\nRobot Soldier by Marcelo Barrio
+    from\r\nassetstore.unity.com\n\r\nToon Soldiers Demo by Polygon Blacksmith from\r\nassetstore.unity.com\n\r\nRobot
+    Metallic humanoid by Agarkova_CG from\r\nassetstore.unity.com\n\r\nWood Crate
+    by Yuji Nagata from\r\nassetstore.unity.com\r\n\r\nLow-Poly 3D Lockers by Tridentcorp
+    from\r\nassetstore.unity.com\n\r\nFlat Style Vehicles Pack by loan Stan from\r\nassetstore.unity.com\n\r\nStylized
+    Low Poly Rocks by JustCreate from\r\nassetstore.unity.com\n\r\nLow Poly Sci Fi
+    Set by Walter Palladino from\r\nassetstore.unity.com\n\r\nY-Bot player model
+    from\r\nmixamo.com\r\n\r\n\r\n-- Animations --\r\n\r\nMedium Mech Striker by
+    MSGDI from\r\nassetstore.unity.com\n\r\nRPG Character Mecanim Animation Pack
+    FREE by Explosive from\r\nassetstore.unity.com\n\r\nWarrior Pack Bundle 1 FREE
+    by Explosive from\r\nassetstore.unity.com\n\r\nWarrior Pack Bundle 2 FREE by
+    Explosive from\r\nassetstore.unity.com\n\r\n\r\n-- VFX --\r\n\r\nSimple Particles
+    FX : Toon Effects by Indian Ocean Assets from\r\nassetstore.unity.com\n\r\nSherbb's
+    Particle Collection by Sherbb from \r\nassetstore.unity.com \r\n\r\nFREE Skybox
+    Extended Shader from\r\nassetstore.unity.com\r\n\r\n\r\n-- SFX --\r\n\r\nSci
+    Fi World Sounds - Free Package by Poligons Sounds from\r\nassetstore.unity.com
+    \r\n\r\nFree Laser Weapons by Daniel SoundsGood from\r\nassetstore.unity.com
+    \r\n\r\nUltra Sci-Fi Game Audio Weapons Pack Vol. 1 by Eric Berzins from\r\nassetstore.unity.com
+    \r\n\r\nRocketThrustMaxx by Pixabay from\npixabay.com\n\r\nElectric Sound Effects
+    Library by Little Robot Sound Factory from \r\nassetstore.unity.com\n\r\nFree
+    Sound Effects Pack by Olivier Girardot from\r\nassetstore.unity.com\n\r\nSpace
+    SFX - 102218 by GWriterStudio from\r\nassetstore.unity.com\r\n\r\nCash Register
+    (Kaching) - Sound Effect by Modestas123123 from\r\npixabay.com\r\n\r\nWrong by
+    Pixabay from\r\npixabay.com\r\n\r\n\r\n-- Music --\r\n\r\nTrippy Dance by Moscillate
+    from\r\nicons8.com/music/track/trippy-dance--moscillate\n\r\nBull Shift by Emmraan
+    from\r\nicons8.com/music/track/wild-car-driving-powerful-industrial-sport-rock--1\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -70,6 +70,11 @@ public class playerController : MonoBehaviour, IDamage
         playerSpeed = PlayerPrefs.GetFloat("playerSpeed", 12);
         CheckHealth();
 
+        foreach(gunStats gun in gunList)
+        {
+            gun.ammoCur = gun.ammoMax;
+        }
+
         //spawns player in current level
         if (SceneManager.GetActiveScene().name != "Level 3") spawnPlayer();
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -60,6 +61,7 @@ public class enemyAI : MonoBehaviour, IDamage
     bool playerInShootingRange;
     float angleToPlayer;
     float stoppingDisOrig;
+    int currentLevel;
     Vector3 startingPos;
 
 
@@ -78,6 +80,7 @@ public class enemyAI : MonoBehaviour, IDamage
         startingPos = transform.position;
         stoppingDisOrig = navAgent.stoppingDistance;
         isDead = false;
+        currentLevel = gameManager.instance.GetCurrentLevel();
         gameManager.instance.updateEnemyCount(1);
     }
 
@@ -368,20 +371,30 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         yield return new WaitForSeconds(1.0f);
 
-        //How far the enemy will sink 
-        float distance = transform.position.y - 2.0f;
-
-        //Sinking down until the enemy it reaches distance in y-position
-        while (transform.position.y >= distance)
+        if(currentLevel == 2 && transform.position.y > 0.5f)
         {
-            transform.position = transform.position + (Vector3.up * -1.0f) * Time.deltaTime;
-
-            yield return null;
+            Instantiate(droneDeathParticle, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        else
+        {
+            //How far the enemy will sink 
+            float distance = transform.position.y - 2.0f;
 
-        Destroy(gameObject);
+            //Sinking down until the enemy it reaches distance in y-position
+            while (transform.position.y >= distance)
+            {
+                transform.position = transform.position + (Vector3.up * -1.0f) * Time.deltaTime;
+
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            Destroy(gameObject);
+        }
+        
     }
 
     //Dead behavior for drone 

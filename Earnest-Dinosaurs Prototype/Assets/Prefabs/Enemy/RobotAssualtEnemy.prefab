@@ -2528,7 +2528,7 @@ MonoBehaviour:
   barrierDamage: {fileID: 8300000, guid: a7e2d2bd449fe465d8d17fe971309d84, type: 3}
   barrierDestroy: {fileID: 8300000, guid: 1d6faed4ffa031644839e50dc98004cb, type: 3}
   barrierHP: 3
-  droneDeathParticle: {fileID: 0}
+  droneDeathParticle: {fileID: 7663006645152379582, guid: 073b9d9d0e0d7ce4189664cb00ddf050, type: 3}
   medkitObject: {fileID: 7630504899267989855, guid: 065295e66b1efa745a668624f88503df, type: 3}
   medkitDropRate: 10
   hurtSound:

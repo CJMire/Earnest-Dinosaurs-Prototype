@@ -1096,5 +1096,28 @@ public class gameManager : MonoBehaviour
     {
         return bossTknAmount;
     }
+
+    public int GetCurrentLevel()
+    {
+        if (SceneManager.GetActiveScene().name == "Level 1")
+        {
+            return 1;
+        }
+
+        else if (SceneManager.GetActiveScene().name == "Level 2")
+        {
+            return 2;
+        }
+
+        else if (SceneManager.GetActiveScene().name == "Level 3")
+        {
+            return 3;
+        }
+
+        else
+        {
+            return 0;
+        }
+    }
     #endregion
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   shootDamage: 2
   shootDist: 30
   shootRate: 0.5
-  ammoCur: 0
+  ammoCur: 5
   ammoMax: 5
   reloadTime: 1.5
   model: {fileID: 5494625650325380441, guid: 944f765b84e4c4012876d61f4dfc7b5a, type: 3}

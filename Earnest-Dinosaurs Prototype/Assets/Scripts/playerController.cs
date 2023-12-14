@@ -318,7 +318,7 @@ public class playerController : MonoBehaviour, IDamage
 
     void selectGun()
     {
-        if (!isReloading)
+        if (!isReloading && !isShooting)
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {

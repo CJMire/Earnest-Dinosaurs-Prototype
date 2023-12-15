@@ -326,6 +326,8 @@ public class gameManager : MonoBehaviour
         //Options prefs
         PlayerPrefs.SetFloat("SFXVolume",0.5f);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);
+        //Respawn warning 
+        PlayerPrefs.SetInt("ShowRespawnWarning", 1);
     }
 
     #region Main Menu Management

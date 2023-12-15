@@ -46,6 +46,20 @@ public class ButtonHandler : MonoBehaviour
 
     public void RespawnButton()
     {
+        if (PlayerPrefs.GetInt("ShowRespawnWarning", 1) == 1)
+        {
+            gameManager.instance.GetActiveMenu().SetActive(false);
+            gameManager.instance.SetPrevMenu(gameManager.instance.GetActiveMenu());
+            gameManager.instance.SetActiveMenu(gameManager.instance.GetRespawnWarning());
+            gameManager.instance.GetActiveMenu().SetActive(true);
+            gameManager.instance.selectButton(gameManager.instance.menuRespawnWarningButton);
+        }
+        else
+        {
+            Respawn();
+        }
+
+        /*
         if (gameManager.instance.GetShowRespawnWarning())
         {
             gameManager.instance.GetActiveMenu().SetActive(false);
@@ -58,6 +72,7 @@ public class ButtonHandler : MonoBehaviour
         {
             Respawn();
         }
+        */
     }
 
     public void Respawn()
@@ -72,8 +87,12 @@ public class ButtonHandler : MonoBehaviour
 
     public void ToggleShowRespawn()
     {
+        PlayerPrefs.SetInt("ShowRespawnWarning", 0);
+
+        /*
         //toggles showRespawnWarning in gameManager
         gameManager.instance.SetShowRespawnWarning(!gameManager.instance.GetShowRespawnWarning());
+        */
     }
 
     public void Back()

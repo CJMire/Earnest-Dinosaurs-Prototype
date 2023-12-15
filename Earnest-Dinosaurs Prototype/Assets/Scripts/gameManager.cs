@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 using Unity.VisualScripting;
 using System.Runtime.InteropServices.WindowsRuntime;
 
@@ -16,6 +17,7 @@ public class gameManager : MonoBehaviour
     [Header("----- Components -----")]
     [SerializeField] AudioSource aud;
     [SerializeField] GameObject mainCam;
+    [SerializeField] AudioMixer mixer;
 
     [Header("----- Menu Components -----")]
     [SerializeField] GameObject menuActive;
@@ -51,6 +53,7 @@ public class gameManager : MonoBehaviour
     public GameObject portal;
     public GameObject player;
     public playerController playerScript;
+    public VolumeControll volumeControlScript;
     public GameObject dmgPickup;
 
     [Header("----- HUD Components -----")]
@@ -137,7 +140,6 @@ public class gameManager : MonoBehaviour
         Time.timeScale = 1.0f;
         instance = this;
         
-        bossTknAmount = PlayerPrefs.GetInt("BossTokens", 0);
 
         if(SceneManager.GetActiveScene().name == "MainMenuScene")
         {
@@ -187,6 +189,15 @@ public class gameManager : MonoBehaviour
             bossIsDead = false;
             bossIsSpawned = false;
         }
+    }
+
+    private void Start()
+    {
+        bossTknAmount = PlayerPrefs.GetInt("BossTokens", 0);
+        mixer.SetFloat("Master Volume",Mathf.Log10(PlayerPrefs.GetFloat("Master Volume", .8f)) * 30f); //if multiplier changes in VolumeControll script, change these floats accordingly
+        mixer.SetFloat("Music Volume", Mathf.Log10(PlayerPrefs.GetFloat("Music Volume", .8f)) * 30f);
+        mixer.SetFloat("Player SFX", Mathf.Log10(PlayerPrefs.GetFloat("Player SFX", .8f)) * 30f);
+        mixer.SetFloat("Enemy SFX", Mathf.Log10(PlayerPrefs.GetFloat("Enemy SFX", .8f)) * 30f);
     }
 
     void Update()

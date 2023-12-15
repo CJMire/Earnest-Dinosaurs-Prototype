@@ -55,6 +55,7 @@ MonoBehaviour:
   flashEffect: {fileID: 0}
   aud: {fileID: 7725080710134296901}
   shootEffect: {fileID: 8300000, guid: 312191784e79b3e47a82d4b18b017f25, type: 3}
+  flyingSoundEffect: {fileID: 0}
   detonateEffect: {fileID: 8300000, guid: 0acd99f2461b350468474aa94f5cbf70, type: 3}
   bulletVol: 0.4
   projectileSpeed: 10
@@ -168,7 +169,7 @@ AudioSource:
   m_GameObject: {fileID: 8204607442125509526}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -607732505821669111, guid: 0196d451a71ec084081cc7ee53028ea8, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

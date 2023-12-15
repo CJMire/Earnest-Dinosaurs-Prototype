@@ -51,6 +51,7 @@ MonoBehaviour:
   aud: {fileID: 7515211157616367585}
   ricochetParticle: {fileID: 2361380641184070541, guid: f2eb82f6a82798e45a2feec0cb11ba41, type: 3}
   ricochetSound: {fileID: 8300000, guid: fecc938846550844bb96c9580a74e0a5, type: 3}
+  yPosAdjustment: 0
   barrierVol: 0.3
 --- !u!33 &8636687554175217848
 MeshFilter:
@@ -132,7 +133,7 @@ AudioSource:
   m_GameObject: {fileID: 8455403911479836446}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -607732505821669111, guid: 0196d451a71ec084081cc7ee53028ea8, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

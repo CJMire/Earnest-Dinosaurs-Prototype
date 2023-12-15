@@ -11109,6 +11109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aud: {fileID: 7336854782753824833}
+  mainCam: {fileID: 0}
+  mixer: {fileID: 24100000, guid: 0196d451a71ec084081cc7ee53028ea8, type: 2}
   menuActive: {fileID: 0}
   buttonPrev: {fileID: 0}
   menuPause: {fileID: 2989354516697865335}
@@ -11135,8 +11137,8 @@ MonoBehaviour:
   portal: {fileID: 0}
   player: {fileID: 0}
   playerScript: {fileID: 0}
+  volumeControlScript: {fileID: 0}
   dmgPickup: {fileID: 0}
-  damagePickupScript: {fileID: 0}
   textTimer: {fileID: 6539660331911051014}
   textWaves: {fileID: 5428672935374201490}
   textEnemyLeft: {fileID: 0}
@@ -11182,11 +11184,11 @@ MonoBehaviour:
   bossName: {fileID: 0}
   currentBoss: {fileID: 0}
   levelCompletion: 3
-  totalLevels: 2
   spawnSpeed: 2
   gracePeriod: 3
   totalEnemies: 5
   newWaveIncrease: 1
+  playerSpawnLocations: []
   enemySpawnLocations: []
 --- !u!114 &4155884143005875958
 MonoBehaviour:
@@ -11209,7 +11211,7 @@ AudioSource:
   m_GameObject: {fileID: 8836337902674681574}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -513283833503268468, guid: 0196d451a71ec084081cc7ee53028ea8, type: 2}
   m_audioClip: {fileID: 8300000, guid: a52d028db48a96947a2dac1d089a1187, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.25

@@ -79,6 +79,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject[] bossTknUIObjects;
     [SerializeField] TextMeshProUGUI bossTknAmountTxt;
     [SerializeField] TextMeshProUGUI bossTknFloatTxt;
+    [SerializeField] TextMeshProUGUI newWeaponUnlocked;
 
     [Header("----- Settings -----")]
     GameObject loadingScreenObj;
@@ -188,6 +189,22 @@ public class gameManager : MonoBehaviour
             originalFloatTextPOS = bossTknUIObjects[bossTknUIObjects.Length - 1].transform.position; //for the floating text of the Boss Token UI
             bossIsDead = false;
             bossIsSpawned = false;
+
+            //Show new weapon text 
+            if(newWeaponUnlocked != null)
+            {
+                if(SceneManager.GetActiveScene().name == "Level 2" && PlayerPrefs.GetInt("Level2Unlocked", 0) == 0)
+                {
+                    StartCoroutine(ShowNewWeapon());
+                    PlayerPrefs.SetInt("Level2Unlocked", 1);
+                }
+
+                else if(SceneManager.GetActiveScene().name == "Level 3" && PlayerPrefs.GetInt("Level3Unlocked", 0) == 0)
+                {
+                    StartCoroutine(ShowNewWeapon());
+                    PlayerPrefs.SetInt("Level3Unlocked", 1);
+                }
+            }
         }
     }
 
@@ -328,6 +345,9 @@ public class gameManager : MonoBehaviour
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         //Respawn warning 
         PlayerPrefs.SetInt("ShowRespawnWarning", 1);
+        //New weapon unlocked
+        PlayerPrefs.SetInt("Level2Unlocked", 0);
+        PlayerPrefs.SetInt("Level3Unlocked", 0);
     }
 
     #region Main Menu Management
@@ -716,6 +736,14 @@ public class gameManager : MonoBehaviour
             }
         }
     }
+
+    IEnumerator ShowNewWeapon()
+    {
+        newWeaponUnlocked.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5.0f);
+        newWeaponUnlocked.gameObject.SetActive(false);
+    }
+
     #endregion
     #region Wave Spawner methods
 

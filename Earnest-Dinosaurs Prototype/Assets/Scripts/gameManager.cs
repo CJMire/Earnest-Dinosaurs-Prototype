@@ -103,6 +103,7 @@ public class gameManager : MonoBehaviour
     private bool portalSpawned = false;
     private Vector3 originalFloatTextPOS;
     private int bossTknAmount;
+    private bool isFlashReloading;
 
     [Header("----- Spawner Enemies -----")]
     [SerializeField] GameObject[] enemyLineup;
@@ -189,9 +190,10 @@ public class gameManager : MonoBehaviour
             originalFloatTextPOS = bossTknUIObjects[bossTknUIObjects.Length - 1].transform.position; //for the floating text of the Boss Token UI
             bossIsDead = false;
             bossIsSpawned = false;
+            isFlashReloading = false;
 
             //Show new weapon text 
-            if(newWeaponUnlocked != null)
+            if (newWeaponUnlocked != null)
             {
                 if(SceneManager.GetActiveScene().name == "Level 2" && PlayerPrefs.GetInt("Level2Unlocked", 0) == 0)
                 {
@@ -488,8 +490,9 @@ public class gameManager : MonoBehaviour
         textAmmo.text = ammoCount + " / " + playerScript.getPlayerMaxAmmo();
 
         //checks if the reload icon needs to be on or not
-        if (ammoCount == 0)
+        if (ammoCount == 0 && !isFlashReloading)
         {
+            isFlashReloading = true;
             StartCoroutine(ReloadFlash());
         }
     }
@@ -925,6 +928,7 @@ public class gameManager : MonoBehaviour
 
     public IEnumerator Reload()
     {
+        isFlashReloading = false;
         reloadIcon.SetActive(false);
         playerScript.SetIsReloading(true);
         yield return new WaitForSeconds(playerScript.GetReloadTime());
@@ -936,12 +940,18 @@ public class gameManager : MonoBehaviour
 
     IEnumerator ReloadFlash()
     {
-        reloadIcon.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        reloadIcon.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        while(playerScript.getPlayerCurrentAmmo() == 0 && !playerScript.GetIsReloading())
+        {
+            reloadIcon.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            reloadIcon.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        /*
         if (playerScript.getPlayerCurrentAmmo() == 0 && !playerScript.GetIsReloading())
             StartCoroutine(ReloadFlash());
+        */
     }
 
     //Inspired by code snippet found @https://forum.unity.com/threads/help-with-getting-slider-to-fill-over-time.871177/

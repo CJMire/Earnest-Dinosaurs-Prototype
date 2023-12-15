@@ -99,6 +99,15 @@ public class elevatorFloorOne : MonoBehaviour
             thePlayer.SetActive(false);
             thePlayer.transform.position = floor2Spawn.transform.position;
             thePlayer.SetActive(true);
+
+            //Skip reloading sequence when entering the elevator 
+            if(gameManager.instance.playerScript.GetIsReloading())
+            {
+                gameManager.instance.playerScript.SetIsReloading(false);
+                gameManager.instance.SetReloadingImageFilling(0.0f);
+                gameManager.instance.playerScript.ReloadSuccess();
+            }
+
             elevatorDoors[0].SetActive(true);
             elevatorDoors[1].SetActive(true);
 
@@ -108,6 +117,15 @@ public class elevatorFloorOne : MonoBehaviour
             thePlayer.SetActive(false);
             thePlayer.transform.position = floor3Spawn.transform.position;
             thePlayer.SetActive(true);
+
+            //Skip reloading sequence when entering the elevator 
+            if (gameManager.instance.playerScript.GetIsReloading())
+            {
+                gameManager.instance.playerScript.SetIsReloading(false);
+                gameManager.instance.SetReloadingImageFilling(0.0f);
+                gameManager.instance.playerScript.ReloadSuccess();
+            }
+
             elevatorDoors[0].SetActive(true);
             elevatorDoors[1].SetActive(true);
         }

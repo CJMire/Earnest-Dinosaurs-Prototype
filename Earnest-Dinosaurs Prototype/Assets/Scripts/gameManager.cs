@@ -1160,5 +1160,11 @@ public class gameManager : MonoBehaviour
             return 0;
         }
     }
+
+    public void SetReloadingImageFilling(float amount)
+    {
+        imageReloadingIcon.fillAmount = amount;
+        fillTime = amount;
+    }
     #endregion
 }

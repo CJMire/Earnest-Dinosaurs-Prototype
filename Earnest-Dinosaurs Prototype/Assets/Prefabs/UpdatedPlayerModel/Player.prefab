@@ -2129,7 +2129,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9b7719f9afdeece4c9dce274af70337d, type: 3}
   - {fileID: 8300000, guid: 9c5c3b01ed5e75e4d8156d324ab6d394, type: 3}
   - {fileID: 8300000, guid: 662103dc5be90864ea75b4a9055e208d, type: 3}
-  audioStepsVolume: 0.5
+  audioStepsVolume: 0.25
   audioDamage:
   - {fileID: 8300000, guid: 63cf59c847f88a24884803faf745a6eb, type: 3}
   - {fileID: 8300000, guid: 8316647891ee6764d957fcca1aeda2e7, type: 3}

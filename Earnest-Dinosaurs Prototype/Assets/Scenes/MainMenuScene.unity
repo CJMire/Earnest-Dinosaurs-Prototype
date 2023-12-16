@@ -534,6 +534,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8761585172423265420}
     - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: exitButton
+      value: 
+      objectReference: {fileID: 6574262702983212691}
+    - target: {fileID: 5779782393177343032, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
       propertyPath: menuCredits
       value: 
       objectReference: {fileID: 4895890897991646878}

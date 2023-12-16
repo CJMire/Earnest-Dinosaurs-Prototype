@@ -80,6 +80,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI bossTknAmountTxt;
     [SerializeField] TextMeshProUGUI bossTknFloatTxt;
     [SerializeField] TextMeshProUGUI newWeaponUnlocked;
+    [SerializeField] Button exitButton;
 
     [Header("----- Settings -----")]
     GameObject loadingScreenObj;
@@ -136,6 +137,10 @@ public class gameManager : MonoBehaviour
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            exitButton.enabled = false;
+        }
         //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
         if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
 
@@ -221,7 +226,7 @@ public class gameManager : MonoBehaviour
 
     void Update()
     {
-        if(loadingScreenObj == null) loadingScreenObj = GameObject.FindWithTag("Loading Screen");
+        if (loadingScreenObj == null) loadingScreenObj = GameObject.FindWithTag("Loading Screen");
         if (!isOnMainMenu)
         {
             //Pressing the ESC key calls the pause function if the menu is available and the pause menu has a refrence

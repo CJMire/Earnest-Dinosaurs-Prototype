@@ -50,12 +50,12 @@ public class playerController : MonoBehaviour, IDamage
 
     private Vector3 move;
     private Vector3 playerVelocity;
-    private bool playerIsGrounded;
+    public bool playerIsGrounded;
     private int jumpTimes;
     private bool isShooting;
     private bool isReloading;
     private bool isSprinting;
-    private bool isPlayingSteps;
+    public bool isPlayingSteps;
     int selectedGun;
 
 
@@ -112,7 +112,7 @@ public class playerController : MonoBehaviour, IDamage
             playerVelocity.y = 0;
             jumpTimes = 0;
         }
-        if (isPlayingSteps && playerSpeed == 12)
+        if (isPlayingSteps == true && playerSpeed == 12)
         {
             anim.SetBool("IsWalking", true);
             anim.SetFloat("Speed", 1f);

@@ -6,6 +6,7 @@ using UnityEngine;
 public class elevatorFloorOne : MonoBehaviour
 {
     public gameManager instance;
+    public playerController player;
     [SerializeField] public List<GameObject> elevatorDoors = new List<GameObject>();
     [SerializeField] public GameObject thePlayer;
     [SerializeField] public playerController playerController;
@@ -94,6 +95,7 @@ public class elevatorFloorOne : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        player.isPlayingSteps = false;
         if (other.CompareTag("Player") && playerController.transform.position.y <= 40)
         {
             thePlayer.SetActive(false);

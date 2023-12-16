@@ -57,11 +57,13 @@ public class playerController : MonoBehaviour, IDamage
     private bool isSprinting;
     public bool isPlayingSteps;
     int selectedGun;
+    float beginningSpeed;
 
 
     void Start()
     {
         //Sets the starter gun and updates gun inventory
+        beginningSpeed = playerSpeed;
         getGunStats(starterGun);
         updateGunInv();
         //sets maxHP
@@ -313,6 +315,7 @@ public class playerController : MonoBehaviour, IDamage
         characterController.enabled = true;
         if (dead)
         {
+            playerSpeed = beginningSpeed;
             healPlayer((int)maxHP);
         }
         isShooting = false;

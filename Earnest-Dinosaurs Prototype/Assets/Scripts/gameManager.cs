@@ -137,10 +137,6 @@ public class gameManager : MonoBehaviour
     //Awake runs before Start() will, letting us instantiate this object
     void Awake()
     {
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            exitButton.enabled = false;
-        }
         //This is to avoid obvious errors with the system thinking health is 0. This will likely only happen on first run of install
         if (PlayerPrefs.GetInt("playerMaxHP") <= 0) FactoryReset();
 
@@ -152,6 +148,16 @@ public class gameManager : MonoBehaviour
         {
             isOnMainMenu = true;
             SetActiveMenu(menuMain);
+
+            //Check if it's WebGL version 
+            if(Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                //Check if exit button is in the scene 
+                if(exitButton != null)
+                {
+                    exitButton.gameObject.SetActive(false);
+                }
+            }
 
             //for the shop menu Boss Token UI
             originalFloatTextPOS = new Vector3(1740, 985, 0);

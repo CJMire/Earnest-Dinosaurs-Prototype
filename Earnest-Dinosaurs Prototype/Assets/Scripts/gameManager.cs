@@ -165,6 +165,10 @@ public class gameManager : MonoBehaviour
         }
         else
         {
+            //Makes sure that the game keeps the cursor in the game window
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             //Sets current level for spawn location assignment
             if (SceneManager.GetActiveScene().name == "Level 1") PlayerPrefs.SetInt("level", 1);
             else if (SceneManager.GetActiveScene().name == "Level 2") PlayerPrefs.SetInt("level", 2);

@@ -776,7 +776,7 @@ public class gameManager : MonoBehaviour
             //Game complete (completed waves == total waves)
             if (SceneManager.GetActiveScene().name == "Level 3" && waveCurrent == levelCompletion && bossIsDead)
             {
-                OnWin();
+                if (menuActive == null) OnWin();
                 return;
             }
             //Level Complete (completed waves == waves up to this level)

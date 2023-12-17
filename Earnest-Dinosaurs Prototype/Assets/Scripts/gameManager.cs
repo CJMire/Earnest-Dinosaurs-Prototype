@@ -1191,5 +1191,10 @@ public class gameManager : MonoBehaviour
         imageReloadingIcon.fillAmount = amount;
         fillTime = amount;
     }
+
+    public bool GetStopSpawning()
+    {
+        return stopSpawning;
+    }
     #endregion
 }

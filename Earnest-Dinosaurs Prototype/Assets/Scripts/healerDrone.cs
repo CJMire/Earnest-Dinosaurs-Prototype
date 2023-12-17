@@ -94,6 +94,12 @@ public class healerDrone : MonoBehaviour, IDamage
         if (target == null)
         {
             findTarget();
+            //If couldn't find target after all enemies spawn, destroy self.
+            if (gameManager.instance.GetStopSpawning() && target == null && !isDead)
+            {
+                Debug.Log("Destructed");
+                SelfDestruct();
+            }
         }
 
         //If healing, update beam
@@ -375,5 +381,27 @@ public class healerDrone : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.5f);
         Instantiate(droneDeathParticle, transform.position, transform.rotation);
         Destroy(gameObject);
+    }
+
+    public void SelfDestruct()
+    {
+        //Spawn medkit within drop rate, set isDead and destroy gameObject 
+        aud.PlayOneShot(deadSound, enemyVol);
+
+        Instantiate(lightingParticle, torsoPos.position, lightingParticle.transform.rotation);
+
+        DropSomething(); //Drops one puick-up for player use
+
+        isDead = true;
+        navAgent.enabled = false;
+        anim.SetBool("Dead", true);
+
+        //turns off enemy damage colliders when dead
+        damageCol.enabled = false;
+
+        StartCoroutine(OnDeath());
+
+        //Destroy(gameObject);
+        gameManager.instance.updateEnemyCount(-1);
     }
 }

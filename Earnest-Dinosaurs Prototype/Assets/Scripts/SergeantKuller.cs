@@ -69,9 +69,8 @@ public class SergeantKuller : MonoBehaviour , IDamage
     void Start()
     {
         isShooting = false;
-        weakSpot.enabled = false;
+        weakSpot.enabled = true;
         bodyColliders = GetComponentsInChildren<Collider>(true);
-        TurnOffColiders();
         landed = false;
         bootUpDone = false;
         isAttacking = false;
@@ -171,29 +170,33 @@ public class SergeantKuller : MonoBehaviour , IDamage
 
     public void takeDamage(int damageAmount)
     {
-        //will double damage if it was the weakspot hit
-        if(doubleDMG) 
+        if (bootUpDone)
         {
-            damageAmount *= 2;
-            StartCoroutine(tankDamageFeedback());
+            //will double damage if it was the weakspot hit
+            if(doubleDMG) 
+            {
+                damageAmount *= 2;
+                StartCoroutine(tankDamageFeedback());
 
-            int randomSound = Random.Range(0, tankDamageSound.Length);
-            aud.PlayOneShot(tankDamageSound[randomSound], tankDamageVol);
-        }
-        else
-        { //half damage if it is not
-            damageAmount /= 2;
-            aud.PlayOneShot(lightDamageSound, lightDamageVol);
-        }
+                int randomSound = Random.Range(0, tankDamageSound.Length);
+                aud.PlayOneShot(tankDamageSound[randomSound], tankDamageVol);
+            }
+            else
+            { //half damage if it is not
+                damageAmount /= 2;
+                aud.PlayOneShot(lightDamageSound, lightDamageVol);
+            }
 
-        HP -= damageAmount;
+            HP -= damageAmount;
 
-        //after use, will turn double damage off if on
-        if(doubleDMG) { doubleDMG = false; }
+            //after use, will turn double damage off if on
+            if(doubleDMG) { doubleDMG = false; }
 
-        if(HP <= 0)
-        {
-            OnDeath();
+            if(HP <= 0)
+            {
+                OnDeath();
+            }
+
         }
     }
 

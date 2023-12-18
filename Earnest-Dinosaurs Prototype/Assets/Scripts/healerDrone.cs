@@ -97,7 +97,6 @@ public class healerDrone : MonoBehaviour, IDamage
             //If couldn't find target after all enemies spawn, destroy self.
             if (gameManager.instance.GetStopSpawning() && target == null && !isDead)
             {
-                Debug.Log("Destructed");
                 SelfDestruct();
             }
         }

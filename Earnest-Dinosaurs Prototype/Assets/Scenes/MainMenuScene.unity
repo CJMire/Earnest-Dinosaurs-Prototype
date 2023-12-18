@@ -589,6 +589,10 @@ PrefabInstance:
       propertyPath: bossTknUIObjects.Array.data[3]
       value: 
       objectReference: {fileID: 1192789119}
+    - target: {fileID: 7336854782753824833, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c8c62375455329b41888aa5a4f4194cd, type: 3}
     - target: {fileID: 8965193133944857955, guid: 8d1eca94fc443a145a3438b649a64751, type: 3}
       propertyPath: m_FirstSelected
       value: 
@@ -11825,9 +11829,11 @@ MonoBehaviour:
     Sound Effects Pack by Olivier Girardot from\r\nassetstore.unity.com\n\r\nSpace
     SFX - 102218 by GWriterStudio from\r\nassetstore.unity.com\r\n\r\nCash Register
     (Kaching) - Sound Effect by Modestas123123 from\r\npixabay.com\r\n\r\nWrong by
-    Pixabay from\r\npixabay.com\r\n\r\n\r\n-- Music --\r\n\r\nTrippy Dance by Moscillate
-    from\r\nicons8.com/music/track/trippy-dance--moscillate\n\r\nBull Shift by Emmraan
-    from\r\nicons8.com/music/track/wild-car-driving-powerful-industrial-sport-rock--1\n"
+    Pixabay from\r\npixabay.com\r\n\r\n\rPost Apocalypse Guns Demo by Sound Earth
+    Game Audio from assetstore.unity.com\n\n\n-- Music --\r\n\r\nMelodic Techno #03
+    Extended Version - Moogify by Zen_Man from\npixabay.com\n\nCyber War by AlexiAction
+    from\npixabay.com\n\nTension by AlexiAction from\npixabay.com\n\nDark Cyberpunk
+    Mechanical Robotic Future Industrial Dubstep by SoundGalleryDT from\npixabay.com"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
